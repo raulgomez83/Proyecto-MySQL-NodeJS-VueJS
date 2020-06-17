@@ -6,7 +6,7 @@ const express = require('express');
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const fileUpload = require('express-fileupload');
-
+const path = require('path');
 const app = express();
 const port = process.env.PORT;
 
@@ -56,6 +56,7 @@ app.use(morgan('dev'));
 app.use(bodyParser.json());
 app.use(fileUpload());
 app.use(cors());
+app.use(express.static(path.join(__dirname, 'static')));
 
 //SEARCH ROUTES
 app.post('/search', getSearchPresentations); //Búsqueda general del landing
@@ -70,8 +71,6 @@ app.get('/ratings', userIsAuthenticated, userIsAdmin, getAllRatings); //Lista to
 //USER ROUTES
 app.put('/user/password/:id', userIsAuthenticated, updatePassword); //Cambia la contaseña de un usuario
 app.put('/user/disable/:id', userIsAuthenticated, disableUser); //Desactiva un usuario
-app.put('/user/reactivate/:id', reactivateUser); //Reactiva un usuario desactivado
-app.put('/user/recovery', recoveryPassword); //Permite logear con una contraseña temporal
 
 app.get('/user/historyratings', userIsAuthenticated, getHistoryUserRating); //Muestra los historiales
 app.get(
@@ -95,6 +94,8 @@ app.get('/presentations', getAllPresentations); //Lista todas las presentaciones
 app.get('/presentations/top3', getPresentationsTops3); //Muestra las listas top de presentaciones
 app.get('/presentation/:id', getPresentation); //Muestra la información de una presentación
 app.post('/presentation/view/:id', viewPresentation);
+app.put('/user/reactivate/:id', reactivateUser); //Reactiva un usuario desactivado
+app.put('/user/recovery', recoveryPassword); //Permite logear con una contraseña temporal
 
 app.use((error, req, res, next) => {
   res.status(error.httpCode || 500).send({

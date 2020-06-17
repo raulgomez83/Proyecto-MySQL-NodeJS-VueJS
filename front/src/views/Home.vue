@@ -46,6 +46,7 @@
         </li>
       </ul>
     </div>
+    <about></about>
     <thefooter></thefooter>
   </div>
 </template>
@@ -55,10 +56,11 @@ import axios from "axios";
 
 import thefooter from "../components/thefooter";
 import themenu from "../components/themenu";
+import about from "../components/about";
 
 export default {
   name: "Home",
-  components: { thefooter, themenu },
+  components: { thefooter, themenu, about },
   data() {
     return {
       lasts: [],
@@ -77,7 +79,6 @@ export default {
           self.ratings = response.data.data.resultRatings;
           self.views = response.data.data.resultViews;
           self.lasts = response.data.data.resultLast;
-          console.log(response);
         })
         .catch(function(error) {
           console.error(error);
@@ -94,7 +95,7 @@ export default {
 .topViews,
 .topRating {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: space-around;
 }
 </style>

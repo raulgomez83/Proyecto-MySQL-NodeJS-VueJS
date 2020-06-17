@@ -1,33 +1,23 @@
 require('dotenv').config();
 
-const {
-  getConnection
-} = require('../../db');
+const { getConnection } = require('../../db');
 const {
   generateError,
   processAndSaveFile,
   deleteFile
 } = require('../../helpers');
-const {
-  updateUserSchema
-} = require('../../validations/update_user');
+//const { updateUserSchema } = require('../../validations/update_user');
 
 async function updateUser(req, res, next) {
   let connection;
+
   try {
-    await updateUserSchema.validateAsync(req.body);
+    // await updateUserSchema.validateAsync(req.body);
     connection = await getConnection();
 
-    const {
-      id
-    } = req.params;
-    const {
-      firstname,
-      surname,
-      email,
-      birthdate,
-      username
-    } = req.body;
+    const { id } = req.params;
+
+    const { firstname, surname, email, birthdate } = req.body;
 
     const [
       current
@@ -48,7 +38,6 @@ async function updateUser(req, res, next) {
       try {
         savedFileName = await processAndSaveFile(req.files.avatar);
         console.log(current, current[0].avatar);
-
         if (current && current[0].avatar) {
           await deleteFile(current[0].avatar);
         }
@@ -58,9 +47,10 @@ async function updateUser(req, res, next) {
     } else {
       savedFileName = current[0].avatar;
     }
+
     await connection.query(
-      ` UPDATE users SET firstname=?,surname=?, email=?, birthdate=?,username=? ,avatar=? WHERE user_id=?`,
-      [firstname, surname, email, birthdate, username, savedFileName, id]
+      ` UPDATE users SET firstname=?,surname=?, email=?, birthdate=?,avatar=? WHERE user_id=?`,
+      [firstname, surname, email, birthdate, savedFileName, id]
     );
     res.send({
       status: 'ok',

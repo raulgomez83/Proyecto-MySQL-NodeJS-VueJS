@@ -1,16 +1,11 @@
 require('dotenv').config();
-const {
-  getConnection
-} = require('../../db');
-const {
-  generateError
-} = require('../../helpers');
-const {
-  newPresentationSchema
-} = require('../../validations/presentation');
+const { getConnection } = require('../../db');
+const { generateError } = require('../../helpers');
+const { newPresentationSchema } = require('../../validations/presentation');
 
 async function newPresentation(req, res, next) {
   let connection;
+
   try {
     connection = await getConnection();
     await newPresentationSchema.validateAsync(req.body);
@@ -23,9 +18,9 @@ async function newPresentation(req, res, next) {
       presentation_language,
       video
     } = req.body;
-    const {
-      id
-    } = req.auth;
+    console.log(req.body);
+
+    const { id } = req.auth;
     const [
       current
     ] = await connection.query(

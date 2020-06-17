@@ -17,7 +17,7 @@
         <li>Cookies</li>
       </ul>
     </div>
-    <p>By rateIn 2020</p>
+    <p>Copyright by rateIn 2020</p>
   </div>
 </template>
 

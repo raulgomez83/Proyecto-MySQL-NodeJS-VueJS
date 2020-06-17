@@ -1,24 +1,18 @@
 require('dotenv').config();
 const jwt = require('jsonwebtoken');
 
-const {
-  getConnection
-} = require('../db');
-const {
-  generateError
-} = require('../helpers');
+const { getConnection } = require('../db');
+const { generateError } = require('../helpers');
 
 async function userIsAuthenticated(req, res, next) {
   let connection;
 
   try {
     // Check if the authorization header is valid
-    const {
-      authorization
-    } = req.headers;
+    const { authorization } = req.headers;
 
     if (!authorization) {
-      throw generateError(' Authorization header is missed');
+      throw generateError(' Authorization header is missed', 402);
     }
 
     const authorizationParts = authorization.split(' ');
@@ -41,10 +35,7 @@ async function userIsAuthenticated(req, res, next) {
       throw new Error('Token is not well created');
     }
 
-    const {
-      id,
-      iat
-    } = decoded;
+    const { id, iat } = decoded;
 
     connection = await getConnection();
 

@@ -8,6 +8,7 @@
       <router-link :to="{ name: 'Register' }">Sign Up </router-link>
       <router-link :to="{ name: 'Profile' }">Profile </router-link>
       <router-link :to="{ name: 'Admin' }">Administartion </router-link>
+      <router-link :to="{ name: 'Presentations' }">Presentations </router-link>
     </nav>
   </div>
 </template>

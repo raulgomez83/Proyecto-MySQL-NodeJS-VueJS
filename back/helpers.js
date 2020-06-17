@@ -1,7 +1,5 @@
 require('dotenv').config();
-const {
-  format
-} = require('date-fns');
+const { format } = require('date-fns');
 const crypto = require('crypto');
 const sgMail = require('@sendgrid/mail');
 const path = require('path');
@@ -40,11 +38,7 @@ function generateError(message, code) {
 function randomString(size = 20) {
   return crypto.randomBytes(size).toString('hex').slice(0, size);
 }
-async function sendEmail({
-  email,
-  title,
-  content
-}) {
+async function sendEmail({ email, title, content }) {
   sgMail.setApiKey(process.env.SENDGRID_KEY);
 
   const msg = {
@@ -65,16 +59,10 @@ function formatDateToDB(date) {
 }
 
 function search(queryParams) {
-
-
   let query = `SELECT * FROM presentations`;
   const params = [];
 
-  const {
-    city,
-    category,
-    event
-  } = queryParams;
+  const { city, category, event } = queryParams;
 
   if (city || category || event) {
     query = `${query} WHERE`;
@@ -84,20 +72,19 @@ function search(queryParams) {
       params.push(city);
     }
     if (category) {
-      conditions.push(`category=?`)
-      params.push(category)
+      conditions.push(`category=?`);
+      params.push(category);
     }
     if (event) {
-      conditions.push(`event=?`)
-      params.push(event)
+      conditions.push(`event=?`);
+      params.push(event);
     }
-    query = `${query} ${conditions.join(` AND `)}`
-
+    query = `${query} ${conditions.join(` AND `)}`;
   }
   return {
     query,
     params
-  }
+  };
 }
 
 module.exports = {

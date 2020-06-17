@@ -1,30 +1,18 @@
 require('dotenv').config();
 const bcrypt = require('bcrypt');
 
-const {
-  getConnection
-} = require('../../db');
-const {
-  updatePasswordSchema
-} = require('../../validations/update_password');
-const {
-  generateError
-} = require('../../helpers');
+const { getConnection } = require('../../db');
+//const { updatePasswordSchema } = require('../../validations/update_password');
+const { generateError } = require('../../helpers');
 
 async function updatePassword(req, res, next) {
   let connection;
   try {
-    const {
-      id
-    } = req.params;
+    const { id } = req.params;
     connection = await getConnection();
-    await updatePasswordSchema.validateAsync(req.body);
+    //await updatePasswordSchema.validateAsync(req.body);
 
-    const {
-      oldPassword,
-      newPassword,
-      newPasswordRepeat
-    } = req.body;
+    const { oldPassword, newPassword, newPasswordRepeat } = req.body;
 
     if (Number(id) !== req.auth.id) {
       throw generateError(
@@ -40,7 +28,7 @@ async function updatePassword(req, res, next) {
     if (oldPassword === newPassword) {
       throw generateError('New password can not be the same that old one', 400);
     }
-
+    console.log('alla');
     // Sacar la info del usuario de la base de datos
     const [currentUser] = await connection.query(
       `
@@ -55,20 +43,21 @@ async function updatePassword(req, res, next) {
     }
 
     const [dbUser] = currentUser;
-
+    console.log(currentUser);
     // Comprobar que la vieja password envíada sea la correcta
     // el orden es: passord sin encriptar, password encriptada
     const passwordsMath = await bcrypt.compare(
       oldPassword,
       dbUser.user_password
     );
-
+    console.log(' mas alli');
     if (!passwordsMath) {
       throw generateError('Your old password is wrong', 401);
     }
 
     // generar hash de la password
     const dbNewPassword = await bcrypt.hash(newPassword, 10);
+    console.log('el briki dance');
 
     // actualizar la base de datos
     await connection.query(
@@ -80,7 +69,8 @@ async function updatePassword(req, res, next) {
 
     res.send({
       status: 'ok',
-      message: 'Password changes properly. Your tokens are not valid. You must login again.'
+      message:
+        'Password changes properly. Your tokens are not valid. You must login again.'
     });
   } catch (error) {
     next(error);

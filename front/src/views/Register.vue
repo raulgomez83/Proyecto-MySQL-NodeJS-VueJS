@@ -54,14 +54,14 @@
           </li>
         </ul>
       </fieldset>
-      <button
-        @click="
-          newUser(firstname, surname, email, birthdate, username, password)
-        "
-      >
-        Crear
-      </button>
     </form>
+    <button
+      @click="newUser(firstname, surname, email, birthdate, username, password)"
+    >
+      Register
+    </button>
+    <router-link :to="{ name: 'Login' }">Login</router-link>
+
     <thefooter></thefooter>
   </div>
 </template>
@@ -80,26 +80,58 @@ export default {
       birthdate: "",
       username: "",
       password: "",
+      correctData: false,
+      require: false,
     };
   },
   methods: {
+    validatingData() {
+      if (
+        this.firstname === "" ||
+        this.surname === "" ||
+        this.email === "" ||
+        this.birthdate === "" ||
+        this.username === "" ||
+        this.user_password === ""
+      ) {
+        this.correctData = false;
+        this.require = true;
+      } else {
+        this.correctData = true;
+        this.require = false;
+      }
+    },
     newUser(firstname, surname, email, birthdate, username, password) {
-      var self = this;
-      axios
-        .post("http://localhost:3004/user", {
-          firstname: self.firstname,
-          surname: self.surname,
-          email: self.email,
-          birthdate: self.birthdate,
-          username: self.username,
-          user_password: self.password,
-        })
-        .then(function(response) {
-          console.log(response);
-        })
-        .catch(function(error) {
-          console.error(error);
-        });
+      this.validatingData();
+      if (this.correctData === true) {
+        var self = this;
+        axios
+          .post("http://localhost:3004/user", {
+            firstname: self.firstname,
+            surname: self.surname,
+            email: self.email,
+            birthdate: self.birthdate,
+            username: self.username,
+            user_password: self.password,
+          })
+          .then(function(response) {
+            self.emptyFields();
+            console.log(response);
+          })
+          .catch(function(error) {
+            console.error(error);
+          });
+      } else {
+        alert("no has rellenado algún campo");
+      }
+    },
+    emptyFields() {
+      this.firstname = "";
+      this.surname = "";
+      this.email = "";
+      this.birthdate = "";
+      this.username = "";
+      this.user_password = "";
     },
   },
 };

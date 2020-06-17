@@ -1,17 +1,9 @@
 require('dotenv').config();
 const bcrypt = require('bcrypt');
 
-const {
-  getConnection
-} = require('../../db');
-const {
-  newUserSchema
-} = require('../../validations/user');
-const {
-  generateError,
-  randomString,
-  sendEmail
-} = require('../../helpers');
+const { getConnection } = require('../../db');
+const { newUserSchema } = require('../../validations/user');
+const { generateError, randomString, sendEmail } = require('../../helpers');
 
 async function newUser(req, res, next) {
   let connection;
@@ -57,8 +49,11 @@ async function newUser(req, res, next) {
       });
     } catch (error) {
       console.error(error.response.body);
-      throw new Error('Sorry, there is  an error in the mailing. Try again later.');
+      throw new Error(
+        'Sorry, there is  an error in the mailing. Try again later.'
+      );
     }
+    console.log(birthdate);
 
     await connection.query(
       `INSERT INTO users ( firstname, surname, email, birthdate, username, user_password, role, active, date_account_creation , date_password_modification,registrationcode )
@@ -76,7 +71,8 @@ async function newUser(req, res, next) {
 
     res.send({
       status: 'ok',
-      message: 'User created properly.Check your email for activate your account.'
+      message:
+        'User created properly.Check your email for activate your account.'
     });
   } catch (error) {
     next(error);

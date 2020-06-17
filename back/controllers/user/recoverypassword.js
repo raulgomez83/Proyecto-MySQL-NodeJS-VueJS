@@ -1,27 +1,20 @@
 require('dotenv').config();
 const bcrypt = require('bcrypt');
 
-const {
-  sendEmail,
-  generateError,
-  randomString
-} = require('../../helpers.js');
-const {
-  getConnection
-} = require('../../db');
+const { sendEmail, generateError, randomString } = require('../../helpers.js');
+const { getConnection } = require('../../db');
 const {
   recoveryPasswordSchema
 } = require('../../validations/reactivate_user-recovery_password');
 
 async function recoveryPassword(req, res, next) {
   let connection;
+  console.log('uno');
 
   try {
     await recoveryPasswordSchema.validateAsync(req.body);
 
-    const {
-      email
-    } = req.body;
+    const { email } = req.body;
 
     connection = await getConnection();
 
@@ -61,7 +54,8 @@ async function recoveryPassword(req, res, next) {
 
     res.send({
       staus: 'ok',
-      message: 'Your password is recovey. We send you an email with your new password. Check your spam folder.'
+      message:
+        'Your password is recovey. We send you an email with your new password. Check your spam folder.'
     });
   } catch (error) {
     next(error);

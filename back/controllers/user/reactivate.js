@@ -4,12 +4,8 @@ const bcrypt = require('bcrypt');
 const {
   reactivateSchema
 } = require('../../validations/reactivate_user-recovery_password');
-const {
-  getConnection
-} = require('../../db');
-const {
-  generateError
-} = require('../../helpers');
+const { getConnection } = require('../../db');
+const { generateError } = require('../../helpers');
 
 async function reactivateUser(req, res, next) {
   let connection;
@@ -18,10 +14,7 @@ async function reactivateUser(req, res, next) {
     console.log(req.body);
     await reactivateSchema.validateAsync(req.body);
 
-    const {
-      email,
-      password
-    } = req.body;
+    const { email, password } = req.body;
 
     connection = await getConnection();
     const [
@@ -37,15 +30,11 @@ async function reactivateUser(req, res, next) {
         404
       );
     }
-
     const [user] = dbUser;
-
     const passwordsMath = await bcrypt.compare(password, user.user_password);
-
     if (!passwordsMath) {
       throw generateError('Sorry, your password is wrong', 401);
     }
-
     await connection.query(
       `UPDATE users SET active=true WHERE user_id=?
 `,

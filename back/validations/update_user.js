@@ -1,11 +1,6 @@
 const Joi = require('@hapi/joi').extend(require('@hapi/joi-date'));
 const { generateError } = require('../helpers');
 
-const usernameSchema = Joi.string()
-  .min(2)
-  .max(20)
-  .error(generateError('UserName field must have between 2 and 20 types', 400));
-
 const updateUserSchema = Joi.object().keys({
   firstname: Joi.string()
     .max(50)
@@ -22,9 +17,7 @@ const updateUserSchema = Joi.object().keys({
   birthdate: Joi.date()
     .format('YYYY-MM-DD')
     .utc()
-    .error(generateError('Date is wrong', 400)),
-
-  username: usernameSchema
+    .error(generateError('Date is wrong', 400))
 });
 module.exports = {
   updateUserSchema
