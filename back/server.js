@@ -71,13 +71,15 @@ app.get('/ratings', userIsAuthenticated, userIsAdmin, getAllRatings); //Lista to
 //USER ROUTES
 app.put('/user/password/:id', userIsAuthenticated, updatePassword); //Cambia la contaseña de un usuario
 app.put('/user/disable/:id', userIsAuthenticated, disableUser); //Desactiva un usuario
-
-app.get('/user/historyratings', userIsAuthenticated, getHistoryUserRating); //Muestra los historiales
+app.put('/user/reactivate', reactivateUser); //Reactiva un usuario desactivado
+app.get('/user/historyratings/:id', userIsAuthenticated, getHistoryUserRating); //Muestra los historiales
 app.get(
-  '/user/historypresentations',
+  '/user/historypresentations/:id',
   userIsAuthenticated,
   getHistoryUserPresentation
 );
+app.put('/user/recovery', recoveryPassword); //Permite logear con una contraseña temporal
+
 app.get('/user/:id', userIsAuthenticated, getUser); //Muestra los datos de un usuario
 app.put('/user/:id', userIsAuthenticated, updateUser); //Edita los datos de un usuario
 app.post('/presentation', userIsAuthenticated, newPresentation); //Permite subir una presentación a un usuario
@@ -94,8 +96,6 @@ app.get('/presentations', getAllPresentations); //Lista todas las presentaciones
 app.get('/presentations/top3', getPresentationsTops3); //Muestra las listas top de presentaciones
 app.get('/presentation/:id', getPresentation); //Muestra la información de una presentación
 app.post('/presentation/view/:id', viewPresentation);
-app.put('/user/reactivate/:id', reactivateUser); //Reactiva un usuario desactivado
-app.put('/user/recovery', recoveryPassword); //Permite logear con una contraseña temporal
 
 app.use((error, req, res, next) => {
   res.status(error.httpCode || 500).send({

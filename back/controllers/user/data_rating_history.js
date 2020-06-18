@@ -1,19 +1,13 @@
 require('dotenv').config();
-const {
-  getConnection
-} = require('../../db');
-const {
-  generateError
-} = require('../../helpers');
+const { getConnection } = require('../../db');
+const { generateError } = require('../../helpers');
 
 async function getHistoryUserRating(req, res, next) {
   let connection;
 
   try {
     connection = await getConnection();
-    const {
-      id
-    } = req.auth;
+    const { id } = req.auth;
 
     const [
       result
@@ -22,16 +16,16 @@ async function getHistoryUserRating(req, res, next) {
       [id]
     );
 
-
     const usersData = [result];
 
     if (!usersData.length) {
       throw generateError('Already you not rate any presentation', 401);
     }
+    console.log(result);
 
     res.send({
       status: 'ok',
-      data: usersData
+      data: result
     });
   } catch (error) {
     next(error);

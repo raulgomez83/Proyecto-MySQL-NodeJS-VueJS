@@ -38,16 +38,17 @@
     </div>
     <div class="password" v-show="seeEditPassword">
       <input
-        type="text"
+        type="password"
         v-model="oldPassword"
         placeholder="Your old password"
       />
-      <input type="text" v-model="password" placeholder="New password" />
+      <input type="password" v-model="password" placeholder="New password" />
       <input
-        type="text"
+        type="password"
         v-model="passwordRepeat"
         placeholder="Repeat your new Paswword"
       />
+      <button>Show</button><br />
       <button @click="updatePassword()">Update Password</button>
     </div>
     <div class="newPresentation" v-show="seePresentationUpload">
@@ -105,20 +106,31 @@
       </form>
       <button @click="createPresentation()">Upload</button>
     </div>
+    <div class="presentationHistory">
+      <ul v-for="history in histories" :key="history.id">
+        <li>{{ history.title }}</li>
+      </ul>
+    </div>
+    <div class="presentationRatings">
+      <ul v-for="rating in ratings" :key="rating.id">
+        <li>{{ rating.title }}</li>
+        <li>{{ rating.rating }}</li>
+      </ul>
+    </div>
+
     <thefooter></thefooter>
   </div>
 </template>
 
 <script>
 import axios from "axios";
-import { logOut } from "../api/helpers";
-import presentations from "../components/presentations";
+
 import thefooter from "../components/thefooter";
 import themenu from "../components/themenu";
 
 export default {
   name: "Profile",
-  components: { thefooter, themenu, presentations },
+  components: { thefooter, themenu },
   data() {
     return {
       /*  presentations: [], */
@@ -130,6 +142,8 @@ export default {
       language: "",
       video: "",
       user: {},
+      histories: [],
+      ratings: [],
       seeEdit: false,
       newFirstname: "",
       newSurname: "",
@@ -139,10 +153,10 @@ export default {
       password: "",
       passwordRepeat: "",
       seePresentationUpload: false,
-      seeEditPresentation: false,
       seeEditPassword: false,
       correctData: false,
       require: false,
+      id: null,
     };
   },
   methods: {
@@ -206,7 +220,6 @@ export default {
         })
         .then(function(response) {
           self.seeEditPassword = false;
-          console.log(response);
         })
         .catch(function(error) {
           console.error(error);
@@ -217,17 +230,48 @@ export default {
       const data = localStorage.getItem("id");
       const token = localStorage.getItem("token");
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-      return logOut();
       axios
         .put("http://localhost:3004/user/disable/" + data)
         .then(function(response) {
+          localStorage.removeItem("id");
+          localStorage.removeItem("username");
+          localStorage.removeItem("role");
+          localStorage.removeItem("token");
+          axios.defaults.headers.common["Authorization"] = "";
           self.$router.push("/");
         })
         .catch(function(error) {
-          console.error(error);
+          console.error(error.response.data.message);
         });
     },
-    showHistories() {},
+    showHistoryPresentations(index) {
+      const self = this;
+      const data = localStorage.getItem("id");
+      const token = localStorage.getItem("token");
+      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+      axios
+        .get("http://localhost:3004/user/historypresentations/" + data)
+        .then(function(response) {
+          self.histories = response.data.data;
+        })
+        .catch(function(error) {
+          console.error(error.response.data.error);
+        });
+    },
+    showHistoryRatings(index) {
+      const self = this;
+      const data = localStorage.getItem("id");
+      const token = localStorage.getItem("token");
+      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+      axios
+        .get("http://localhost:3004/user/historyratings/" + data)
+        .then(function(response) {
+          self.ratings = response.data.data;
+        })
+        .catch(function(error) {
+          console.error(error.response.data.error);
+        });
+    },
     presentationShowUpload() {
       this.seePresentationUpload = true;
     },
@@ -235,6 +279,8 @@ export default {
       this.validatingData();
       if (this.correctData === true) {
         var self = this;
+        const token = localStorage.getItem("token");
+        axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 
         axios
           .post("http://localhost:3004/presentation", {
@@ -249,7 +295,6 @@ export default {
           .then(function(response) {
             self.emptyFields();
             self.seePresentationUpload = false;
-            console.log(response);
           })
           .catch(function(error) {
             console.error(error);
@@ -282,30 +327,11 @@ export default {
       this.language = "";
       this.video = "";
     },
-    showPresentations() {},
-    updatePresentation() {
-      var self = this;
-      axios
-        .post("http://localhost:3004/presentation", {
-          title: self.title,
-          date: self.date,
-          event: self.event,
-          city: self.city,
-          category: self.category,
-          language: self.language,
-          video: self.video,
-        })
-        .then(function(response) {
-          this.seePresentation = true;
-          console.log(response);
-        })
-        .catch(function(error) {
-          console.error(error);
-        });
-    },
   },
   created() {
     this.dataUser();
+    this.showHistoryPresentations();
+    this.showHistoryRatings();
   },
 };
 </script>

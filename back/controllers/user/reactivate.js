@@ -11,22 +11,21 @@ async function reactivateUser(req, res, next) {
   let connection;
 
   try {
-    console.log(req.body);
     await reactivateSchema.validateAsync(req.body);
 
-    const { email, password } = req.body;
-
+    const { username, password } = req.body;
+    console.log(req.body);
     connection = await getConnection();
     const [
       dbUser
     ] = await connection.query(
-      'SELECT user_id, email, user_password FROM users WHERE email=? AND active=0 AND registrationcode IS NULL',
-      [email]
+      'SELECT user_id, username, user_password FROM users WHERE username=? AND active=0 AND registrationcode IS NULL',
+      [username]
     );
 
     if (!dbUser.length) {
       throw generateError(
-        'No exists any unactivate account with this email',
+        'No exists any unactivate account with this username',
         404
       );
     }

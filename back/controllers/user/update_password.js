@@ -2,17 +2,17 @@ require('dotenv').config();
 const bcrypt = require('bcrypt');
 
 const { getConnection } = require('../../db');
-//const { updatePasswordSchema } = require('../../validations/update_password');
+const { updatePasswordSchema } = require('../../validations/update_password');
 const { generateError } = require('../../helpers');
 
 async function updatePassword(req, res, next) {
   let connection;
   try {
+    const { oldPassword, newPassword, newPasswordRepeat } = req.body;
+
     const { id } = req.params;
     connection = await getConnection();
-    //await updatePasswordSchema.validateAsync(req.body);
-
-    const { oldPassword, newPassword, newPasswordRepeat } = req.body;
+    await updatePasswordSchema.validateAsync(req.body);
 
     if (Number(id) !== req.auth.id) {
       throw generateError(
@@ -50,14 +50,13 @@ async function updatePassword(req, res, next) {
       oldPassword,
       dbUser.user_password
     );
-    console.log(' mas alli');
+
     if (!passwordsMath) {
       throw generateError('Your old password is wrong', 401);
     }
 
     // generar hash de la password
     const dbNewPassword = await bcrypt.hash(newPassword, 10);
-    console.log('el briki dance');
 
     // actualizar la base de datos
     await connection.query(

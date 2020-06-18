@@ -17,7 +17,7 @@
         </form>
         <p>
           Did you make a big mistake and disable your account? Don't worry
-          <button @click="seeRecoverAccount = true">Come back</button>
+          <button @click="showReactivateUser()">Come back</button>
         </p>
         <p>
           Forgot your password? It happens
@@ -28,12 +28,16 @@
     <div class="reactivateAccount" v-show="seeReactivateAccount">
       <fieldset>
         <form>
-          <h2>Recovery your account</h2>
-          <input type="email" placeholder="email" v-model="email" />
+          <h2>Reactivate your account</h2>
+          <input type="text" placeholder="username" v-model="usernameRecover" />
           <br />
-          <input type="password" placeholder="password" v-model="password" />
+          <input
+            type="password"
+            placeholder="password"
+            v-model="passwordRecover"
+          />
         </form>
-        <button @click="reactivateAccount()">Recovery</button>
+        <button @click="reactivateUser()">Recover</button>
       </fieldset>
     </div>
     <div class="recoverPassword" v-show="seeRecoverPassword">
@@ -64,6 +68,8 @@ export default {
       username: "",
       password: "",
       email: "",
+      usernameRecover: "",
+      passwordRecover: "",
       seeReactivateAccount: false,
       seeRecoverPassword: false,
     };
@@ -87,7 +93,7 @@ export default {
           console.error(error);
         });
     },
-    recoverPassword(email, password) {
+    recoverPassword(email) {
       const self = this;
       axios
         .put("http://localhost:3004/user/recovery", {
@@ -97,14 +103,36 @@ export default {
           console.log(response);
           self.seeRecoverPassword = false;
         })
+
         .catch(function(error) {
-          console.error(error);
+          console.error(error.response.data.message);
         });
     },
     showRecoverPassword() {
       this.seeRecoverPassword = true;
     },
-    reactiveUser() {},
+    reactivateUser() {
+      const self = this;
+      console.log(self.usernameRecover, self.passwordRecover);
+
+      axios
+        .put("http://localhost:3004/user/reactivate", {
+          username: self.usernameRecover,
+          password: self.passwordRecover,
+        })
+        .then(function(response) {
+          console.log("holi");
+
+          console.log(response);
+          self.seeReactivateAccount = false;
+        })
+        .catch(function(error) {
+          console.error(error.response.data.message);
+        });
+    },
+    showReactivateUser() {
+      this.seeReactivateAccount = true;
+    },
   },
 };
 </script>

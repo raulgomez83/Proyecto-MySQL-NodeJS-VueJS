@@ -9,8 +9,8 @@
       :presentation="presentation"
       :comments="comments"
       :seePresentation="seePresentation"
-      :id="id"
       v-on:go="showPresentation"
+      v-on:contact="contactUser"
     ></listpresentations>
     <thefooter></thefooter>
   </div>
@@ -32,7 +32,9 @@ export default {
       presentation: {},
       comments: [],
       seePresentation: false,
-      id: null,
+
+      correctData: false,
+      require: false,
     };
   },
   methods: {
@@ -50,7 +52,6 @@ export default {
     showPresentation(index) {
       const self = this;
       let data = index.presentation_id;
-      self.id = data;
       axios
         .get("http://localhost:3004/presentation/" + data)
         .then(function(response) {
@@ -64,8 +65,55 @@ export default {
     },
     deletePresentation(index) {},
     searchPresentation() {},
-    contactUser() {},
-    updatePresentation() {},
+    contactUser(index) {
+      this.validatingData();
+      if (this.correctData === true) {
+        var self = this;
+        const id = localStorage.getItem("id");
+        let data = index.presentation_id;
+        axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+        axios
+          .post("http://localhost:3004/presentation/contact/" + data, {
+            message: self.message,
+          })
+          .then(function(response) {
+            self.emptyFields();
+          })
+          .catch(function(error) {
+            console.error(error);
+          });
+      } else {
+        alert("no has rellenado algún campo");
+      }
+    },
+    validatingData() {
+      if (message === "") {
+        this.correctData = false;
+        this.require = true;
+      } else {
+        this.correctData = true;
+        this.require = false;
+      }
+    },
+    updatePresentation() {
+      var self = this;
+      axios
+        .post("http://localhost:3004/presentation", {
+          title: self.title,
+          date: self.date,
+          event: self.event,
+          city: self.city,
+          category: self.category,
+          language: self.language,
+          video: self.video,
+        })
+        .then(function(response) {
+          this.seePresentation = true;
+        })
+        .catch(function(error) {
+          console.error(error);
+        });
+    },
     /* increaseView(id) {
       const self = this;
       console.log(id);

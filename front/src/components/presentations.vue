@@ -20,7 +20,13 @@
           If you find this presentation interesting you can contact with the
           user that update it
         </p>
-        <button>Contact</button>
+        <textarea
+          name="contact"
+          class="contactTextArea"
+          cols="30"
+          rows="5"
+        ></textarea>
+        <button @click="contactUserEvent(index)">Contact</button>
       </div>
       <button>Update</button>
       <button>Delete</button>
@@ -70,14 +76,14 @@ export default {
       let data = this.presentations[index];
       this.$emit("go", data);
     },
-    /* contactUserEvent(index) {
+    contactUserEvent(index) {
       let data = this.presentations[index].id;
       this.$emit("contact", data);
-    },
+    } /*
     votePresentationEvent(index) {
       let data = this.presentations[index].id;
       this.$emit("vote", data);
-    }, */
+    }, */,
   },
 };
 </script>

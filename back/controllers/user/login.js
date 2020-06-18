@@ -34,8 +34,6 @@ async function loginUser(req, res, next) {
       role: user.role,
       username: user.username
     };
-    console.log(tokenPayload);
-
     const token = jwt.sign(tokenPayload, process.env.SECRET, {
       expiresIn: '30d'
     });

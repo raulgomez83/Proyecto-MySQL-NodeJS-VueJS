@@ -18,7 +18,6 @@ async function newPresentation(req, res, next) {
       presentation_language,
       video
     } = req.body;
-    console.log(req.body);
 
     const { id } = req.auth;
     const [
@@ -55,6 +54,7 @@ async function newPresentation(req, res, next) {
         id
       ]
     );
+
     res.send({
       status: 'ok',
       message: 'Presentation created properly'

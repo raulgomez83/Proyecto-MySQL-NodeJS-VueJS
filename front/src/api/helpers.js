@@ -1,5 +1,4 @@
 export function LogOut() {
-  axios.defaults.headers.common["Authorization"] = "";
   clearAuthToken();
   clearRole();
   clearId();
