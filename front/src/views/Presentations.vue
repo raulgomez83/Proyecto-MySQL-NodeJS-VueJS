@@ -32,7 +32,6 @@ export default {
       presentation: {},
       comments: [],
       seePresentation: false,
-
       correctData: false,
       require: false,
     };

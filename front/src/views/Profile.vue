@@ -17,7 +17,6 @@
           <li class="mail">{{ user.email }}</li>
         </ul>
       </div>
-      <!-- <presentations :presentations="presentations"></presentations> -->
       <div class="buttons">
         <button @click="userShowEditText()">Update your profile</button>
         <button @click="presentationShowUpload()">Upload a Presentation</button>
@@ -165,16 +164,21 @@ export default {
       const data = localStorage.getItem("id");
       const token = localStorage.getItem("token");
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-      axios
-        .get("http://localhost:3004/user/" + data)
-        .then(function(response) {
-          const img = response.data.data.avatar;
-          self.user = response.data.data;
-          self.user.avatar = "http://localhost:3004/uploads/" + img;
-        })
-        .catch(function(error) {
-          console.error(error);
-        });
+      if (data === Number) {
+        axios
+          .get("http://localhost:3004/user/" + data)
+          .then(function(response) {
+            const img = response.data.data.avatar;
+            self.user = response.data.data;
+            self.user.avatar = "http://localhost:3004/uploads/" + img;
+          })
+          .catch(function(error) {
+            console.error(error);
+          });
+      } else {
+        alert("A donde vas pichón!!!");
+        this.$router.push("/login");
+      }
     },
     updateUser() {
       const self = this;
@@ -245,32 +249,40 @@ export default {
         });
     },
     showHistoryPresentations(index) {
-      const self = this;
-      const data = localStorage.getItem("id");
-      const token = localStorage.getItem("token");
-      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-      axios
-        .get("http://localhost:3004/user/historypresentations/" + data)
-        .then(function(response) {
-          self.histories = response.data.data;
-        })
-        .catch(function(error) {
-          console.error(error.response.data.error);
-        });
+      if (data === Number) {
+        const self = this;
+        const data = localStorage.getItem("id");
+        const token = localStorage.getItem("token");
+        axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+        axios
+          .get("http://localhost:3004/user/historypresentations/" + data)
+          .then(function(response) {
+            self.histories = response.data.data;
+          })
+          .catch(function(error) {
+            console.error(error.response.data.error);
+          });
+      } else {
+        this.$router.push("/login");
+      }
     },
     showHistoryRatings(index) {
-      const self = this;
-      const data = localStorage.getItem("id");
-      const token = localStorage.getItem("token");
-      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-      axios
-        .get("http://localhost:3004/user/historyratings/" + data)
-        .then(function(response) {
-          self.ratings = response.data.data;
-        })
-        .catch(function(error) {
-          console.error(error.response.data.error);
-        });
+      if (data === Number) {
+        const self = this;
+        const data = localStorage.getItem("id");
+        const token = localStorage.getItem("token");
+        axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+        axios
+          .get("http://localhost:3004/user/historyratings/" + data)
+          .then(function(response) {
+            self.ratings = response.data.data;
+          })
+          .catch(function(error) {
+            console.error(error.response.data.error);
+          });
+      } else {
+        this.$router.push("/login");
+      }
     },
     presentationShowUpload() {
       this.seePresentationUpload = true;
@@ -281,7 +293,6 @@ export default {
         var self = this;
         const token = localStorage.getItem("token");
         axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-
         axios
           .post("http://localhost:3004/presentation", {
             title: self.title,
