@@ -1,11 +1,7 @@
 require('dotenv').config();
 
-const {
-  getConnection
-} = require('../../db');
-const {
-  generateError
-} = require('../../helpers');
+const { getConnection } = require('../../db');
+const { generateError } = require('../../helpers');
 const {
   updatePresentationSchema
 } = require('../../validations/update_presentations');
@@ -14,9 +10,7 @@ async function updatePresentation(req, res, next) {
   try {
     connection = await getConnection();
     await updatePresentationSchema.validateAsync(req.body);
-    const {
-      id
-    } = req.params;
+    const { id } = req.params;
     const {
       title,
       presentation_date,

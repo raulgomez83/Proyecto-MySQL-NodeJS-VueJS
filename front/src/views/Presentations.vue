@@ -3,21 +3,28 @@
     <vue-headful
       title="Presentations"
       description="Presentations page of the application"
-    /><themenu></themenu>
+    />
+    <themenu></themenu>
     <listpresentations
       :presentations="presentations"
       :presentation="presentation"
       :comments="comments"
       :seePresentation="seePresentation"
+      :seeContact="seeContact"
+      :message="message"
+      v-on:see="onePresentationView"
       v-on:go="showPresentation"
+      v-on:showcontact="seeContactArea"
       v-on:contact="contactUser"
     ></listpresentations>
+
     <thefooter></thefooter>
   </div>
 </template>
 
 <script>
 import axios from "axios";
+import Swal from "sweetalert2";
 
 import thefooter from "../components/thefooter";
 import themenu from "../components/themenu";
@@ -32,8 +39,10 @@ export default {
       presentation: {},
       comments: [],
       seePresentation: false,
+      seeContact: false,
       correctData: false,
       require: false,
+      message: "",
     };
   },
   methods: {
@@ -59,24 +68,29 @@ export default {
           self.seePresentation = true;
         })
         .catch(function(error) {
-          console.error(error);
+          console.error(error.response.data.message);
         });
     },
-    deletePresentation(index) {},
-    searchPresentation() {},
-    contactUser(index) {
-      this.validatingData();
+    contactUser(message, presentation) {
+      this.validatingData(message);
       if (this.correctData === true) {
-        var self = this;
-        const id = localStorage.getItem("id");
-        let data = index.presentation_id;
+        const self = this;
+        const id = presentation.id;
+        const id_user = presentation.user_id;
+        const idToken = Number(localStorage.getItem("id"));
+        const token = localStorage.getItem("token");
         axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+        const server = "http://localhost:3004";
         axios
-          .post("http://localhost:3004/presentation/contact/" + data, {
-            message: self.message,
+          .post(server + "/presentation/contact/" + id, {
+            message: message,
           })
           .then(function(response) {
-            self.emptyFields();
+            self.emptyFieldMessage();
+            self.seeContact = false;
+            Swal.fire({
+              title: "Your email has been send",
+            });
           })
           .catch(function(error) {
             console.error(error);
@@ -85,7 +99,13 @@ export default {
         alert("no has rellenado algún campo");
       }
     },
-    validatingData() {
+    seeContactArea() {
+      this.seeContact = true;
+    },
+    emptyFieldMessage() {
+      this.message = "";
+    },
+    validatingData(message) {
       if (message === "") {
         this.correctData = false;
         this.require = true;
@@ -94,26 +114,8 @@ export default {
         this.require = false;
       }
     },
-    updatePresentation() {
-      var self = this;
-      axios
-        .post("http://localhost:3004/presentation", {
-          title: self.title,
-          date: self.date,
-          event: self.event,
-          city: self.city,
-          category: self.category,
-          language: self.language,
-          video: self.video,
-        })
-        .then(function(response) {
-          this.seePresentation = true;
-        })
-        .catch(function(error) {
-          console.error(error);
-        });
-    },
-    /* increaseView(id) {
+
+    increaseView(id) {
       const self = this;
       console.log(id);
 
@@ -123,9 +125,13 @@ export default {
         .catch(function(error) {
           console.error(error);
         });
-    }, */
+    },
     votePresentation() {},
+    onePresentationView() {
+      this.seePresentation = false;
+    },
   },
+
   created() {
     this.getPresentations();
   },

@@ -9,6 +9,7 @@ async function newPresentation(req, res, next) {
   try {
     connection = await getConnection();
     await newPresentationSchema.validateAsync(req.body);
+
     const {
       title,
       presentation_date,
@@ -54,7 +55,6 @@ async function newPresentation(req, res, next) {
         id
       ]
     );
-
     res.send({
       status: 'ok',
       message: 'Presentation created properly'

@@ -1,5 +1,5 @@
-<template
-  ><div>
+<template>
+  <div>
     <div class="presentation" v-show="seePresentation">
       <p>{{ presentation.title }}</p>
       <p>{{ presentation.presentation_date }}</p>
@@ -17,21 +17,27 @@
       <button>Vote</button>
       <div class="contact">
         <p>
-          If you find this presentation interesting you can contact with the
-          user that update it
+          If you find this presentation interesting,you can send an email to the
+          user that update it.
         </p>
-        <textarea
-          name="contact"
-          class="contactTextArea"
-          cols="30"
-          rows="5"
-        ></textarea>
-        <button @click="contactUserEvent(index)">Contact</button>
+        <button @click="contactUserEvent(presentation)">
+          Contact to the user</button
+        ><br />
+        <div v-show="seeContact">
+          <textarea
+            name="contact"
+            class="contactTextArea"
+            cols="30"
+            rows="5"
+            v-model="message"
+          ></textarea
+          ><br /><button @click="contactUserEmailEvent(message, presentation)">
+            Contact
+          </button>
+        </div>
       </div>
-      <button>Update</button>
-      <button>Delete</button>
       <br />
-      <button @click="seePresentation = false">Back to presentations</button>
+      <button @click="seePresentationEvent">Back to presentations</button>
     </div>
     <div class="presentations" v-show="!seePresentation">
       <h2>All presentations</h2>
@@ -61,29 +67,30 @@ export default {
     presentation: Object,
     comments: Array,
     seePresentation: Boolean,
+    seeContact: Boolean,
     id: Number,
   },
+  data() {
+    return { message: "" };
+  },
   methods: {
-    /* deletePresentationEvent(index) {
-      let data = this.clientes[index].id;
-      this.$emit("borrar", data);
-    },
-    updatePresentationEvent(index) {
-      let data = this.clientes[index];
-      this.$emit("editar", data);
-    }, */
     showPresentationEvent(index) {
       let data = this.presentations[index];
       this.$emit("go", data);
-    },
-    contactUserEvent(index) {
-      let data = this.presentations[index].id;
-      this.$emit("contact", data);
     } /*
     votePresentationEvent(index) {
       let data = this.presentations[index].id;
       this.$emit("vote", data);
     }, */,
+    seePresentationEvent() {
+      this.$emit("see");
+    },
+    contactUserEvent() {
+      this.$emit("showcontact");
+    },
+    contactUserEmailEvent(message, presentation) {
+      this.$emit("contact", this.message, presentation);
+    },
   },
 };
 </script>

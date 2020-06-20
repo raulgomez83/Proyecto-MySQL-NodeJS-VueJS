@@ -17,12 +17,9 @@ async function processAndSaveFile(uploadedFile) {
   if (FileInfo.width > 100) {
     finalFile.resize(150);
   }
-  if (FileInfo.height > 150) {
-    finalFile.resize(150);
-  }
 
   await finalFile.toFile(path.join(fileUploadPath, savedFileName));
-  console.log('holi');
+
   return savedFileName;
 }
 async function deleteFile(imagePath) {

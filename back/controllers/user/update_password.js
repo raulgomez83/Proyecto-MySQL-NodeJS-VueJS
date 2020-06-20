@@ -43,7 +43,6 @@ async function updatePassword(req, res, next) {
     }
 
     const [dbUser] = currentUser;
-    console.log(currentUser);
     // Comprobar que la vieja password envíada sea la correcta
     // el orden es: passord sin encriptar, password encriptada
     const passwordsMath = await bcrypt.compare(

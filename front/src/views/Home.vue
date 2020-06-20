@@ -37,14 +37,6 @@
           <p>{{ view.totalviews }}</p>
         </li>
       </ul>
-      <h2>Last Presentations</h2>
-      <ul class="last">
-        <li v-for="last in lasts" :key="last.id">
-          <h3>{{ last.title }}</h3>
-          <div v-html="last.video" class="video"></div>
-          <p>{{ last.rating }}</p>
-        </li>
-      </ul>
     </div>
     <about></about>
     <thefooter></thefooter>
@@ -63,31 +55,28 @@ export default {
   components: { thefooter, themenu, about },
   data() {
     return {
-      lasts: [],
       views: [],
-      ratings: [],
+      ratings: []
     };
   },
   methods: {
     search() {},
     topsPresentation() {
       const self = this;
-
       axios
         .get("http://localhost:3004/presentations/top3")
         .then(function(response) {
           self.ratings = response.data.data.resultRatings;
           self.views = response.data.data.resultViews;
-          self.lasts = response.data.data.resultLast;
         })
         .catch(function(error) {
           console.error(error);
         });
-    },
+    }
   },
   created() {
     this.topsPresentation();
-  },
+  }
 };
 </script>
 <style scoped>

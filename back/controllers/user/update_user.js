@@ -37,15 +37,14 @@ async function updateUser(req, res, next) {
     if (req.files && req.files.avatar) {
       try {
         savedFileName = await processAndSaveFile(req.files.avatar);
-        console.log(current, current[0].avatar);
-        if (current && current[0].avatar) {
-          await deleteFile(current[0].avatar);
+        if (current && current.avatar) {
+          await deleteFile(current.avatar);
         }
       } catch (error) {
         throw generateError('Avatar is not processed.Try later', 400);
       }
     } else {
-      savedFileName = current[0].avatar;
+      savedFileName = current.avatar;
     }
 
     await connection.query(

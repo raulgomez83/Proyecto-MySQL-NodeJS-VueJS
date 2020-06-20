@@ -18,3 +18,13 @@ export function logOut() {
   deleteUsername();
   deleteAuth_Token();
 }
+export function showProfileButton() {
+  const token = localStorage.getItem("token");
+  if (token) {
+    return true;
+  }
+  return false;
+}
+export function formatDateToDB(date) {
+  return format(date, "MM-dd-yyyy");
+}

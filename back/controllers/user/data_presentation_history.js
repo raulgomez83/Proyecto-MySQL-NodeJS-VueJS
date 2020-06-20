@@ -9,7 +9,7 @@ async function getHistoryUserPresentation(req, res, next) {
     connection = await getConnection();
     const { id } = req.auth;
     const [result] = await connection.query(
-      `SELECT title FROM presentations WHERE user_id=?
+      `SELECT title,video,presentation_language,presentation_event,city,category,presentation_date,user_id,presentation_id FROM presentations WHERE user_id=?
   ORDER BY date_louded_presentation`,
       [id]
     );
