@@ -21,11 +21,19 @@ WHERE presentation_id=? `,
       `SELECT comments FROM ratings WHERE presentation_id_ratings=?`,
       [id]
     );
-    console.log(result);
+
     if (!result.length) {
       throw generateError(`There is not a presentation with the id ${id}`, 404);
     }
+    const [
+      totalRatings
+    ] = await connection.query(
+      `SELECT count(rating) AS totalratings  FROM ratings WHERE presentation_id_ratings=? `,
+      [id]
+    );
 
+    const [showTotalRatings] = totalRatings;
+    console.log(showTotalRatings);
     const [presentationData] = result;
 
     const payload = {
@@ -46,7 +54,8 @@ WHERE presentation_id=? `,
       status: 'ok',
       data: {
         payload,
-        resultcomments
+        resultcomments,
+        showTotalRatings
       }
     });
   } catch (error) {

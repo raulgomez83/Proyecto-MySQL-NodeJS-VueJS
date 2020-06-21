@@ -173,7 +173,11 @@ export default {
         .then(function(response) {
           const img = response.data.data.avatar;
           self.user = response.data.data;
-          self.user.avatar = server + "uploads/" + img;
+          if (!!!self.user.avatar) {
+            self.user.avatar = server + "uploads/" + "perfil.png";
+          } else {
+            self.user.avatar = server + "uploads/" + img;
+          }
         })
         .catch(function(error) {
           console.error(error);

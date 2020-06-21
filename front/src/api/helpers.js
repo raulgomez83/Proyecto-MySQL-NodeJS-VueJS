@@ -19,12 +19,20 @@ export function logOut() {
   deleteAuth_Token();
 }
 export function showProfileButton() {
-  const token = localStorage.getItem("token");
-  if (token) {
+  const role = localStorage.getItem("role");
+  if (role === "loader" || role === "normal") {
     return true;
   }
   return false;
 }
+export function showAdminButton() {
+  const role = localStorage.getItem("role");
+  if (role === "admin") {
+    return true;
+  }
+  return false;
+}
+
 export function formatDateToDB(date) {
   return format(date, "MM-dd-yyyy");
 }

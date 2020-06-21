@@ -1,14 +1,12 @@
 <template>
   <div>
-    <vue-headful
-      title="Presentations"
-      description="Presentations page of the application"
-    />
+    <vue-headful title="Presentations" description="Presentations page of the application" />
     <themenu></themenu>
     <listpresentations
       :presentations="presentations"
       :presentation="presentation"
       :comments="comments"
+      :ratings="ratings"
       :seePresentation="seePresentation"
       :seeContact="seeContact"
       :message="message"
@@ -38,11 +36,12 @@ export default {
       presentations: [],
       presentation: {},
       comments: [],
+      ratings: {},
       seePresentation: false,
       seeContact: false,
       correctData: false,
       require: false,
-      message: "",
+      message: ""
     };
   },
   methods: {
@@ -59,12 +58,14 @@ export default {
     },
     showPresentation(index) {
       const self = this;
-      let data = index.presentation_id;
+      let id = index.presentation_id;
       axios
-        .get("http://localhost:3004/presentation/" + data)
+        .get("http://localhost:3004/presentation/" + id)
         .then(function(response) {
           self.presentation = response.data.data.payload;
           self.comments = response.data.data.resultcomments;
+          self.ratings = response.data.data.showTotalRatings;
+          console.log(response);
           self.seePresentation = true;
         })
         .catch(function(error) {
@@ -83,13 +84,13 @@ export default {
         const server = "http://localhost:3004";
         axios
           .post(server + "/presentation/contact/" + id, {
-            message: message,
+            message: message
           })
           .then(function(response) {
             self.emptyFieldMessage();
             self.seeContact = false;
             Swal.fire({
-              title: "Your email has been send",
+              title: "Your email has been send"
             });
           })
           .catch(function(error) {
@@ -129,12 +130,12 @@ export default {
     votePresentation() {},
     onePresentationView() {
       this.seePresentation = false;
-    },
+    }
   },
 
   created() {
     this.getPresentations();
-  },
+  }
 };
 </script>
 

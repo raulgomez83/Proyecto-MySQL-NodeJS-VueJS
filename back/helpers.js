@@ -23,7 +23,8 @@ async function processAndSaveFile(uploadedFile) {
   return savedFileName;
 }
 async function deleteFile(imagePath) {
-  await fs.unlink(path.join(fileUploadPath, imagePath));
+  if (path !== '../back/static/uploads/perfil.png')
+    await fs.unlink(path.join(fileUploadPath, imagePath));
 }
 
 function generateError(message, code) {

@@ -124,8 +124,6 @@ export default {
       const self = this;
       const server = "http://localhost:3004";
       const id = self.presentations[index].presentation_id;
-      console.log(id);
-
       const idToken = localStorage.getItem("id");
       const token = localStorage.getItem("token");
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
@@ -164,8 +162,7 @@ export default {
         .catch(function(error) {
           console.error(error);
         });
-    },
-    deleteVote() {}
+    }
   },
 
   created() {

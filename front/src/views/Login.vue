@@ -9,15 +9,17 @@
           <br />
           <input type="password" placeholder="password" v-model="password" />
           <br />
-          <button @click="login(username, password)">Login</button>
-          <p>
-            Are you not register already? click
-            <router-link :to="{ name: 'Register' }">Enjoy Us.</router-link>
-          </p>
         </form>
+        <button @click="login(username, password)">Login</button>
+        <p>
+          Are you not register already? click
+          <router-link :to="{ name: 'Register' }">Enjoy Us.</router-link>
+        </p>
         <p>
           Did you make a big mistake and disable your account? Don't worry
-          <button @click="showReactivateUser()">Come back</button>
+          <button
+            @click="showReactivateUser()"
+          >Come back</button>
         </p>
         <p>
           Forgot your password? It happens
@@ -31,11 +33,7 @@
           <h2>Reactivate your account</h2>
           <input type="text" placeholder="username" v-model="usernameRecover" />
           <br />
-          <input
-            type="password"
-            placeholder="password"
-            v-model="passwordRecover"
-          />
+          <input type="password" placeholder="password" v-model="passwordRecover" />
         </form>
         <button @click="reactivateUser()">Recover</button>
       </fieldset>
@@ -43,12 +41,8 @@
     <div class="recoverPassword" v-show="seeRecoverPassword">
       <fieldset>
         <form>
-          <label for="text">Give us your email if you don't forgot it </label>
-          <input
-            type="email"
-            placeholder="Write your email..."
-            v-model="email"
-          />
+          <label for="text">Give us your email if you don't forgot it</label>
+          <input type="email" placeholder="Write your email..." v-model="email" />
         </form>
         <button @click="recoverPassword()">Send</button>
       </fieldset>
@@ -71,7 +65,7 @@ export default {
       usernameRecover: "",
       passwordRecover: "",
       seeReactivateAccount: false,
-      seeRecoverPassword: false,
+      seeRecoverPassword: false
     };
   },
   methods: {
@@ -80,7 +74,7 @@ export default {
       axios
         .post("http://localhost:3004/users/login", {
           username: self.username,
-          password: self.password,
+          password: self.password
         })
         .then(function(response) {
           localStorage.setItem("token", response.data.data.token);
@@ -97,7 +91,7 @@ export default {
       const self = this;
       axios
         .put("http://localhost:3004/user/recovery", {
-          email: self.email,
+          email: self.email
         })
         .then(function(response) {
           console.log(response);
@@ -118,7 +112,7 @@ export default {
       axios
         .put("http://localhost:3004/user/reactivate", {
           username: self.usernameRecover,
-          password: self.passwordRecover,
+          password: self.passwordRecover
         })
         .then(function(response) {
           console.log("holi");
@@ -132,8 +126,8 @@ export default {
     },
     showReactivateUser() {
       this.seeReactivateAccount = true;
-    },
-  },
+    }
+  }
 };
 </script>
 
