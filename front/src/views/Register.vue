@@ -1,21 +1,13 @@
 <template>
   <div>
-    <vue-headful
-      title="Register"
-      description="Register page of the application"
-    />
+    <vue-headful title="Register" description="Register page of the application" />
     <form>
       <fieldset>
         <ul>
           <li>
             <label for="firstname">Firstname:</label>
             <br />
-            <input
-              type="text"
-              name="firstname"
-              id="firstname"
-              v-model="firstname"
-            />
+            <input type="text" name="firstname" id="firstname" v-model="firstname" />
           </li>
           <li>
             <label for="surname">Surname:</label>
@@ -35,33 +27,18 @@
           <li>
             <label for="username">Username:</label>
             <br />
-            <input
-              type="text"
-              name="username"
-              id="username"
-              v-model="username"
-            />
+            <input type="text" name="username" id="username" v-model="username" />
           </li>
           <li>
             <label for="password">Password:</label>
             <br />
-            <input
-              type="password"
-              name="password"
-              id="password"
-              v-model="password"
-            />
+            <input type="password" name="password" id="password" v-model="password" />
           </li>
         </ul>
       </fieldset>
     </form>
-    <button
-      @click="newUser(firstname, surname, email, birthdate, username, password)"
-    >
-      Register
-    </button>
+    <button @click="newUser(firstname, surname, email, birthdate, username, password)">Register</button>
     <router-link :to="{ name: 'Login' }">Login</router-link>
-
     <thefooter></thefooter>
   </div>
 </template>
@@ -69,6 +46,7 @@
 <script>
 import thefooter from "../components/thefooter";
 import axios from "axios";
+import Swal from "sweetalert2";
 export default {
   name: "Register",
   components: { thefooter },
@@ -81,10 +59,39 @@ export default {
       username: "",
       password: "",
       correctData: false,
-      require: false,
+      require: false
     };
   },
   methods: {
+    newUser(firstname, surname, email, birthdate, username, password) {
+      this.validatingData();
+      if (this.correctData === true) {
+        var self = this;
+        axios
+          .post("http://localhost:3004/user", {
+            firstname: self.firstname,
+            surname: self.surname,
+            email: self.email,
+            birthdate: self.birthdate,
+            username: self.username,
+            user_password: self.password
+          })
+          .then(function(response) {
+            Swal.fire({
+              title: "You're register",
+              text: "Now, you can",
+              confirmButtonText: "OK"
+            });
+            self.emptyFields();
+            self.$router.push("/login");
+          })
+          .catch(function(error) {
+            console.error(error);
+          });
+      } else {
+        alert("no has rellenado algún campo");
+      }
+    },
     validatingData() {
       if (
         this.firstname === "" ||
@@ -101,30 +108,6 @@ export default {
         this.require = false;
       }
     },
-    newUser(firstname, surname, email, birthdate, username, password) {
-      this.validatingData();
-      if (this.correctData === true) {
-        var self = this;
-        axios
-          .post("http://localhost:3004/user", {
-            firstname: self.firstname,
-            surname: self.surname,
-            email: self.email,
-            birthdate: self.birthdate,
-            username: self.username,
-            user_password: self.password,
-          })
-          .then(function(response) {
-            self.emptyFields();
-            console.log(response);
-          })
-          .catch(function(error) {
-            console.error(error);
-          });
-      } else {
-        alert("no has rellenado algún campo");
-      }
-    },
     emptyFields() {
       this.firstname = "";
       this.surname = "";
@@ -132,8 +115,8 @@ export default {
       this.birthdate = "";
       this.username = "";
       this.user_password = "";
-    },
-  },
+    }
+  }
 };
 </script>
 
