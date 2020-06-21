@@ -292,7 +292,7 @@ export default {
         })
         .then(function(response) {
           Swal.fire({
-            title: "Congratulations,you upload a presentation"
+            title: "Congratulations, You have upload a presentation"
           });
           self.emptyFieldsPresentations();
           self.seeCreationPresentation = false;
@@ -326,11 +326,7 @@ export default {
             .catch(function(error) {
               console.error(error.response.data.message);
             });
-          Swal.fire(
-            "Disable!",
-            "Your user has been disabled.",
-            "If you want to be able, login again"
-          );
+          Swal.fire("Deleted!", "The presentation has been deleted.");
         }
       });
     },
