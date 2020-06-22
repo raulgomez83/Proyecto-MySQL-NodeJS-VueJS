@@ -24,7 +24,7 @@
         <button @click="disableUser()">Disable you</button>
       </div>
     </div>
-    <div class="edit" v-show="seeEdit">
+    <div class="editData" v-show="seeEdit">
       <p>UPDATE</p>
       <input type="text" v-model="newFirstname" placeholder="Firstname" />
       <input type="text" v-model="newSurname" placeholder="Surname" />
@@ -125,7 +125,7 @@
       <button @click="createNewPresentation()">Upload</button>
       <button @click="seeCreationPresentation = false">Back to profile</button>
     </div>
-    <div class="edit" v-show="seeEditPresentation">
+    <div class="editPresentation" v-show="seeEditPresentation">
       <p>UPDATE</p>
       <fieldset>
         <input type="text" v-model="newTitle" placeholder="title" />

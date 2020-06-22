@@ -17,7 +17,7 @@
           {{ comment.comments }}
         </p>
       </div>
-      <div class="vote">
+      <div class="vote" v-show="seeVote">
         <fieldset>
           <form>
             <label for>Interest</label>
@@ -47,12 +47,13 @@
               id="comments"
               cols="30"
               rows="10"
+              v-model="comment"
             ></textarea>
           </form>
-          <button>Vote</button>
+          <button @click="voteEvent(presentation, comment)">Vote</button>
         </fieldset>
       </div>
-      <button @click="seeVoteEvent" v-if="seeUserButton">
+      <button @click="seeVoteEvent">
         Vote this presentation
       </button>
       <div class="contact">
@@ -63,7 +64,7 @@
         <button @click="contactUserEvent(presentation)">
           Contact to the user
         </button>
-        <br />
+
         <div v-show="seeContact">
           <textarea
             name="contact"
@@ -103,6 +104,7 @@
 
 <script>
 import { showUserButton } from "../api/helpers";
+import { dateFilter } from "vue-date-fns";
 
 export default {
   name: "listpresentations",
@@ -123,18 +125,40 @@ export default {
       ratingTheme: 0,
       ratingDesign: 0,
       ratingCommunication: 0,
+      comment: "",
     };
+  },
+  filters: {
+    date: dateFilter,
   },
   methods: {
     showPresentationEvent(index) {
       let data = this.presentations[index];
       this.$emit("go", data);
     },
-    seeVoteEvent(index) {
-      this.$emit("vote");
-    },
     seePresentationEvent() {
       this.$emit("see");
+    },
+    seeVoteEvent() {
+      this.$emit("showvote");
+    },
+    voteEvent(
+      presentation,
+      comment,
+      ratingInterest,
+      ratingDesign,
+      ratingTheme,
+      ratingCommunication
+    ) {
+      this.$emit(
+        "vote",
+        presentation,
+        comment,
+        this.ratingInterest,
+        this.ratingDesign,
+        this.ratingTheme,
+        this.ratingCommunication
+      );
     },
     contactUserEvent() {
       this.$emit("showcontact");

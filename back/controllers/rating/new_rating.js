@@ -1,13 +1,7 @@
 require('dotenv').config();
-const {
-  getConnection
-} = require('../../db');
-const {
-  newRatingSchema
-} = require('../../validations/rating');
-const {
-  generateError
-} = require('../../helpers');
+const { getConnection } = require('../../db');
+const { newRatingSchema } = require('../../validations/rating');
+const { generateError } = require('../../helpers');
 
 async function newRating(req, res, next) {
   let connection;

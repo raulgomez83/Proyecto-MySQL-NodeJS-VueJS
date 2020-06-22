@@ -1,4 +1,5 @@
 import axios from "axios";
+
 export function deleteAuth_Token() {
   axios.defaults.headers.common["Authorization"] = "";
   localStorage.removeItem("token");
@@ -31,8 +32,4 @@ export function showAdminButton() {
     return true;
   }
   return false;
-}
-
-export function formatDateToDB(date) {
-  return format(date, "MM-dd-yyyy");
 }

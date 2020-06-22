@@ -1,6 +1,6 @@
 require('dotenv').config();
 const { getConnection } = require('../../db');
-const { generateError } = require('../../helpers');
+const { generateError, formatDateToDB } = require('../../helpers');
 
 async function getHistoryUserPresentation(req, res, next) {
   let connection;
@@ -8,17 +8,21 @@ async function getHistoryUserPresentation(req, res, next) {
   try {
     connection = await getConnection();
     const { id } = req.auth;
-    const [result] = await connection.query(
+    const [results] = await connection.query(
       `SELECT title,video,presentation_language,presentation_event,city,category,presentation_date,user_id,presentation_id FROM presentations WHERE user_id=?
   ORDER BY date_louded_presentation`,
       [id]
     );
-    if (!result.length) {
+    if (!results.length) {
       throw generateError('Already you not upload any presentation', 401);
     }
+    const formatResult = results.map((result) => {
+      result.presentation_date = formatDateToDB(result.presentation_date);
+      return result;
+    });
     res.send({
       status: 'ok',
-      data: result
+      data: formatResult
     });
   } catch (error) {
     next(error);

@@ -53,7 +53,7 @@ async function sendEmail({ email, title, content }) {
 }
 
 function formatDateToDB(date) {
-  return format(date, 'MM-dd-yyyy');
+  return format(date, 'yyyy-MM-dd');
 }
 
 function search(queryParams) {

@@ -33,7 +33,6 @@ WHERE presentation_id=? `,
     );
 
     const [showTotalRatings] = totalRatings;
-    console.log(showTotalRatings);
     const [presentationData] = result;
 
     const payload = {

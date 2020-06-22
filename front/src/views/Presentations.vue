@@ -15,10 +15,13 @@
       :seeVote="seeVote"
       :seeUserButton="seeUserButton"
       :message="message"
+      :comment="comment"
       v-on:see="onePresentationView"
       v-on:go="showPresentation"
       v-on:showcontact="seeContactArea"
       v-on:contact="contactUser"
+      v-on:showvote="showVotePresentation"
+      v-on:vote="votePresentation"
     ></listpresentations>
 
     <thefooter></thefooter>
@@ -49,6 +52,7 @@ export default {
       message: "",
       seeVote: false,
       seeUserButton: false,
+      comment: "",
     };
   },
   methods: {
@@ -73,6 +77,36 @@ export default {
           self.comments = response.data.data.resultcomments;
           self.ratings = response.data.data.showTotalRatings;
           self.seePresentation = true;
+        })
+        .catch(function(error) {
+          console.error(error.response.data.message);
+        });
+    },
+    votePresentation(
+      presentation,
+      comment,
+      ratingInterest,
+      ratingDesign,
+      ratingTheme,
+      ratingCommunication
+    ) {
+      var self = this;
+      console.log(ratingInterest, typeof ratingInterest);
+
+      const server = "http://localhost:3004/";
+      const id = presentation.id;
+      const token = localStorage.getItem("token");
+      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+      axios
+        .post(server + "presentation/rating/" + id, {
+          score_interest: ratingInterest,
+          score_design: ratingDesign,
+          score_theme_quality: ratingTheme,
+          score_comunication: ratingCommunication,
+          comments: comment,
+        })
+        .then(function(response) {
+          console.log(response);
         })
         .catch(function(error) {
           console.error(error.response.data.message);
@@ -132,9 +166,12 @@ export default {
           console.error(error);
         });
     },
-    votePresentation() {},
+
     onePresentationView() {
       this.seePresentation = false;
+    },
+    showVotePresentation() {
+      this.seeVote = true;
     },
   },
   created() {
