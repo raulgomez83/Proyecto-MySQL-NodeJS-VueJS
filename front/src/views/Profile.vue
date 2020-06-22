@@ -1,6 +1,9 @@
 <template>
   <div>
-    <vue-headful title="Profile" description="Profile page of the application.Only users" />
+    <vue-headful
+      title="Profile"
+      description="Profile page of the application.Only users"
+    />
     <themenu></themenu>
     <div>
       <div class="welcome">
@@ -9,19 +12,11 @@
       </div>
       <div>
         <ul class="userdata">
-          <li class="name">{{ user.firstname }}</li>
-          <li class="surname">{{ user.surname }}</li>
-          <li class="date">{{ user.birthdate }}</li>
+          <li class="name">{{ user.firstname }} {{ user.surname }}</li>
           <li class="mail">{{ user.email }}</li>
         </ul>
       </div>
-      <div class="presentationHistory">
-        <ul v-for="history in histories" :key="history.id">
-          <li>{{ history.title }}</li>
-          <button @click="deletePresentation(history)">Delete</button>
-          <button @click="dataEditPresentation(history)">Update</button>
-        </ul>
-      </div>
+
       <div class="buttons">
         <button @click="userShowEditText()">Update your profile</button>
         <button @click="showCreatePresentation()">Upload a Presentation</button>
@@ -33,17 +28,43 @@
       <p>UPDATE</p>
       <input type="text" v-model="newFirstname" placeholder="Firstname" />
       <input type="text" v-model="newSurname" placeholder="Surname" />
-      <input type="text" v-model="newBirthdate" placeholder="YYYY/MM/DD" />
       <input type="text" v-model="newEmail" placeholder="Email" />
-      <input type="file" />
       <br />
       <button @click="updateUser()">Update</button>
+      <br />
+      <div class="editAvatar">
+        <label
+          >If you you want update your avatar
+          <input
+            type="file"
+            id="avatar"
+            ref="avatar"
+            @change="handleFileUpload()"
+          />
+        </label>
+        <button @click="submitFile()">Update Avatar</button>
+      </div>
       <button @click="seeEdit = false">Back to profile</button>
     </div>
+    <div class="presentationHistory">
+      <ul v-for="history in histories" :key="history.id">
+        <li>{{ history.title }}</li>
+        <button @click="dataEditPresentation(history)">Update</button>
+        <button @click="deletePresentation(history)">Delete</button>
+      </ul>
+    </div>
     <div class="password" v-show="seeEditPassword">
-      <input type="password" v-model="oldPassword" placeholder="Your old password" />
+      <input
+        type="password"
+        v-model="oldPassword"
+        placeholder="Your old password"
+      />
       <input type="password" v-model="password" placeholder="New password" />
-      <input type="password" v-model="passwordRepeat" placeholder="Repeat your new Paswword" />
+      <input
+        type="password"
+        v-model="passwordRepeat"
+        placeholder="Repeat your new Paswword"
+      />
       <br />
       <button @click="updatePassword()">Update</button>
       <button @click="seeEditPassword = false">Back to profile</button>
@@ -76,12 +97,22 @@
             <li>
               <label for="category">Category:</label>
               <br />
-              <input type="text" name="category" id="category" v-model="category" />
+              <input
+                type="text"
+                name="category"
+                id="category"
+                v-model="category"
+              />
             </li>
             <li>
               <label for="language">Language:</label>
               <br />
-              <input type="text" name="language" id="language" v-model="language" />
+              <input
+                type="text"
+                name="language"
+                id="language"
+                v-model="language"
+              />
             </li>
             <li>
               <label for="video">Video:</label>
@@ -157,7 +188,8 @@ export default {
       newCategory: "",
       newCity: "",
       newLanguage: "",
-      presentation_id: ""
+      presentation_id: "",
+      avatar: "",
     };
   },
   methods: {
@@ -180,7 +212,7 @@ export default {
           }
         })
         .catch(function(error) {
-          console.error(error);
+          console.error(error.response.data.message);
         });
     },
     userPresentations() {
@@ -210,8 +242,7 @@ export default {
         .put(server + "user/" + data, {
           firstname: self.newFirstname,
           surname: self.newSurname,
-          birthdate: self.newBirthdate,
-          email: self.newEmail
+          email: self.newEmail,
         })
         .then(function(response) {
           self.seeEdit = true;
@@ -230,11 +261,11 @@ export default {
         .put(server + "/user/password/" + data, {
           oldPassword: self.oldPassword,
           newPassword: self.password,
-          newPasswordRepeat: self.passwordRepeat
+          newPasswordRepeat: self.passwordRepeat,
         })
         .then(function(response) {
           Swal.fire({
-            title: "Your password has been updated"
+            title: "Your password has been updated",
           });
           self.emptyFiledsPassword();
           self.seeEditPassword = false;
@@ -257,8 +288,8 @@ export default {
         showCancelButton: true,
         confirmButtonColor: "#3085d6",
         cancelButtonColor: "#d33",
-        confirmButtonText: "Yes, delete it!"
-      }).then(result => {
+        confirmButtonText: "Yes, delete it!",
+      }).then((result) => {
         if (result.value) {
           axios
             .put(server + "user/disable/" + data)
@@ -292,11 +323,11 @@ export default {
           city: self.city,
           category: self.category,
           presentation_language: self.language,
-          video: self.video
+          video: self.video,
         })
         .then(function(response) {
           Swal.fire({
-            title: "Congratulations, You have upload a presentation"
+            title: "Congratulations, You have upload a presentation",
           });
           self.emptyFieldsPresentations();
           self.seeCreationPresentation = false;
@@ -319,8 +350,8 @@ export default {
         showCancelButton: true,
         confirmButtonColor: "#3085d6",
         cancelButtonColor: "#d33",
-        confirmButtonText: "Yes, delete it!"
-      }).then(result => {
+        confirmButtonText: "Yes, delete it!",
+      }).then((result) => {
         if (result.value) {
           axios
             .delete(server + "/presentation/" + idPresentation)
@@ -349,12 +380,12 @@ export default {
           city: self.newCity,
           category: self.newCategory,
           presentation_language: self.newLanguage,
-          video: self.newVideo
+          video: self.newVideo,
         })
         .then(function(response) {
           self.seeEditPresentation = false;
           Swal.fire({
-            title: "Your presentation has been updated"
+            title: "Your presentation has been updated",
           });
         })
         .catch(function(error) {
@@ -367,7 +398,6 @@ export default {
       this.seeEdit = true;
       this.newFirstname = this.user.firstname;
       this.newSurname = this.user.surname;
-      this.newBirthdate = this.user.birthdate;
       this.newEmail = this.user.email;
     },
     userShowEditPassword() {
@@ -415,12 +445,40 @@ export default {
       this.newVideo = history.video;
       this.newDatePresentation = history.presentation_date;
       this.presentation_id = history.presentation_id;
-    }
+    },
+    handleFileUpload() {
+      this.avatar = this.$refs.avatar.files[0];
+    },
+    submitFile() {
+      const self = this;
+      //enviar el archivo al servidor
+      const server = "http://localhost:3004/";
+      const data = localStorage.getItem("id");
+      let formData = new FormData(); //iniciamos el form data
+      formData.append("avatar", self.avatar);
+      formData.append("firstname", self.user.firstname);
+      formData.append("surname", self.user.surname);
+      formData.append("email", self.user.email); // añadimos el form data que queremos enviar
+      console.log("holi");
+
+      axios
+        .put(server + "user/" + data, formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        })
+        .then(function(response) {
+          console.log("SUCCESS!!");
+        })
+        .catch(function(error) {
+          console.error("FAILURE!!", error.response.data.message);
+        });
+    },
   },
   created() {
     this.dataUser();
     this.userPresentations();
-  }
+  },
 };
 </script>
 

@@ -6,7 +6,7 @@
       <router-link :to="{ name: 'Home' }">Home</router-link>
       <router-link :to="{ name: 'Login' }">Login</router-link>
       <router-link :to="{ name: 'Register' }">Sign Up</router-link>
-      <router-link :to="{ name: 'Profile' }" v-show="seeProfile">Profile</router-link>
+      <router-link :to="{ name: 'Profile' }" v-show="seeUserButton">Profile</router-link>
       <router-link :to="{ name: 'Admin' }" v-show="seeAdmin">Administrator</router-link>
       <router-link :to="{ name: 'Presentations' }">Presentations</router-link>
       <button @click="logOutUser()">Logout</button>
@@ -15,12 +15,12 @@
 </template>
 
 <script>
-import { logOut, showProfileButton, showAdminButton } from "../api/helpers";
+import { logOut, showUserButton, showAdminButton } from "../api/helpers";
 export default {
   name: "themenu",
   data() {
     return {
-      seeProfile: false,
+      seeUserButton: false,
       seeAdmin: false
     };
   },
@@ -29,15 +29,15 @@ export default {
       logOut();
       this.$router.push("/login");
     },
-    showProfileButtonInMenu() {
-      this.seeProfile = showProfileButton();
+    showUserButtonIn() {
+      this.seeUserButton = showUserButton();
     },
     showAdminButtonInMenu() {
       this.seeAdmin = showAdminButton();
     }
   },
   created() {
-    this.showProfileButtonInMenu();
+    this.showUserButtonIn();
     this.showAdminButtonInMenu();
   }
 };

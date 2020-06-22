@@ -18,7 +18,7 @@ export function logOut() {
   deleteUsername();
   deleteAuth_Token();
 }
-export function showProfileButton() {
+export function showUserButton() {
   const role = localStorage.getItem("role");
   if (role === "loader" || role === "normal") {
     return true;

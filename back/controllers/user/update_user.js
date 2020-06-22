@@ -6,18 +6,18 @@ const {
   processAndSaveFile,
   deleteFile
 } = require('../../helpers');
-//const { updateUserSchema } = require('../../validations/update_user');
+const { updateUserSchema } = require('../../validations/update_user');
 
 async function updateUser(req, res, next) {
   let connection;
 
   try {
-    // await updateUserSchema.validateAsync(req.body);
+    await updateUserSchema.validateAsync(req.body);
     connection = await getConnection();
 
     const { id } = req.params;
 
-    const { firstname, surname, email, birthdate } = req.body;
+    const { firstname, surname, email } = req.body;
 
     const [
       current
@@ -48,8 +48,8 @@ async function updateUser(req, res, next) {
     }
 
     await connection.query(
-      ` UPDATE users SET firstname=?,surname=?, email=?, birthdate=?,avatar=? WHERE user_id=?`,
-      [firstname, surname, email, birthdate, savedFileName, id]
+      ` UPDATE users SET firstname=?,surname=?, email=?,avatar=? WHERE user_id=?`,
+      [firstname, surname, email, savedFileName, id]
     );
     res.send({
       status: 'ok',

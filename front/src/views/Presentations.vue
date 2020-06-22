@@ -1,6 +1,9 @@
 <template>
   <div>
-    <vue-headful title="Presentations" description="Presentations page of the application" />
+    <vue-headful
+      title="Presentations"
+      description="Presentations page of the application"
+    />
     <themenu></themenu>
     <listpresentations
       :presentations="presentations"
@@ -9,6 +12,8 @@
       :ratings="ratings"
       :seePresentation="seePresentation"
       :seeContact="seeContact"
+      :seeVote="seeVote"
+      :seeUserButton="seeUserButton"
       :message="message"
       v-on:see="onePresentationView"
       v-on:go="showPresentation"
@@ -41,7 +46,9 @@ export default {
       seeContact: false,
       correctData: false,
       require: false,
-      message: ""
+      message: "",
+      seeVote: false,
+      seeUserButton: false,
     };
   },
   methods: {
@@ -65,7 +72,6 @@ export default {
           self.presentation = response.data.data.payload;
           self.comments = response.data.data.resultcomments;
           self.ratings = response.data.data.showTotalRatings;
-          console.log(response);
           self.seePresentation = true;
         })
         .catch(function(error) {
@@ -84,13 +90,13 @@ export default {
         const server = "http://localhost:3004";
         axios
           .post(server + "/presentation/contact/" + id, {
-            message: message
+            message: message,
           })
           .then(function(response) {
             self.emptyFieldMessage();
             self.seeContact = false;
             Swal.fire({
-              title: "Your email has been send"
+              title: "Your email has been send",
             });
           })
           .catch(function(error) {
@@ -115,7 +121,6 @@ export default {
         this.require = false;
       }
     },
-
     increaseView(id) {
       const self = this;
       console.log(id);
@@ -130,12 +135,11 @@ export default {
     votePresentation() {},
     onePresentationView() {
       this.seePresentation = false;
-    }
+    },
   },
-
   created() {
     this.getPresentations();
-  }
+  },
 };
 </script>
 

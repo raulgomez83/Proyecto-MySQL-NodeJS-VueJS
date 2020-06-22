@@ -13,11 +13,7 @@ const updateUserSchema = Joi.object().keys({
     .error(
       generateError('surname field must have between 2 and 50 types', 400)
     ),
-  email: Joi.string().email().error(generateError('Email not valid', 400)),
-  birthdate: Joi.date()
-    .format('YYYY-MM-DD')
-    .utc()
-    .error(generateError('Date is wrong', 400))
+  email: Joi.string().email().error(generateError('Email not valid', 400))
 });
 module.exports = {
   updateUserSchema
