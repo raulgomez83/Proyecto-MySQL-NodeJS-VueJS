@@ -1,48 +1,58 @@
 <template>
   <div>
     <vue-headful title="Login" description="Login page of the application" />
+    <themenu></themenu>
     <div class="login">
       <fieldset>
-        <h2>Login</h2>
-        <form>
-          <input type="username" placeholder="Username" v-model="username" />
-          <br />
-          <input type="password" placeholder="password" v-model="password" />
-          <br />
-        </form>
-        <button @click="login(username, password)">Login</button>
-        <p>
+        <div class="up">
+          <h2>Login</h2>
+          <form>
+            <input type="username" placeholder="Username" v-model="username" />
+            <input type="password" placeholder="Password" v-model="password" />
+            <br />
+          </form>
+          <button @click="login(username, password)">Login</button>
+        </div>
+        <p class="enjoy">
           Are you not register already? click
           <router-link :to="{ name: 'Register' }">Enjoy Us.</router-link>
         </p>
         <p>
           Did you make a big mistake and disable your account? Don't worry
-          <button
-            @click="showReactivateUser()"
-          >Come back</button>
         </p>
+        <button @click="showReactivateUser()">Come back with us</button>
         <p>
           Forgot your password? It happens
-          <button @click="showRecoverPassword()">Recover it</button>
         </p>
+        <button @click="showRecoverPassword()">Recover it</button>
       </fieldset>
     </div>
-    <div class="reactivateAccount" v-show="seeReactivateAccount">
-      <fieldset>
+    <div class="modal" v-show="seeReactivateAccount">
+      <button class="cerrar" @click="closeReactivate()">x</button>
+      <fieldset class="modalBox">
         <form>
           <h2>Reactivate your account</h2>
           <input type="text" placeholder="username" v-model="usernameRecover" />
           <br />
-          <input type="password" placeholder="password" v-model="passwordRecover" />
+          <input
+            type="password"
+            placeholder="password"
+            v-model="passwordRecover"
+          />
         </form>
         <button @click="reactivateUser()">Recover</button>
       </fieldset>
     </div>
-    <div class="recoverPassword" v-show="seeRecoverPassword">
-      <fieldset>
+    <div class="modal" v-show="seeRecoverPassword">
+      <button class="cerrar" @click="closeRecover()">x</button>
+      <fieldset class="modalBox">
         <form>
           <label for="text">Give us your email if you don't forgot it</label>
-          <input type="email" placeholder="Write your email..." v-model="email" />
+          <input
+            type="email"
+            placeholder="Write your email..."
+            v-model="email"
+          />
         </form>
         <button @click="recoverPassword()">Send</button>
       </fieldset>
@@ -54,9 +64,10 @@
 <script>
 import axios from "axios";
 import thefooter from "../components/thefooter";
+import themenu from "../components/themenu";
 export default {
   name: "Login",
-  components: { thefooter },
+  components: { thefooter, themenu },
   data() {
     return {
       username: "",
@@ -65,7 +76,7 @@ export default {
       usernameRecover: "",
       passwordRecover: "",
       seeReactivateAccount: false,
-      seeRecoverPassword: false
+      seeRecoverPassword: false,
     };
   },
   methods: {
@@ -74,7 +85,7 @@ export default {
       axios
         .post("http://localhost:3004/users/login", {
           username: self.username,
-          password: self.password
+          password: self.password,
         })
         .then(function(response) {
           localStorage.setItem("token", response.data.data.token);
@@ -91,7 +102,7 @@ export default {
       const self = this;
       axios
         .put("http://localhost:3004/user/recovery", {
-          email: self.email
+          email: self.email,
         })
         .then(function(response) {
           console.log(response);
@@ -112,7 +123,7 @@ export default {
       axios
         .put("http://localhost:3004/user/reactivate", {
           username: self.usernameRecover,
-          password: self.passwordRecover
+          password: self.passwordRecover,
         })
         .then(function(response) {
           console.log("holi");
@@ -126,9 +137,49 @@ export default {
     },
     showReactivateUser() {
       this.seeReactivateAccount = true;
-    }
-  }
+    },
+    closeRecover() {
+      this.seeRecoverPassword = false;
+    },
+    closeReactivate() {
+      this.seeReactivateAccount = false;
+    },
+  },
 };
 </script>
 
-<style></style>
+<style>
+.login {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 80vh;
+}
+fieldset {
+  margin: 2rem;
+  border: 2px solid var(--blue);
+}
+form {
+  margin: 2rem;
+}
+h2 {
+  font-size: 3rem;
+  color: var(--blue);
+}
+
+p {
+  font-size: 2rem;
+}
+a {
+  color: var(--blue);
+}
+.up {
+  margin-top: 3rem;
+}
+.enjoy {
+  margin: 3rem;
+}
+fieldset form .modalBox {
+  margin: 3rem;
+}
+</style>

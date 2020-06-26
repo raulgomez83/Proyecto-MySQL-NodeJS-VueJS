@@ -331,6 +331,7 @@ export default {
           });
           self.emptyFieldsPresentations();
           self.seeCreationPresentation = false;
+          location.reload();
         })
         .catch(function(error) {
           console.error(error);

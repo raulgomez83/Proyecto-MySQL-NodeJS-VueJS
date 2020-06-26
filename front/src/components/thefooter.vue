@@ -2,31 +2,25 @@
   <div>
     <div class="footer">
       <ul class="social">
-        <li><a href="facebook.com" class="facebook">facebook</a></li>
-        <li><a href="instagram.com" class="instagram">instagram</a></li>
-        <li><a href="twitter.com" class="twitter">twitter</a></li>
-        <li><a href="linkedin.com" class="linkedin">linkedin</a></li>
+        <li>Facebook</li>
+        <li>Instagram</li>
+        <li>Twitter</li>
+        <li>Linkedin</li>
       </ul>
       <ul class="menu">
         <li><router-link :to="{ name: 'About' }">About </router-link></li>
         <li><router-link :to="{ name: 'Home' }">Home </router-link></li>
         <li><router-link :to="{ name: 'Login' }">Login </router-link></li>
         <li><router-link :to="{ name: 'Register' }">Sign Up </router-link></li>
-        <li>
-          <router-link :to="{ name: 'Presentations' }"
-            >Presentations
-          </router-link>
-        </li>
+        <li></li>
       </ul>
       <ul class="others">
         <li>Careers</li>
         <li>Contact</li>
         <li>FAQs</li>
         <li>Privacy</li>
-        <li>Cookies</li>
       </ul>
     </div>
-    <p>Copyright by rateIn 2020</p>
   </div>
 </template>
 
@@ -36,19 +30,34 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .footer {
+  padding: 1rem;
   display: flex;
-  justify-content: space-evenly;
+  justify-content: space-around;
+  background-color: var(--gold);
+  color: var(--blue);
+  font-size: 1.2rem;
+  max-height: 13rem;
 }
-.social {
+a {
+  color: var(--silk);
+}
+.footer .social {
   display: flex;
   flex-direction: column;
-  justify-content: space-evenly;
+  justify-content: center;
 }
 .others {
   display: flex;
   flex-direction: column;
-  justify-content: space-evenly;
+  justify-content: center;
+}
+p {
+  color: var(--dark);
+  padding: 1rem;
+}
+a {
+  color: var(--blue);
 }
 </style>

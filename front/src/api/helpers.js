@@ -33,3 +33,4 @@ export function showAdminButton() {
   }
   return false;
 }
+export const server = "http://localhost:3004/";

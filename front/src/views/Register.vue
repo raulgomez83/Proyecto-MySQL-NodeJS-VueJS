@@ -1,13 +1,22 @@
 <template>
   <div>
-    <vue-headful title="Register" description="Register page of the application" />
-    <form>
-      <fieldset>
+    <vue-headful
+      title="Register"
+      description="Register page of the application"
+    />
+    <themenu></themenu>
+    <fieldset>
+      <form>
         <ul>
           <li>
             <label for="firstname">Firstname:</label>
             <br />
-            <input type="text" name="firstname" id="firstname" v-model="firstname" />
+            <input
+              type="text"
+              name="firstname"
+              id="firstname"
+              v-model="firstname"
+            />
           </li>
           <li>
             <label for="surname">Surname:</label>
@@ -27,29 +36,45 @@
           <li>
             <label for="username">Username:</label>
             <br />
-            <input type="text" name="username" id="username" v-model="username" />
+            <input
+              type="text"
+              name="username"
+              id="username"
+              v-model="username"
+            />
           </li>
           <li>
             <label for="password">Password:</label>
             <br />
-            <input type="password" name="password" id="password" v-model="password" />
+            <input
+              type="password"
+              name="password"
+              id="password"
+              v-model="password"
+            />
           </li>
         </ul>
-      </fieldset>
-    </form>
-    <button @click="newUser(firstname, surname, email, birthdate, username, password)">Register</button>
-    <router-link :to="{ name: 'Login' }">Login</router-link>
+      </form>
+      <button
+        @click="
+          newUser(firstname, surname, email, birthdate, username, password)
+        "
+      >
+        Register
+      </button>
+    </fieldset>
     <thefooter></thefooter>
   </div>
 </template>
 
 <script>
 import thefooter from "../components/thefooter";
+import themenu from "../components/themenu";
 import axios from "axios";
 import Swal from "sweetalert2";
 export default {
   name: "Register",
-  components: { thefooter },
+  components: { thefooter, themenu },
   data() {
     return {
       firstname: "",
@@ -59,7 +84,7 @@ export default {
       username: "",
       password: "",
       correctData: false,
-      require: false
+      require: false,
     };
   },
   methods: {
@@ -74,22 +99,22 @@ export default {
             email: self.email,
             birthdate: self.birthdate,
             username: self.username,
-            user_password: self.password
+            user_password: self.password,
           })
           .then(function(response) {
             Swal.fire({
               title: "You're register",
-              text: "Now, you can",
-              confirmButtonText: "OK"
+              text: "Now, you can enjoy",
+              confirmButtonText: "OK",
             });
             self.emptyFields();
-            self.$router.push("/login");
+            self.$router.push("/home");
           })
           .catch(function(error) {
             console.error(error);
           });
       } else {
-        alert("no has rellenado algún campo");
+        Swal.fire("All fields must be full");
       }
     },
     validatingData() {
@@ -115,9 +140,24 @@ export default {
       this.birthdate = "";
       this.username = "";
       this.user_password = "";
-    }
-  }
+    },
+  },
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+label {
+  font-size: 1.5rem;
+  color: var(--blue);
+}
+form {
+  margin: 2rem;
+}
+fieldset {
+  margin: 3rem;
+  border: 2px solid var(--blue);
+}
+button {
+  margin-bottom: 2rem;
+}
+</style>

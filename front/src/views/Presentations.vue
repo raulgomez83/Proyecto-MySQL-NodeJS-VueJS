@@ -4,7 +4,7 @@
       title="Presentations"
       description="Presentations page of the application"
     />
-    <themenu></themenu>
+    <themenu class="menu"></themenu>
     <listpresentations
       :presentations="presentations"
       :presentation="presentation"
@@ -20,11 +20,12 @@
       v-on:go="showPresentation"
       v-on:showcontact="seeContactArea"
       v-on:contact="contactUser"
+      v-on:closecontact="closeContactPresentation"
       v-on:showvote="showVotePresentation"
+      v-on:closevote="closeVotePresentation"
       v-on:vote="votePresentation"
-    ></listpresentations>
-
-    <thefooter></thefooter>
+    ></listpresentations
+    ><thefooter></thefooter>
   </div>
 </template>
 
@@ -55,6 +56,7 @@ export default {
       comment: "",
     };
   },
+
   methods: {
     getPresentations() {
       const self = this;
@@ -73,6 +75,8 @@ export default {
       axios
         .get("http://localhost:3004/presentation/" + id)
         .then(function(response) {
+          console.log(response);
+
           self.presentation = response.data.data.payload;
           self.comments = response.data.data.resultcomments;
           self.ratings = response.data.data.showTotalRatings;
@@ -91,8 +95,6 @@ export default {
       ratingCommunication
     ) {
       var self = this;
-      console.log(ratingInterest, typeof ratingInterest);
-
       const server = "http://localhost:3004/";
       const id = presentation.id;
       const token = localStorage.getItem("token");
@@ -106,9 +108,15 @@ export default {
           comments: comment,
         })
         .then(function(response) {
-          console.log(response);
+          Swal.fire({
+            title: "You vote properly, thanks for participate",
+          });
+          location.reload();
         })
         .catch(function(error) {
+          Swal.fire({
+            title: error.response.data.message,
+          });
           console.error(error.response.data.message);
         });
     },
@@ -134,7 +142,7 @@ export default {
             });
           })
           .catch(function(error) {
-            console.error(error);
+            console.error(error.response.data.message);
           });
       } else {
         alert("no has rellenado algún campo");
@@ -142,6 +150,9 @@ export default {
     },
     seeContactArea() {
       this.seeContact = true;
+    },
+    closeContactPresentation() {
+      this.seeContact = false;
     },
     emptyFieldMessage() {
       this.message = "";
@@ -166,12 +177,14 @@ export default {
           console.error(error);
         });
     },
-
     onePresentationView() {
       this.seePresentation = false;
     },
     showVotePresentation() {
       this.seeVote = true;
+    },
+    closeVotePresentation() {
+      this.seeVote = false;
     },
   },
   created() {
