@@ -156,7 +156,6 @@ export default {
     comments: Array,
     ratings: Object,
     seePresentation: Boolean,
-    seeUserButton: false,
     seeContact: Boolean,
     seeVote: Boolean,
     id: Number,
@@ -170,6 +169,7 @@ export default {
       ratingCommunication: 0,
       comment: "",
       search: "",
+      seeUserButton: false,
     };
   },
   computed: {

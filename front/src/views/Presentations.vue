@@ -52,7 +52,6 @@ export default {
       require: false,
       message: "",
       seeVote: false,
-      seeUserButton: false,
       comment: "",
     };
   },
@@ -76,7 +75,6 @@ export default {
         .get("http://localhost:3004/presentation/" + id)
         .then(function(response) {
           console.log(response);
-
           self.presentation = response.data.data.payload;
           self.comments = response.data.data.resultcomments;
           self.ratings = response.data.data.showTotalRatings;

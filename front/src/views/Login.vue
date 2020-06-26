@@ -14,7 +14,7 @@
           <button @click="login(username, password)">Login</button>
         </div>
         <p class="enjoy">
-          Are you not register already? click
+          Are you not register already? Click
           <router-link :to="{ name: 'Register' }">Enjoy Us.</router-link>
         </p>
         <p>
@@ -62,6 +62,7 @@
 </template>
 
 <script>
+import Swal from "sweetalert2";
 import axios from "axios";
 import thefooter from "../components/thefooter";
 import themenu from "../components/themenu";
@@ -105,7 +106,7 @@ export default {
           email: self.email,
         })
         .then(function(response) {
-          console.log(response);
+          Swal.fire("We send you an email to recover your password");
           self.seeRecoverPassword = false;
         })
 

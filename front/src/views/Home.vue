@@ -143,7 +143,9 @@ header {
   flex-direction: column;
   align-content: center;
 }
-
+.top li {
+  margin: 2rem;
+}
 .top p {
   margin-top: 2rem;
   margin-bottom: 4rem;
@@ -159,6 +161,7 @@ header {
 h2 {
   font-size: 14rem;
   text-shadow: 10px 10px 10px var(--blue);
+  color: var(--dark);
 }
 h3 {
   color: var(--dark);

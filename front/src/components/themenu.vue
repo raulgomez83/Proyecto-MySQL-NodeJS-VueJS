@@ -17,7 +17,9 @@
         >Administrator</router-link
       >
       <router-link :to="{ name: 'About' }">About</router-link>
-      <button @click="logOutUser()" v-show="seeUserButton">Logout</button>
+      <button @click="logOutUser()" v-show="seeAdmin">
+        Logout
+      </button>
     </nav>
   </div>
 </template>

@@ -21,7 +21,7 @@ export function logOut() {
 }
 export function showUserButton() {
   const role = localStorage.getItem("role");
-  if (role === "loader" || role === "normal") {
+  if (role === "loader" || role === "normal" || role === "admin") {
     return true;
   }
   return false;

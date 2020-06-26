@@ -6,45 +6,26 @@
     />
     <themenu></themenu>
     <div>
-      <div class="welcome">
-        <h2>Welcome {{ user.username }}</h2>
-        <img :src="user.avatar" alt="user picture" />
-      </div>
-      <div>
-        <ul class="userdata">
-          <li class="name">{{ user.firstname }} {{ user.surname }}</li>
-          <li class="mail">{{ user.email }}</li>
-        </ul>
-      </div>
-
-      <div class="buttons">
-        <button @click="userShowEditText()">Update your profile</button>
-        <button @click="showCreatePresentation()">Upload a Presentation</button>
-        <button @click="userShowEditPassword()">Update your Password</button>
-        <button @click="disableUser()">Disable you</button>
-      </div>
-    </div>
-    <div class="editData" v-show="seeEdit">
-      <p>UPDATE</p>
-      <input type="text" v-model="newFirstname" placeholder="Firstname" />
-      <input type="text" v-model="newSurname" placeholder="Surname" />
-      <input type="text" v-model="newEmail" placeholder="Email" />
-      <br />
-      <button @click="updateUser()">Update</button>
-      <br />
-      <div class="editAvatar">
-        <label
-          >If you you want update your avatar
-          <input
-            type="file"
-            id="avatar"
-            ref="avatar"
-            @change="handleFileUpload()"
-          />
-        </label>
-        <button @click="submitFile()">Update Avatar</button>
-      </div>
-      <button @click="seeEdit = false">Back to profile</button>
+      <header>
+        <div class="welcome">
+          <h2>Welcome {{ user.username }}</h2>
+          <img :src="user.avatar" alt="user picture" />
+        </div>
+        <div class="buttons">
+          <div class="update">
+            <button @click="userShowEditText()">Update your profile</button>
+            <button @click="userShowEditPassword()">
+              Update your Password
+            </button>
+          </div>
+          <div class="otherButtons">
+            <button @click="showCreatePresentation()">
+              Upload a Presentation
+            </button>
+            <button @click="disableUser()">Disable you</button>
+          </div>
+        </div>
+      </header>
     </div>
     <div class="presentationHistory">
       <ul v-for="history in histories" :key="history.id">
@@ -53,26 +34,51 @@
         <button @click="deletePresentation(history)">Delete</button>
       </ul>
     </div>
-    <div class="password" v-show="seeEditPassword">
-      <input
-        type="password"
-        v-model="oldPassword"
-        placeholder="Your old password"
-      />
-      <input type="password" v-model="password" placeholder="New password" />
-      <input
-        type="password"
-        v-model="passwordRepeat"
-        placeholder="Repeat your new Paswword"
-      />
-      <br />
-      <button @click="updatePassword()">Update</button>
-      <button @click="seeEditPassword = false">Back to profile</button>
+    <div class="modal" v-show="seeEdit">
+      <div class="modalBox">
+        <p>UPDATE</p>
+        <input type="text" v-model="newFirstname" placeholder="Firstname" />
+        <input type="text" v-model="newSurname" placeholder="Surname" />
+        <input type="text" v-model="newEmail" placeholder="Email" />
+        <br />
+        <button @click="updateUser()">Update</button>
+        <br />
+        <div class="editAvatar">
+          <label
+            >If you you want update your avatar
+            <input
+              type="file"
+              id="avatar"
+              ref="avatar"
+              @change="handleFileUpload()"
+            />
+          </label>
+          <button @click="submitFile()">Update Avatar</button>
+        </div>
+        <button @click="seeEdit = false">Back to profile</button>
+      </div>
     </div>
-    <div class="newPresentation" v-show="seeCreationPresentation">
-      <h1>Upload your presentation</h1>
-      <form>
-        <fieldset>
+    <div class="modal" v-show="seeEditPassword">
+      <div class="modalBox">
+        <input
+          type="password"
+          v-model="oldPassword"
+          placeholder="Your old password"
+        />
+        <input type="password" v-model="password" placeholder="New password" />
+        <input
+          type="password"
+          v-model="passwordRepeat"
+          placeholder="Repeat your new Paswword"
+        />
+        <br />
+        <button @click="updatePassword()">Update</button>
+        <button @click="seeEditPassword = false">Back to profile</button>
+      </div>
+    </div>
+    <div class="modal" v-show="seeCreationPresentation">
+      <div class="modalBox">
+        <form>
           <ul>
             <li>
               <label for="title">Title:</label>
@@ -120,14 +126,15 @@
               <input type="url" name="video" id="video" v-model="video" />
             </li>
           </ul>
-        </fieldset>
-      </form>
-      <button @click="createNewPresentation()">Upload</button>
-      <button @click="seeCreationPresentation = false">Back to profile</button>
+        </form>
+        <button @click="createNewPresentation()">Upload</button>
+        <button @click="seeCreationPresentation = false">
+          Back to profile
+        </button>
+      </div>
     </div>
-    <div class="editPresentation" v-show="seeEditPresentation">
-      <p>UPDATE</p>
-      <fieldset>
+    <div class="modal" v-show="seeEditPresentation">
+      <div class="modalBox">
         <input type="text" v-model="newTitle" placeholder="title" />
         <input type="date" v-model="newDatePresentation" />
         <input type="text" v-model="newCategory" placeholder="category" />
@@ -135,11 +142,13 @@
         <input type="text" v-model="newEvent" placeholder="event" />
         <input type="text" v-model="newLanguage" placeholder="language" />
         <input type="url" v-model="newVideo" placeholder="video" />
-      </fieldset>
-      <button @click="updatePresentation()">Update</button>
-      <button @click="seeEditPresentation = false">Back to presentation</button>
+        <button @click="updatePresentation()">Update</button>
+        <button @click="seeEditPresentation = false">
+          Back to presentation
+        </button>
+      </div>
+      <thefooter></thefooter>
     </div>
-    <thefooter></thefooter>
   </div>
 </template>
 
@@ -258,7 +267,7 @@ export default {
       const token = localStorage.getItem("token");
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
       axios
-        .put(server + "/user/password/" + data, {
+        .put(server + "user/password/" + data, {
           oldPassword: self.oldPassword,
           newPassword: self.password,
           newPasswordRepeat: self.passwordRepeat,
@@ -271,7 +280,7 @@ export default {
           self.seeEditPassword = false;
         })
         .catch(function(error) {
-          console.error(error);
+          console.error(error.response.data.message);
         });
     },
     //////////////////////////////////////
@@ -460,8 +469,6 @@ export default {
       formData.append("firstname", self.user.firstname);
       formData.append("surname", self.user.surname);
       formData.append("email", self.user.email); // añadimos el form data que queremos enviar
-      console.log("holi");
-
       axios
         .put(server + "user/" + data, formData, {
           headers: {
@@ -484,7 +491,55 @@ export default {
 </script>
 
 <style scoped>
-img {
-  max-width: 10rem;
+.welcome img {
+  width: 12rem;
+  margin: 1rem;
+}
+header {
+  background-color: var(--gold);
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  height: 30rem;
+  margin: 2rem auto;
+}
+h2 {
+  color: var(--dark);
+  font-size: 2rem;
+}
+.buttons button {
+  height: 10rem;
+  margin: 0.5rem;
+}
+.buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 2rem;
+}
+.update {
+  display: flex;
+  flex-direction: column;
+}
+.otherButtons {
+  display: flex;
+  flex-direction: column;
+}
+.presentationHistory {
+  background: var(--blue);
+  height: 25rem;
+  margin: 2rem auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.presentationHistory li {
+  font-size: 2rem;
+  color: var(--light);
+}
+.modal li {
+  font-size: 1.5rem;
+  line-height: 5px;
 }
 </style>

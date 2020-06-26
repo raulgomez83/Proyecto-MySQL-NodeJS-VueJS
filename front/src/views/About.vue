@@ -56,6 +56,7 @@ a {
 }
 .thanks {
   background-color: var(--blue);
+  box-shadow: 5px 5px 5px var(--dark);
   color: var(--light);
   padding: 5rem;
   margin: 4rem;
