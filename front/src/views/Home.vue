@@ -4,10 +4,10 @@
     <vue-headful title="Home" description="Landing page of the application" />
     <header>
       <div class="words">
-        <h2>Load</h2>
-        <h2>Watch</h2>
-        <h2>Score</h2>
-        <p>No more ordinary presentations</p>
+        <h1>Load</h1>
+        <h1>Watch</h1>
+        <h1>Score</h1>
+        <h2>No more ordinary presentations</h2>
       </div>
       <div class="image">
         <router-link class="link" :to="{ name: 'Presentations' }"
@@ -17,7 +17,7 @@
     </header>
     <div class="top">
       <ul>
-        <p class="view">#TOP RATING PRESENTATIONS</p>
+        <h2 class="view">#TOP RATING PRESENTATIONS</h2>
         <li v-for="rating in ratings" :key="rating.id">
           <h3>{{ rating.title }}</h3>
           <div v-html="rating.video" class="video"></div>
@@ -25,7 +25,7 @@
         </li>
       </ul>
       <ul>
-        <p class="view">#TOP VIEWING PRESENTATIONS</p>
+        <h2 class="view">#TOP VIEWING PRESENTATIONS</h2>
         <li v-for="view in views" :key="view.id">
           <h3>{{ view.title }}</h3>
           <div v-html="view.video" class="video"></div>
@@ -56,8 +56,9 @@ export default {
   methods: {
     topsPresentation() {
       const self = this;
+      const server = "http://localhost:3004/";
       axios
-        .get("http://localhost:3004/presentations/top3")
+        .get(server + "presentations/top3")
         .then(function(response) {
           self.ratings = response.data.data.resultRatings;
           self.views = response.data.data.resultViews;
@@ -73,14 +74,6 @@ export default {
 };
 </script>
 <style scoped>
-.menu {
-  position: -webkit-sticky;
-  position: sticky;
-  top: -1px;
-}
-a.router-link-exact-active {
-  color: var(--dark);
-}
 header {
   display: flex;
   justify-content: center;
@@ -105,14 +98,6 @@ header {
   justify-content: space-evenly;
   align-items: center;
 }
-.words h2 {
-  font-size: 20rem;
-  line-height: 8rem;
-}
-.words p {
-  font-size: 2rem;
-  color: var(--blue);
-}
 
 .link {
   font-size: 4rem;
@@ -132,7 +117,6 @@ header {
 }
 /* ///////////////////////////////TOPS/////////////////////// */
 .top {
-  max-width: 80vw;
   margin-top: 5rem;
   display: flex;
   justify-content: space-around;
@@ -143,49 +127,11 @@ header {
   flex-direction: column;
   align-content: center;
 }
+.top h2 {
+  margin-bottom: 2rem;
+}
 .top li {
   margin: 2rem;
-}
-.top p {
-  margin-top: 2rem;
-  margin-bottom: 4rem;
-  text-decoration-line: underline;
-  font-size: 2rem;
-}
-
-.rating,
-.view {
-  color: var(--blue);
-  font-size: 3rem;
-}
-h2 {
-  font-size: 14rem;
-  text-shadow: 10px 10px 10px var(--blue);
-  color: var(--dark);
-}
-h3 {
-  color: var(--dark);
-  font-size: 2.5rem;
-  font-weight: bolder;
-  font-style: italic;
-  padding-bottom: 1rem;
-}
-
-h4 {
-  font-size: 2rem;
-}
-p {
-  font-size: 8rem;
-  color: var(--silk);
-  font-weight: bolder;
-}
-ul {
-  display: flex;
-  justify-content: center;
-}
-li {
-  margin-top: 1rem;
-  width: 26vw;
 }
 .about {
   margin-bottom: 2rem;

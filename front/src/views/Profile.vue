@@ -5,38 +5,37 @@
       description="Profile page of the application.Only users"
     />
     <themenu></themenu>
-    <div>
-      <header>
-        <div class="welcome">
-          <h2>Welcome {{ user.username }}</h2>
-          <img :src="user.avatar" alt="user picture" />
+    <header class="boxe">
+      <div class="welcome">
+        <h2>Welcome: {{ user.username }}</h2>
+        <img :src="user.avatar" alt="user picture" />
+      </div>
+      <div class="buttons">
+        <div class="update">
+          <button @click="userShowEditText()">Update your profile</button>
+          <button @click="userShowEditPassword()">
+            Update your Password
+          </button>
         </div>
-        <div class="buttons">
-          <div class="update">
-            <button @click="userShowEditText()">Update your profile</button>
-            <button @click="userShowEditPassword()">
-              Update your Password
-            </button>
-          </div>
-          <div class="otherButtons">
-            <button @click="showCreatePresentation()">
-              Upload a Presentation
-            </button>
-            <button @click="disableUser()">Disable you</button>
-          </div>
+        <div class="otherButtons">
+          <button @click="showCreatePresentation()">
+            Upload a Presentation
+          </button>
+          <button @click="disableUser()">Disable you</button>
         </div>
-      </header>
-    </div>
-    <div class="presentationHistory">
-      <ul v-for="history in histories" :key="history.id">
-        <li>{{ history.title }}</li>
-        <button @click="dataEditPresentation(history)">Update</button>
-        <button @click="deletePresentation(history)">Delete</button>
-      </ul>
+      </div>
+    </header>
+    <div id="presentationHistory" class="box">
+      <div v-for="history in histories" :key="history.id">
+        <h2>{{ history.title }}</h2>
+        <div class="button">
+          <button @click="dataEditPresentation(history)">Update</button>
+          <button @click="deletePresentation(history)">Delete</button>
+        </div>
+      </div>
     </div>
     <div class="modal" v-show="seeEdit">
       <div class="modalBox">
-        <p>UPDATE</p>
         <input type="text" v-model="newFirstname" placeholder="Firstname" />
         <input type="text" v-model="newSurname" placeholder="Surname" />
         <input type="text" v-model="newEmail" placeholder="Email" />
@@ -44,15 +43,14 @@
         <button @click="updateUser()">Update</button>
         <br />
         <div class="editAvatar">
-          <label
-            >If you you want update your avatar
-            <input
-              type="file"
-              id="avatar"
-              ref="avatar"
-              @change="handleFileUpload()"
-            />
-          </label>
+          <label>If you you want update your avatar </label
+          ><input
+            type="file"
+            id="avatar"
+            ref="avatar"
+            @change="handleFileUpload()"
+          />
+          <br />
           <button @click="submitFile()">Update Avatar</button>
         </div>
         <button @click="seeEdit = false">Back to profile</button>
@@ -147,8 +145,8 @@
           Back to presentation
         </button>
       </div>
-      <thefooter></thefooter>
     </div>
+    <thefooter class="footer"></thefooter>
   </div>
 </template>
 
@@ -255,9 +253,11 @@ export default {
         })
         .then(function(response) {
           self.seeEdit = true;
+          Swal.fire(response.data.message);
+          location.reload();
         })
         .catch(function(error) {
-          console.error(error);
+          Swal.fire(error.response.data.message);
         });
     },
     updatePassword() {
@@ -280,7 +280,31 @@ export default {
           self.seeEditPassword = false;
         })
         .catch(function(error) {
-          console.error(error.response.data.message);
+          Swal.fire(error.response.data.message);
+        });
+    },
+    submitFile() {
+      const self = this;
+      //enviar el archivo al servidor
+      const server = "http://localhost:3004/";
+      const data = localStorage.getItem("id");
+      let formData = new FormData(); //iniciamos el form data
+      formData.append("avatar", self.avatar);
+      formData.append("firstname", self.user.firstname);
+      formData.append("surname", self.user.surname);
+      formData.append("email", self.user.email); // añadimos el form data que queremos enviar
+      axios
+        .put(server + "user/" + data, formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        })
+        .then(function(response) {
+          Swal.fire("Your avatar was upload");
+          location.reload();
+        })
+        .catch(function(error) {
+          Swal.fire(error.response.data.message);
         });
     },
     //////////////////////////////////////
@@ -343,7 +367,7 @@ export default {
           location.reload();
         })
         .catch(function(error) {
-          console.error(error);
+          Swal.fire(error.response.data.message);
         });
     },
     deletePresentation(history) {
@@ -369,7 +393,7 @@ export default {
               location.reload();
             })
             .catch(function(error) {
-              console.error(error.response.data.message);
+              Swal.fire(error.response.data.message);
             });
           Swal.fire("Deleted!", "The presentation has been deleted.");
         }
@@ -399,11 +423,11 @@ export default {
           });
         })
         .catch(function(error) {
-          console.error(error.response.data.message);
+          Swal.fire(error.response.data.message);
         });
     },
 
-    //AUXILIAR FUNCTIONS
+    //AUXILIARY FUNCTIONS
     userShowEditText() {
       this.seeEdit = true;
       this.newFirstname = this.user.firstname;
@@ -459,29 +483,6 @@ export default {
     handleFileUpload() {
       this.avatar = this.$refs.avatar.files[0];
     },
-    submitFile() {
-      const self = this;
-      //enviar el archivo al servidor
-      const server = "http://localhost:3004/";
-      const data = localStorage.getItem("id");
-      let formData = new FormData(); //iniciamos el form data
-      formData.append("avatar", self.avatar);
-      formData.append("firstname", self.user.firstname);
-      formData.append("surname", self.user.surname);
-      formData.append("email", self.user.email); // añadimos el form data que queremos enviar
-      axios
-        .put(server + "user/" + data, formData, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        })
-        .then(function(response) {
-          console.log("SUCCESS!!");
-        })
-        .catch(function(error) {
-          console.error("FAILURE!!", error.response.data.message);
-        });
-    },
   },
   created() {
     this.dataUser();
@@ -491,17 +492,20 @@ export default {
 </script>
 
 <style scoped>
-.welcome img {
-  width: 12rem;
-  margin: 1rem;
-}
 header {
-  background-color: var(--gold);
   display: flex;
+  flex-direction: column;
   justify-content: space-evenly;
   align-items: center;
-  height: 30rem;
   margin: 2rem auto;
+}
+.welcome {
+  background: var(--gold);
+  padding: 4rem;
+}
+.welcome img {
+  width: 10rem;
+  margin: 1rem;
 }
 h2 {
   color: var(--dark);
@@ -510,6 +514,11 @@ h2 {
 .buttons button {
   height: 10rem;
   margin: 0.5rem;
+}
+.buttons button:hover {
+  background-color: var(--gold);
+  color: var(--blue);
+  transition-duration: 1000;
 }
 .buttons {
   display: flex;
@@ -525,14 +534,10 @@ h2 {
   display: flex;
   flex-direction: column;
 }
-.presentationHistory {
-  background: var(--blue);
-  height: 25rem;
-  margin: 2rem auto;
+#presentationHistory {
+  margin: 4rem auto;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
 }
 .presentationHistory li {
   font-size: 2rem;
@@ -541,5 +546,9 @@ h2 {
 .modal li {
   font-size: 1.5rem;
   line-height: 5px;
+}
+#avatar {
+  width: 14rem;
+  font-size: 1rem;
 }
 </style>

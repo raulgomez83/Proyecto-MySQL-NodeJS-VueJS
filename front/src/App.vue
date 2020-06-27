@@ -39,6 +39,32 @@ body {
   position: sticky;
   top: -1px;
 }
+
+h1 {
+  font-size: 4rem;
+  text-shadow: 10px 10px 10px var(--blue);
+  color: var(--dark);
+  font-size: 20rem;
+  line-height: 8rem;
+}
+h2 {
+  font-size: 3rem;
+  color: var(--blue);
+}
+h3 {
+  color: var(--dark);
+  font-size: 2.5rem;
+  font-weight: bolder;
+  padding-bottom: 1rem;
+}
+h4 {
+  font-size: 2rem;
+  color: var(--gold);
+  -webkit-text-stroke: 0.5px var(--dark);
+}
+p {
+  font-size: 1.5rem;
+}
 a {
   text-decoration: none;
 }
@@ -73,29 +99,46 @@ ul {
   font-size: 2rem;
   font-weight: bold;
 }
+.box {
+  border: 4px solid var(--blue);
+  box-shadow: 5px 3px 5px var(--dark);
+}
 input {
-  height: 3rem;
-  width: 20rem;
   margin: 1rem;
-  font-size: 2rem;
+  font-size: 1.5rem;
+  background: var(--light);
+  border: 3px solid var(--blue);
   color: var(--blue);
-  border: 1px solid var(--blue);
+}
+textarea {
+  background-color: var(--light);
+  font-size: 1.5rem;
+  color: var(--blue);
+}
+fieldset {
+  border: none;
+}
+form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 button {
-  color: var(--gold);
   background-color: var(--blue);
+  color: var(--gold);
   height: 2.5rem;
+  padding: 0 0.5rem;
+  margin: 1rem;
   font-size: 1.5rem;
   border-radius: 5em;
-  width: 20rem;
   font-weight: bold;
   border: 1px solid var(--gold);
   border-radius: 5px;
   box-shadow: 0px 5px 0px var(--gold);
   position: relative;
   top: 0px;
-  transition: all ease 0.3s;
-  margin: 2rem auto;
+  transition: all ease 0.2s;
 }
 button:active {
   box-shadow: 0 3px 0 var(--gold);

@@ -5,17 +5,16 @@
     <div class="about">
       <vue-headful title="About" description="Page about of market" />
       <elmenu></elmenu>
-      <h1>
-        Hello,this project so hard to made, was created by 👇👇👇, Raúl Gómez
-      </h1>
+      <h2>Hello,this project so hard to made, was created by <br />👇👇👇</h2>
       <img src="../assets/fotomia.jpg" alt="mi foto" />
+      <h2>Raúl Gómez</h2>
       <p>
         If you want more recent information , please push
         <a href="www.linkedin.com/in/raulgomezromero">here.</a>
       </p>
       <p class="thanks">
         I would like to thanks some colleagues, specially to
-        <b> Isa, David, Brais, Berto, Víctor</b> and the "warm and wonderful"
+        <b> Isa, David, Brais, Berto, Víctor</b> and the warm and wonderful
         <b>Félix</b>, because withouth our teamwork this project was not the
         same. Maybe would better but not the same.
       </p>

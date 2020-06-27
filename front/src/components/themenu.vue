@@ -17,7 +17,7 @@
         >Administrator</router-link
       >
       <router-link :to="{ name: 'About' }">About</router-link>
-      <button @click="logOutUser()" v-show="seeAdmin">
+      <button @click="logOutUser()" v-show="seeUserButton">
         Logout
       </button>
     </nav>
@@ -75,10 +75,11 @@ a.router-link-exact-active {
 }
 
 button {
-  margin-left: 40rem;
+  margin: 1rem;
   font-size: 1.5rem;
   background-color: rgba(255, 255, 255, 0);
   color: var(--gold);
   border: none;
+  width: 8rem;
 }
 </style>

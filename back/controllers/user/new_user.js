@@ -26,7 +26,10 @@ async function newUser(req, res, next) {
       username
     ]);
     if (existingUsername.length) {
-      throw generateError('A username already exists on the DB', 409);
+      throw generateError(
+        'This username already exists, please, try with another one',
+        409
+      );
     }
     const [
       existingEmail

@@ -70,8 +70,11 @@
 <script>
 import thefooter from "../components/thefooter";
 import themenu from "../components/themenu";
+
 import axios from "axios";
 import Swal from "sweetalert2";
+import server from "../api/helpers";
+
 export default {
   name: "Register",
   components: { thefooter, themenu },
@@ -91,9 +94,10 @@ export default {
     newUser(firstname, surname, email, birthdate, username, password) {
       this.validatingData();
       if (this.correctData === true) {
-        var self = this;
+        const self = this;
+        const server = "http://localhost:3004/";
         axios
-          .post("http://localhost:3004/user", {
+          .post(server + "user", {
             firstname: self.firstname,
             surname: self.surname,
             email: self.email,
@@ -104,17 +108,17 @@ export default {
           .then(function(response) {
             Swal.fire({
               title: "You're register",
-              text: "Now, you can enjoy",
+              text: "Now, you can enjoy us",
               confirmButtonText: "OK",
             });
             self.emptyFields();
-            self.$router.push("/home");
+            self.$router.push("/");
           })
           .catch(function(error) {
-            console.error(error);
+            Swal.fire(error.response.data.message);
           });
       } else {
-        Swal.fire("All fields must be full");
+        Swal.fire("All fields must be written");
       }
     },
     validatingData() {

@@ -25,7 +25,6 @@ async function viewPresentation(req, res, next) {
         [newCount, id]
       );
     }
-
     res.send({
       status: 'ok',
       message: 'Video is watched'

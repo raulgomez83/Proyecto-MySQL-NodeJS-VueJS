@@ -13,11 +13,10 @@
       :seePresentation="seePresentation"
       :seeContact="seeContact"
       :seeVote="seeVote"
-      :seeUserButton="seeUserButton"
       :message="message"
       :comment="comment"
       v-on:see="onePresentationView"
-      v-on:go="showPresentation"
+      v-on:go="increaseView"
       v-on:showcontact="seeContactArea"
       v-on:contact="contactUser"
       v-on:closecontact="closeContactPresentation"
@@ -55,12 +54,12 @@ export default {
       comment: "",
     };
   },
-
   methods: {
     getPresentations() {
       const self = this;
+      const server = "http://localhost:3004/";
       axios
-        .get("http://localhost:3004/presentations")
+        .get(server + "presentations")
         .then(function(response) {
           self.presentations = response.data.data;
         })
@@ -68,13 +67,12 @@ export default {
           console.error(error);
         });
     },
-    showPresentation(index) {
+    showPresentation(id) {
       const self = this;
-      let id = index.presentation_id;
+      const server = "http://localhost:3004/";
       axios
-        .get("http://localhost:3004/presentation/" + id)
+        .get(server + "presentation/" + id)
         .then(function(response) {
-          console.log(response);
           self.presentation = response.data.data.payload;
           self.comments = response.data.data.resultcomments;
           self.ratings = response.data.data.showTotalRatings;
@@ -122,12 +120,12 @@ export default {
       this.validatingData(message);
       if (this.correctData === true) {
         const self = this;
+        const server = "http://localhost:3004";
         const id = presentation.id;
         const id_user = presentation.user_id;
         const idToken = Number(localStorage.getItem("id"));
         const token = localStorage.getItem("token");
         axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-        const server = "http://localhost:3004";
         axios
           .post(server + "/presentation/contact/" + id, {
             message: message,
@@ -136,16 +134,32 @@ export default {
             self.emptyFieldMessage();
             self.seeContact = false;
             Swal.fire({
-              title: "Your email has been send",
+              title: "Your email has been sent",
             });
           })
           .catch(function(error) {
-            console.error(error.response.data.message);
+            Swal.fire(error.response.data.message);
           });
       } else {
-        alert("no has rellenado algún campo");
+        Swal.fire("You would write a message");
       }
     },
+    increaseView(index) {
+      const self = this;
+      const server = "http://localhost:3004/";
+      let id = index.presentation_id;
+      axios
+        .post(server + "presentation/view/" + id)
+        .then(function(response) {
+          self.showPresentation(id);
+          console.log(response);
+        })
+        .catch(function(error) {
+          console.error(error);
+        });
+    },
+
+    ////////////////////AUXILIARY FUNCTIONS///////////////////
     seeContactArea() {
       this.seeContact = true;
     },
@@ -164,17 +178,6 @@ export default {
         this.require = false;
       }
     },
-    increaseView(id) {
-      const self = this;
-      console.log(id);
-
-      axios
-        .post("http://localhost:3004'/presentation/view/" + id)
-        .then(function(response) {})
-        .catch(function(error) {
-          console.error(error);
-        });
-    },
     onePresentationView() {
       this.seePresentation = false;
     },
@@ -191,12 +194,4 @@ export default {
 };
 </script>
 
-<style scoped>
-.comments {
-  border: 1px solid grey;
-}
-.presentation img {
-  width: 15rem;
-  border: 1px solid grey;
-}
-</style>
+<style scoped></style>

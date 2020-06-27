@@ -83,8 +83,9 @@ export default {
   methods: {
     login(username, password) {
       const self = this;
+      const server = "http://localhost:3004/";
       axios
-        .post("http://localhost:3004/users/login", {
+        .post(server + "users/login", {
           username: self.username,
           password: self.password,
         })
@@ -96,13 +97,14 @@ export default {
           self.$router.push("/");
         })
         .catch(function(error) {
-          console.error(error);
+          Swal.fire(error.response.data.message);
         });
     },
     recoverPassword(email) {
       const self = this;
+      const server = "http://localhost:3004/";
       axios
-        .put("http://localhost:3004/user/recovery", {
+        .put(server + "user/recovery", {
           email: self.email,
         })
         .then(function(response) {
@@ -111,30 +113,28 @@ export default {
         })
 
         .catch(function(error) {
-          console.error(error.response.data.message);
+          Swal.fire(error.response.data.message);
         });
-    },
-    showRecoverPassword() {
-      this.seeRecoverPassword = true;
     },
     reactivateUser() {
       const self = this;
-      console.log(self.usernameRecover, self.passwordRecover);
+      const server = "http://localhost:3004/";
 
       axios
-        .put("http://localhost:3004/user/reactivate", {
+        .put(server + "user/reactivate", {
           username: self.usernameRecover,
           password: self.passwordRecover,
         })
         .then(function(response) {
-          console.log("holi");
-
-          console.log(response);
           self.seeReactivateAccount = false;
         })
         .catch(function(error) {
-          console.error(error.response.data.message);
+          Swal.fire(error.response.data.message);
         });
+    },
+    /////////////////AUXILIARY FUNCTIONS///////////////
+    showRecoverPassword() {
+      this.seeRecoverPassword = true;
     },
     showReactivateUser() {
       this.seeReactivateAccount = true;

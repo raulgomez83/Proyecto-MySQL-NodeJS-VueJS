@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="admin">
     <vue-headful
       title="Administration"
       description="Administration page of the application.Only for admin"
@@ -8,11 +8,11 @@
     <div class="users">
       <h2>All users</h2>
       <ul>
-        <li v-for="(user,index) in users" :key="user.id" class="boxusers">
-          <h3>{{user.username}}</h3>
-          <p>ID user: {{user.user_id}}</p>
-          <p>{{user.email}}</p>
-          <p>{{user.date_account_creation }}</p>"If you want to be able, login again"
+        <li v-for="(user, index) in users" :key="user.id" class="box">
+          <h3>{{ user.username }}</h3>
+          <p>ID user: {{ user.user_id }}</p>
+          <p>{{ user.email }}</p>
+          <p>{{ user.date_account_creation }}</p>
           <button @click="deleteUser(index)">Delete</button>
         </li>
       </ul>
@@ -21,14 +21,15 @@
       <h2>All presentations</h2>
       <ul>
         <li
-          v-for="(presentation,index) in presentations"
+          v-for="(presentation, index) in presentations"
           :key="presentation.id"
-          class="boxpresentations"
+          class="box"
         >
           <h3>{{ presentation.title }}</h3>
-          <p>ID presentation: {{ presentation.presentation_id}}</p>
-          <p>Rating {{ presentation.rating }}</p>"If you want to be able, login again"
-          <p>views: {{ presentation.totalviews}}</p>
+          <p>ID presentation: {{ presentation.presentation_id }}</p>
+          <p>Rating {{ presentation.rating }}</p>
+          "If you want to be able, login again"
+          <p>views: {{ presentation.totalviews }}</p>
           <p>ID user:{{ presentation.user_id }}</p>
           <button @click="deletePresentation(index)">Delete</button>
         </li>
@@ -37,9 +38,9 @@
     <div class="ratings">
       <h2>All ratings</h2>
       <ul>
-        <li v-for="rating in ratings" :key="rating.id" class="boxratings">
-          <h3>ID presentation: {{ rating.presentation_id_ratings}}</h3>
-          <p>ID rating:{{ rating.id}}</p>
+        <li v-for="rating in ratings" :key="rating.id" class="box">
+          <h3>ID presentation: {{ rating.presentation_id_ratings }}</h3>
+          <p>ID rating:{{ rating.id }}</p>
           <p>Comment: {{ rating.comments }}</p>
           <p>ID user: {{ rating.user_id_ratings }}</p>
           <button>Delete</button>
@@ -61,7 +62,7 @@ export default {
     return {
       users: [],
       presentations: [],
-      ratings: []
+      ratings: [],
     };
   },
   name: "Admin",
@@ -94,8 +95,8 @@ export default {
         showCancelButton: true,
         confirmButtonColor: "#3085d6",
         cancelButtonColor: "#d33",
-        confirmButtonText: "Yes, delete it!"
-      }).then(result => {
+        confirmButtonText: "Yes, delete it!",
+      }).then((result) => {
         if (result.value) {
           axios
             .delete(server + "user/delete/" + id)
@@ -134,8 +135,8 @@ export default {
         showCancelButton: true,
         confirmButtonColor: "#3085d6",
         cancelButtonColor: "#d33",
-        confirmButtonText: "Yes, delete it!"
-      }).then(result => {
+        confirmButtonText: "Yes, delete it!",
+      }).then((result) => {
         if (result.value) {
           axios
             .delete(server + "/presentation/" + id)
@@ -162,15 +163,30 @@ export default {
         .catch(function(error) {
           console.error(error);
         });
-    }
+    },
   },
 
   created() {
     this.listAllUsers();
     this.listAllPresentations();
     this.listAllVotes();
-  }
+  },
 };
 </script>
 
-<style></style>
+<style scoped>
+.presentations {
+  background-color: var(--silk);
+}
+.box {
+  background-color: var(--gold);
+  border: 2px solid var(--blue);
+  margin: 1rem;
+  box-shadow: 2px 2px 2px var(--dark);
+}
+
+ul {
+  display: flex;
+  flex-wrap: wrap;
+}
+</style>

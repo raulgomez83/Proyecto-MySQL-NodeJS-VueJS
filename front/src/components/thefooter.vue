@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="footer">
+    <div class="footerView">
       <ul class="social">
         <li>Facebook</li>
         <li>Instagram</li>
@@ -31,7 +31,7 @@ export default {
 </script>
 
 <style scoped>
-.footer {
+.footerView {
   padding: 1rem;
   display: flex;
   justify-content: space-around;
@@ -39,10 +39,9 @@ export default {
   color: var(--blue);
   font-size: 1.2rem;
   max-height: 13rem;
+  min-width: 100%;
 }
-a {
-  color: var(--silk);
-}
+
 .footer .social {
   display: flex;
   flex-direction: column;
@@ -53,10 +52,7 @@ a {
   flex-direction: column;
   justify-content: center;
 }
-p {
-  color: var(--dark);
-  padding: 1rem;
-}
+
 a {
   color: var(--blue);
 }

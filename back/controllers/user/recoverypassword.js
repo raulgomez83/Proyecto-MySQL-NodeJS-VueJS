@@ -26,10 +26,7 @@ async function recoveryPassword(req, res, next) {
     );
 
     if (!dbUser.length) {
-      throw generateError(
-        'There is not an active users with this email in database',
-        404
-      );
+      throw generateError('There is not an active users with this email', 404);
     }
 
     const [user] = dbUser;
