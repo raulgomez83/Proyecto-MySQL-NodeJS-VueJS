@@ -15,10 +15,8 @@
 }
 html {
   margin: 0 auto;
-  --silk: #dcd0c0;
   --light: #f4f4f4;
   --dark: #373737;
-  --bronze: #8f7e07;
   --gold: #eac102;
   --blue: #2874a6;
   align-items: center;
@@ -101,7 +99,7 @@ ul {
 }
 .box {
   border: 4px solid var(--blue);
-  box-shadow: 5px 3px 5px var(--dark);
+  box-shadow: 10px 7px 10px var(--dark);
 }
 input {
   margin: 1rem;
@@ -140,8 +138,13 @@ button {
   top: 0px;
   transition: all ease 0.2s;
 }
+button:hover {
+  background-color: var(--gold);
+  color: var(--blue);
+  transition-duration: 1000;
+}
 button:active {
-  box-shadow: 0 3px 0 var(--gold);
+  box-shadow: 2px 5px 2px var(--blue);
   top: 3px;
 }
 </style>

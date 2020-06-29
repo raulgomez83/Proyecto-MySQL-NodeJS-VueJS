@@ -4,7 +4,7 @@
       title="Administration"
       description="Administration page of the application.Only for admin"
     />
-    <themenu></themenu>
+    <themenu class="menu" v-on:dark="darkMode" v-on:light="lightMode"></themenu>
     <div class="users">
       <h2>All users</h2>
       <ul>
@@ -163,6 +163,12 @@ export default {
         .catch(function(error) {
           console.error(error);
         });
+    },
+    darkMode() {
+      document.body.style.backgroundColor = "#1c1c1c";
+    },
+    lightMode() {
+      document.body.style.backgroundColor = "#f4f4f4";
     },
   },
 

@@ -20,12 +20,17 @@
       <button @click="logOutUser()" v-show="seeUserButton">
         Logout
       </button>
+      <div class="dark">
+        <button @click="darkEvent()">🌙</button>
+        <button @click="lightEvent()">🌞</button>
+      </div>
     </nav>
   </div>
 </template>
 
 <script>
 import { logOut, showUserButton, showAdminButton } from "../api/helpers";
+
 export default {
   name: "themenu",
   data() {
@@ -44,6 +49,12 @@ export default {
     },
     showAdminButtonInMenu() {
       this.seeAdmin = showAdminButton();
+    },
+    darkEvent() {
+      this.$emit("dark");
+    },
+    lightEvent() {
+      this.$emit("light");
     },
   },
   created() {
@@ -80,6 +91,6 @@ button {
   background-color: rgba(255, 255, 255, 0);
   color: var(--gold);
   border: none;
-  width: 8rem;
+  width: 6rem;
 }
 </style>

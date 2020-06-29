@@ -1,7 +1,7 @@
 <template>
   <div class="about">
     <vue-headful title="About" description="About page of the application" />
-    <themenu></themenu>
+    <themenu class="menu" v-on:dark="darkMode" v-on:light="lightMode"></themenu>
     <div class="about">
       <vue-headful title="About" description="Page about of market" />
       <elmenu></elmenu>
@@ -13,10 +13,10 @@
         <a href="www.linkedin.com/in/raulgomezromero">here.</a>
       </p>
       <p class="thanks">
-        I would like to thanks some colleagues, specially to
+        I would like to thank to some colleagues, specially to
         <b> Isa, David, Brais, Berto, Víctor</b> and the warm and wonderful
-        <b>Félix</b>, because withouth our teamwork this project was not the
-        same. Maybe would better but not the same.
+        <b>Félix</b>, because withouth our teamwork this project wouldn't be the
+        same. Maybe would be better, but for sure, not the same.
       </p>
       <elfooter></elfooter>
     </div>
@@ -31,6 +31,14 @@ export default {
   components: {
     thefooter,
     themenu,
+  },
+  methods: {
+    darkMode() {
+      document.body.style.backgroundColor = "#1c1c1c";
+    },
+    lightMode() {
+      document.body.style.backgroundColor = "#f4f4f4";
+    },
   },
 };
 </script>

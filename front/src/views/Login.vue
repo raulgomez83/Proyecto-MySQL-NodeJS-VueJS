@@ -1,7 +1,7 @@
 <template>
   <div>
     <vue-headful title="Login" description="Login page of the application" />
-    <themenu></themenu>
+    <themenu class="menu" v-on:dark="darkMode" v-on:light="lightMode"></themenu>
     <div class="login">
       <fieldset>
         <div class="up">
@@ -144,6 +144,12 @@ export default {
     },
     closeReactivate() {
       this.seeReactivateAccount = false;
+    },
+    darkMode() {
+      document.body.style.backgroundColor = "#1c1c1c";
+    },
+    lightMode() {
+      document.body.style.backgroundColor = "#f4f4f4";
     },
   },
 };

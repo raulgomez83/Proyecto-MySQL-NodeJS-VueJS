@@ -4,7 +4,7 @@
       title="Presentations"
       description="Presentations page of the application"
     />
-    <themenu class="menu"></themenu>
+    <themenu class="menu" v-on:dark="darkMode" v-on:light="lightMode"></themenu>
     <listpresentations
       :presentations="presentations"
       :presentation="presentation"
@@ -186,6 +186,12 @@ export default {
     },
     closeVotePresentation() {
       this.seeVote = false;
+    },
+    darkMode() {
+      document.body.style.backgroundColor = "#1c1c1c";
+    },
+    lightMode() {
+      document.body.style.backgroundColor = "#f4f4f4";
     },
   },
   created() {

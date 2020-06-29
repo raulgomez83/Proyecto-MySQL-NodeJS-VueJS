@@ -4,7 +4,7 @@
       title="Register"
       description="Register page of the application"
     />
-    <themenu></themenu>
+    <themenu class="menu" v-on:dark="darkMode" v-on:light="lightMode"></themenu>
     <fieldset>
       <form>
         <ul>
@@ -144,6 +144,12 @@ export default {
       this.birthdate = "";
       this.username = "";
       this.user_password = "";
+    },
+    darkMode() {
+      document.body.style.backgroundColor = "#1c1c1c";
+    },
+    lightMode() {
+      document.body.style.backgroundColor = "#f4f4f4";
     },
   },
 };

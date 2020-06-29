@@ -1,6 +1,6 @@
 <template
   ><div class="Home">
-    <themenu class="menu"></themenu>
+    <themenu class="menu" v-on:dark="darkMode" v-on:light="lightMode"></themenu>
     <vue-headful title="Home" description="Landing page of the application" />
     <header>
       <div class="words">
@@ -66,6 +66,14 @@ export default {
         .catch(function(error) {
           console.error(error);
         });
+    },
+    darkMode() {
+      document.body.style.backgroundColor = "#1c1c1c";
+      /*   const h2 = document.querySelectorAll("h2");
+      h2.style.color = "#f4f4f4"; */
+    },
+    lightMode() {
+      document.body.style.backgroundColor = "#f4f4f4";
     },
   },
   created() {

@@ -4,25 +4,21 @@
       title="Profile"
       description="Profile page of the application.Only users"
     />
-    <themenu></themenu>
-    <header class="boxe">
+    <themenu class="menu" v-on:dark="darkMode" v-on:light="lightMode"></themenu>
+    <header>
       <div class="welcome">
         <h2>Welcome: {{ user.username }}</h2>
         <img :src="user.avatar" alt="user picture" />
       </div>
       <div class="buttons">
-        <div class="update">
-          <button @click="userShowEditText()">Update your profile</button>
-          <button @click="userShowEditPassword()">
-            Update your Password
-          </button>
-        </div>
-        <div class="otherButtons">
-          <button @click="showCreatePresentation()">
-            Upload a Presentation
-          </button>
-          <button @click="disableUser()">Disable you</button>
-        </div>
+        <button @click="userShowEditText()">Update your profile</button>
+        <button @click="userShowEditPassword()">
+          Update your Password
+        </button>
+        <button @click="showCreatePresentation()">
+          Upload a Presentation
+        </button>
+        <button @click="disableUser()">Disable you</button>
       </div>
     </header>
     <div id="presentationHistory" class="box">
@@ -483,6 +479,12 @@ export default {
     handleFileUpload() {
       this.avatar = this.$refs.avatar.files[0];
     },
+    darkMode() {
+      document.body.style.backgroundColor = "#1c1c1c";
+    },
+    lightMode() {
+      document.body.style.backgroundColor = "#f4f4f4";
+    },
   },
   created() {
     this.dataUser();
@@ -500,7 +502,8 @@ header {
   margin: 2rem auto;
 }
 .welcome {
-  background: var(--gold);
+  border: 5px solid var(--gold);
+  box-shadow: 10px 7px 10px var(--blue);
   padding: 4rem;
 }
 .welcome img {
@@ -513,7 +516,8 @@ h2 {
 }
 .buttons button {
   height: 10rem;
-  margin: 0.5rem;
+  margin: 2rem;
+  width: 20rem;
 }
 .buttons button:hover {
   background-color: var(--gold);
@@ -524,18 +528,17 @@ h2 {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 2rem;
+  margin: 3rem;
 }
 .update {
   display: flex;
   flex-direction: column;
 }
-.otherButtons {
-  display: flex;
-  flex-direction: column;
+.box h2 {
+  margin-top: 1rem;
 }
 #presentationHistory {
-  margin: 4rem auto;
+  margin-bottom: 4rem;
   display: flex;
   flex-direction: column;
 }
@@ -547,8 +550,8 @@ h2 {
   font-size: 1.5rem;
   line-height: 5px;
 }
-#avatar {
-  width: 14rem;
+.editAvatar input {
+  width: 15rem;
   font-size: 1rem;
 }
 </style>

@@ -1,8 +1,8 @@
 <template>
   <div>
     <div class="presentations" v-show="!seePresentation">
-      <ul>
-        <h2>Presentations</h2>
+      <header>
+        <img class="vertical" src="../assets/lista3.png" alt="" />
         <form>
           <label for="input"
             >Search by city, event, category or language:</label
@@ -16,6 +16,10 @@
             v-model="search"
           />
         </form>
+        <img src="../assets/lista2.png" alt="" />
+      </header>
+      <h2>Presentations</h2>
+      <ul>
         <li
           class="box"
           v-for="(presentation, index) in filteredPresentations"
@@ -77,7 +81,7 @@
                 <textarea
                   name="contact"
                   class="contactTextArea"
-                  cols="30"
+                  cols="20"
                   rows="5"
                   v-model="message"
                 ></textarea>
@@ -123,7 +127,7 @@
                   <textarea
                     name="comments"
                     id="comments"
-                    cols="30"
+                    cols="20"
                     rows="10"
                     v-model="comment"
                   ></textarea>
@@ -254,12 +258,43 @@ export default {
 
 <style scoped>
 .presentations {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.11);
   padding: 2rem;
-  margin: 1rem;
+  border: 2px solid var(--blue);
+  box-shadow: 5px 3px 5px var(--dark);
+}
+.presentations .vertical {
+  height: 25rem;
+  width: 20rem;
+}
+.presentations img {
+  width: 30rem;
+  height: 18rem;
+}
+.presentations form {
+  background-image: url("../assets/lista.jpeg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  width: 50rem;
+  height: 30rem;
+  display: flex;
+  justify-content: start;
+  margin: 2rem;
 }
 .presentations label {
-  font-size: 1.5rem;
+  font-size: 2rem;
   color: var(--dark);
+  font-weight: bold;
+  margin-top: 2rem;
 }
 input {
   margin: 1rem;
@@ -269,9 +304,14 @@ input {
   background: var(--light);
   border: 3px solid var(--blue);
   color: var(--blue);
+  opacity: 0.7;
+}
+h2 {
+  margin-top: 2rem;
 }
 .box {
   margin: 2rem auto;
+  width: 84vw;
 }
 h3 {
   padding: 0.5rem;
@@ -309,7 +349,9 @@ h3 {
   width: 70rem;
   margin: 1rem;
   padding: 2rem;
+  border: 5px solid var(--gold);
 }
+
 .data {
   min-height: 15rem;
   display: flex;
@@ -330,13 +372,14 @@ h3 {
   justify-content: space-evenly;
   align-items: center;
 }
-#comments .box {
+#comments {
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
   overflow-y: scroll;
   margin-bottom: 3rem;
-  box-shadow: 5px 5px 5px var(--dark);
+  width: 70rem;
+  height: 30rem;
 }
 .comments {
   margin: 1rem;
