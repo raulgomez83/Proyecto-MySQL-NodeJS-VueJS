@@ -68,12 +68,12 @@ export default {
         });
     },
     darkMode() {
-      document.body.style.backgroundColor = "#1c1c1c";
+      document.body.classList.add("dark");
       /*   const h2 = document.querySelectorAll("h2");
       h2.style.color = "#f4f4f4"; */
     },
     lightMode() {
-      document.body.style.backgroundColor = "#f4f4f4";
+      document.body.classList.remove("dark");
     },
   },
   created() {

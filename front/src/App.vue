@@ -13,7 +13,7 @@
   padding: 0;
   box-sizing: border-box;
 }
-html {
+body {
   margin: 0 auto;
   --light: #f4f4f4;
   --dark: #373737;
@@ -23,15 +23,17 @@ html {
   color: var(--dark);
   background-color: var(--light);
 }
+body.dark {
+  --light: #373737;
+  --dark: #f4f4f4;
+}
 
 #app {
-  font-family: sans-serif, Helvetica, Arial;
+  font-family: "baloo tammudu 2", sans-serif, Helvetica, Arial;
   text-align: center;
   margin: 0 7rem;
 }
-body {
-  margin: auto;
-}
+
 .menu {
   position: -webkit-sticky;
   position: sticky;
@@ -98,7 +100,7 @@ ul {
   font-weight: bold;
 }
 .box {
-  border: 4px solid var(--blue);
+  border: 0.1px solid var(--blue);
   box-shadow: 10px 7px 10px var(--dark);
 }
 input {
@@ -144,7 +146,7 @@ button:hover {
   transition-duration: 1000;
 }
 button:active {
-  box-shadow: 2px 5px 2px var(--blue);
+  box-shadow: 0 3px 0 var(--gold);
   top: 3px;
 }
 </style>

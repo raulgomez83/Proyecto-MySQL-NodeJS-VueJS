@@ -21,9 +21,10 @@
         <button @click="disableUser()">Disable you</button>
       </div>
     </header>
-    <div id="presentationHistory" class="box">
-      <div v-for="history in histories" :key="history.id">
-        <h2>{{ history.title }}</h2>
+    <div id="presentationHistory" class="box" v-show="seeHistory">
+      <h2>Your presentations</h2>
+      <div class="history" v-for="history in histories" :key="history.id">
+        <h3>{{ history.title }}</h3>
         <div class="button">
           <button @click="dataEditPresentation(history)">Update</button>
           <button @click="deletePresentation(history)">Delete</button>
@@ -181,6 +182,7 @@ export default {
       seeCreationPresentation: false,
       seeEditPassword: false,
       seeEditPresentation: false,
+      seeHistory: true,
       correctData: false,
       require: false,
       id: null,
@@ -224,7 +226,6 @@ export default {
       const data = localStorage.getItem("id");
       const token = localStorage.getItem("token");
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-
       axios
         .get(server + "user/historypresentations/" + data)
         .then(function(response) {
@@ -510,10 +511,7 @@ header {
   width: 10rem;
   margin: 1rem;
 }
-h2 {
-  color: var(--dark);
-  font-size: 2rem;
-}
+
 .buttons button {
   height: 10rem;
   margin: 2rem;
@@ -534,8 +532,8 @@ h2 {
   display: flex;
   flex-direction: column;
 }
-.box h2 {
-  margin-top: 1rem;
+h2 {
+  margin: 1rem 0 3rem;
 }
 #presentationHistory {
   margin-bottom: 4rem;
@@ -553,5 +551,11 @@ h2 {
 .editAvatar input {
   width: 15rem;
   font-size: 1rem;
+}
+.history {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin: 0 5rem;
 }
 </style>

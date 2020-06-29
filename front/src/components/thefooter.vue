@@ -35,7 +35,8 @@ export default {
   padding: 1rem;
   display: flex;
   justify-content: space-around;
-  background-color: var(--gold);
+  border: 5px solid var(--gold);
+  box-shadow: 10px 7px 10px var(--blue);
   color: var(--blue);
   font-size: 1.2rem;
   max-height: 13rem;

@@ -12,19 +12,18 @@
       <router-link :to="{ name: 'Register' }" v-show="!seeUserButton"
         >Sign Up</router-link
       >
-
       <router-link :to="{ name: 'Admin' }" v-show="seeAdmin"
         >Administrator</router-link
       >
       <router-link :to="{ name: 'About' }">About</router-link>
+    </nav>
+    <div class="extra">
       <button @click="logOutUser()" v-show="seeUserButton">
         Logout
       </button>
-      <div class="dark">
-        <button @click="darkEvent()">🌙</button>
-        <button @click="lightEvent()">🌞</button>
-      </div>
-    </nav>
+      <button @click="darkEvent()">🌙</button>
+      <button @click="lightEvent()">🌞</button>
+    </div>
   </div>
 </template>
 
@@ -68,7 +67,7 @@ export default {
 a {
   text-decoration: none;
   background-color: var(--light);
-  color: var(--blue);
+  color: var(--dark);
   font-size: 2rem;
   margin: 1rem;
   font-weight: bold;
@@ -78,6 +77,8 @@ a.router-link-exact-active {
 }
 .menu {
   background: var(--light);
+  display: flex;
+  justify-content: space-between;
 }
 .links {
   display: flex;
@@ -89,7 +90,7 @@ button {
   margin: 1rem;
   font-size: 1.5rem;
   background-color: rgba(255, 255, 255, 0);
-  color: var(--gold);
+  color: var(--blue);
   border: none;
   width: 6rem;
 }

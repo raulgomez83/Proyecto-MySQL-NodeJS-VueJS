@@ -2,7 +2,6 @@
   <div>
     <div class="presentations" v-show="!seePresentation">
       <header>
-        <img class="vertical" src="../assets/lista3.png" alt="" />
         <form>
           <label for="input"
             >Search by city, event, category or language:</label
@@ -16,7 +15,6 @@
             v-model="search"
           />
         </form>
-        <img src="../assets/lista2.png" alt="" />
       </header>
       <h2>Presentations</h2>
       <ul>
@@ -128,7 +126,7 @@
                     name="comments"
                     id="comments"
                     cols="20"
-                    rows="10"
+                    rows="3"
                     v-model="comment"
                   ></textarea>
                 </form>
@@ -144,6 +142,7 @@
             <h4>{{ comment.username }}</h4>
             <p>{{ comment.comments }}</p>
           </li>
+          <hr />
         </ul>
       </div>
       <br />
@@ -267,9 +266,9 @@ header {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: rgba(0, 0, 0, 0.11);
+
   padding: 2rem;
-  border: 2px solid var(--blue);
+
   box-shadow: 5px 3px 5px var(--dark);
 }
 .presentations .vertical {
@@ -376,12 +375,21 @@ h3 {
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
-  overflow-y: scroll;
+  overflow-y: auto;
   margin-bottom: 3rem;
   width: 70rem;
-  height: 30rem;
-}
-.comments {
+  height: 20rem;
   margin: 1rem;
+}
+.comments p {
+  font-size: 1rem;
+}
+.comments h4 {
+  font-size: 1.5rem;
+}
+hr {
+  height: 10px;
+  border: 0;
+  box-shadow: 0 10px 10px -10px var(--blue) inset;
 }
 </style>

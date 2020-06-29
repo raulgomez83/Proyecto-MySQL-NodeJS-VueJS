@@ -13,10 +13,10 @@
         <a href="www.linkedin.com/in/raulgomezromero">here.</a>
       </p>
       <p class="thanks">
-        I would like to thank to some colleagues, specially to
-        <b> Isa, David, Brais, Berto, Víctor</b> and the warm and wonderful
-        <b>Félix</b>, because withouth our teamwork this project wouldn't be the
-        same. Maybe would be better, but for sure, not the same.
+        I would like to thank to some colleagues like
+        <b> Isa, David, Brais, Berto, Víctor</b> and specially to <b>Félix</b>,
+        because without our teamwork this project wouldn't be the same. Maybe
+        would be better, but for sure, not the same.
       </p>
       <elfooter></elfooter>
     </div>
