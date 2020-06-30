@@ -1,24 +1,28 @@
 <template>
   <div class="about">
     <vue-headful title="About" description="About page of the application" />
-    <themenu class="menu" v-on:dark="darkMode" v-on:light="lightMode"></themenu>
+    <themenu class="menu" v-on:dark="darkMode"></themenu>
     <div class="about">
       <vue-headful title="About" description="Page about of market" />
-      <elmenu></elmenu>
-      <h2>Hello,this project so hard to made, was created by <br />👇👇👇</h2>
+      <h2>
+        This project so hard to made, was created using MySQL, NodeJS , VueJS
+        <br />by 👇👇👇
+      </h2>
       <img src="../assets/fotomia.jpg" alt="mi foto" />
       <h2>Raúl Gómez</h2>
       <p>
         If you want more recent information , please push
-        <a href="www.linkedin.com/in/raulgomezromero">here.</a>
+        <a
+          href="www.linkedin.com/in/raulgomezromero"
+        >here.</a>
       </p>
       <p class="thanks">
         I would like to thank to some colleagues like
-        <b> Isa, David, Brais, Berto, Víctor</b> and specially to <b>Félix</b>,
+        <b>Isa, David, Brais, Berto, Víctor</b> and specially to
+        <b>Félix</b>,
         because without our teamwork this project wouldn't be the same. Maybe
         would be better, but for sure, not the same.
       </p>
-      <elfooter></elfooter>
     </div>
     <thefooter></thefooter>
   </div>
@@ -30,23 +34,17 @@ import themenu from "../components/themenu";
 export default {
   components: {
     thefooter,
-    themenu,
+    themenu
   },
   methods: {
     darkMode() {
-      document.body.style.backgroundColor = "#1c1c1c";
-    },
-    lightMode() {
-      document.body.style.backgroundColor = "#f4f4f4";
-    },
-  },
+      document.body.classList.toggle("dark");
+    }
+  }
 };
 </script>
 
 <style>
-.about {
-  margin: 4rem auto;
-}
 h1 {
   margin: 2rem;
 }

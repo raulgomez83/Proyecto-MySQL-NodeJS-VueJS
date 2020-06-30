@@ -4,7 +4,7 @@
       title="Presentations"
       description="Presentations page of the application"
     />
-    <themenu class="menu" v-on:dark="darkMode" v-on:light="lightMode"></themenu>
+    <themenu class="menu" v-on:dark="darkMode"></themenu>
     <listpresentations
       :presentations="presentations"
       :presentation="presentation"
@@ -23,8 +23,8 @@
       v-on:showvote="showVotePresentation"
       v-on:closevote="closeVotePresentation"
       v-on:vote="votePresentation"
-    ></listpresentations
-    ><thefooter></thefooter>
+    ></listpresentations>
+    <thefooter></thefooter>
   </div>
 </template>
 
@@ -35,6 +35,7 @@ import Swal from "sweetalert2";
 import thefooter from "../components/thefooter";
 import themenu from "../components/themenu";
 import listpresentations from "../components/presentations";
+import { server } from "../api/helpers";
 
 export default {
   name: "Presentations",
@@ -57,7 +58,6 @@ export default {
   methods: {
     getPresentations() {
       const self = this;
-      const server = "http://localhost:3004/";
       axios
         .get(server + "presentations")
         .then(function(response) {
@@ -69,7 +69,6 @@ export default {
     },
     showPresentation(id) {
       const self = this;
-      const server = "http://localhost:3004/";
       axios
         .get(server + "presentation/" + id)
         .then(function(response) {
@@ -91,7 +90,6 @@ export default {
       ratingCommunication
     ) {
       var self = this;
-      const server = "http://localhost:3004/";
       const id = presentation.id;
       const token = localStorage.getItem("token");
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
@@ -120,7 +118,6 @@ export default {
       this.validatingData(message);
       if (this.correctData === true) {
         const self = this;
-        const server = "http://localhost:3004";
         const id = presentation.id;
         const id_user = presentation.user_id;
         const idToken = Number(localStorage.getItem("id"));
@@ -146,13 +143,11 @@ export default {
     },
     increaseView(index) {
       const self = this;
-      const server = "http://localhost:3004/";
       let id = index.presentation_id;
       axios
         .post(server + "presentation/view/" + id)
         .then(function(response) {
           self.showPresentation(id);
-          console.log(response);
         })
         .catch(function(error) {
           console.error(error);
@@ -188,10 +183,7 @@ export default {
       this.seeVote = false;
     },
     darkMode() {
-      document.body.style.backgroundColor = "#1c1c1c";
-    },
-    lightMode() {
-      document.body.style.backgroundColor = "#f4f4f4";
+      document.body.classList.toggle("dark");
     },
   },
   created() {

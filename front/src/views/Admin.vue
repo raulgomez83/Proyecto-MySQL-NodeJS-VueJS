@@ -4,19 +4,7 @@
       title="Administration"
       description="Administration page of the application.Only for admin"
     />
-    <themenu class="menu" v-on:dark="darkMode" v-on:light="lightMode"></themenu>
-    <div class="users">
-      <h2>All users</h2>
-      <ul>
-        <li v-for="(user, index) in users" :key="user.id" class="box">
-          <h3>{{ user.username }}</h3>
-          <p>ID user: {{ user.user_id }}</p>
-          <p>{{ user.email }}</p>
-          <p>{{ user.date_account_creation }}</p>
-          <button @click="deleteUser(index)">Delete</button>
-        </li>
-      </ul>
-    </div>
+    <themenu class="menu" v-on:dark="darkMode"></themenu>
     <div class="presentations">
       <h2>All presentations</h2>
       <ul>
@@ -35,18 +23,19 @@
         </li>
       </ul>
     </div>
-    <div class="ratings">
-      <h2>All ratings</h2>
+    <div class="users">
+      <h2>All users</h2>
       <ul>
-        <li v-for="rating in ratings" :key="rating.id" class="box">
-          <h3>ID presentation: {{ rating.presentation_id_ratings }}</h3>
-          <p>ID rating:{{ rating.id }}</p>
-          <p>Comment: {{ rating.comments }}</p>
-          <p>ID user: {{ rating.user_id_ratings }}</p>
-          <button>Delete</button>
+        <li v-for="(user, index) in users" :key="user.id" class="box">
+          <h3>{{ user.username }}</h3>
+          <p>ID user: {{ user.user_id }}</p>
+          <p>{{ user.email }}</p>
+          <p>{{ user.date_account_creation }}</p>
+          <button @click="deleteUser(index)">Delete</button>
         </li>
       </ul>
     </div>
+
     <thefooter></thefooter>
   </div>
 </template>
@@ -56,6 +45,7 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import thefooter from "../components/thefooter";
 import themenu from "../components/themenu";
+import { server } from "../api/helpers";
 
 export default {
   data() {
@@ -70,7 +60,6 @@ export default {
   methods: {
     listAllUsers() {
       const self = this;
-      const server = "http://localhost:3004/";
       const token = localStorage.getItem("token");
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
       axios
@@ -85,7 +74,6 @@ export default {
     deleteUser(index) {
       const self = this;
       let id = self.users[index].user_id;
-      const server = "http://localhost:3004/";
       const token = localStorage.getItem("token");
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
       Swal.fire({
@@ -113,7 +101,7 @@ export default {
     listAllPresentations() {
       const self = this;
       axios
-        .get("http://localhost:3004/presentations")
+        .get(server + "presentations")
         .then(function(response) {
           self.presentations = response.data.data;
         })
@@ -123,7 +111,6 @@ export default {
     },
     deletePresentation(index) {
       const self = this;
-      const server = "http://localhost:3004";
       const id = self.presentations[index].presentation_id;
       const idToken = localStorage.getItem("id");
       const token = localStorage.getItem("token");
@@ -150,42 +137,23 @@ export default {
         }
       });
     },
-    listAllVotes() {
-      const self = this;
-      const server = "http://localhost:3004/";
-      const token = localStorage.getItem("token");
-      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-      axios
-        .get(server + "ratings")
-        .then(function(response) {
-          self.ratings = response.data.data;
-        })
-        .catch(function(error) {
-          console.error(error);
-        });
-    },
     darkMode() {
-      document.body.style.backgroundColor = "#1c1c1c";
-    },
-    lightMode() {
-      document.body.style.backgroundColor = "#f4f4f4";
+      document.body.classList.toggle("dark");
     },
   },
 
   created() {
     this.listAllUsers();
     this.listAllPresentations();
-    this.listAllVotes();
   },
 };
 </script>
 
 <style scoped>
-.presentations {
-  background-color: var(--silk);
+.presentations .box {
+  background-color: var(--lightBlue);
 }
 .box {
-  background-color: var(--gold);
   border: 2px solid var(--blue);
   margin: 1rem;
   box-shadow: 2px 2px 2px var(--dark);

@@ -1,32 +1,26 @@
 <template>
-  <div>
+  <div class="login">
     <vue-headful title="Login" description="Login page of the application" />
-    <themenu class="menu" v-on:dark="darkMode" v-on:light="lightMode"></themenu>
-    <div class="login">
-      <fieldset>
-        <div class="up">
-          <h2>Login</h2>
-          <form>
-            <input type="username" placeholder="Username" v-model="username" />
-            <input type="password" placeholder="Password" v-model="password" />
-            <br />
-          </form>
-          <button @click="login(username, password)">Login</button>
-        </div>
-        <p class="enjoy">
-          Are you not register already? Click
-          <router-link :to="{ name: 'Register' }">Enjoy Us.</router-link>
-        </p>
-        <p>
-          Did you make a big mistake and disable your account? Don't worry
-        </p>
-        <button @click="showReactivateUser()">Come back with us</button>
-        <p>
-          Forgot your password? It happens
-        </p>
-        <button @click="showRecoverPassword()">Recover it</button>
-      </fieldset>
-    </div>
+    <themenu class="menu" v-on:dark="darkMode"></themenu>
+    <fieldset>
+      <div class="up">
+        <h2>Login</h2>
+        <form>
+          <input type="username" placeholder="Username" v-model="username" />
+          <input type="password" placeholder="Password" v-model="password" />
+          <br />
+        </form>
+        <button @click="login(username, password)">Login</button>
+      </div>
+      <p class="enjoy">
+        Are you not register already? Click
+        <router-link :to="{ name: 'Register' }">Enjoy Us.</router-link>
+      </p>
+      <p>Did you make a big mistake unsubscribed? Don't worry</p>
+      <button @click="showReactivateUser()">Come back with us</button>
+      <p>Forgot your password? It happens</p>
+      <button @click="showRecoverPassword()">Recover it</button>
+    </fieldset>
     <div class="modal" v-show="seeReactivateAccount">
       <button class="cerrar" @click="closeReactivate()">x</button>
       <fieldset class="modalBox">
@@ -57,7 +51,7 @@
         <button @click="recoverPassword()">Send</button>
       </fieldset>
     </div>
-    <thefooter></thefooter>
+    <thefooter class="footer"></thefooter>
   </div>
 </template>
 
@@ -66,6 +60,7 @@ import Swal from "sweetalert2";
 import axios from "axios";
 import thefooter from "../components/thefooter";
 import themenu from "../components/themenu";
+import { server } from "../api/helpers";
 export default {
   name: "Login",
   components: { thefooter, themenu },
@@ -83,7 +78,6 @@ export default {
   methods: {
     login(username, password) {
       const self = this;
-      const server = "http://localhost:3004/";
       axios
         .post(server + "users/login", {
           username: self.username,
@@ -102,7 +96,6 @@ export default {
     },
     recoverPassword(email) {
       const self = this;
-      const server = "http://localhost:3004/";
       axios
         .put(server + "user/recovery", {
           email: self.email,
@@ -118,7 +111,6 @@ export default {
     },
     reactivateUser() {
       const self = this;
-      const server = "http://localhost:3004/";
 
       axios
         .put(server + "user/reactivate", {
@@ -146,10 +138,7 @@ export default {
       this.seeReactivateAccount = false;
     },
     darkMode() {
-      document.body.style.backgroundColor = "#1c1c1c";
-    },
-    lightMode() {
-      document.body.style.backgroundColor = "#f4f4f4";
+      document.body.classList.toggle("dark");
     },
   },
 };
@@ -160,15 +149,18 @@ export default {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  height: 80vh;
+  align-items: center;
+  background-image: url("../assets/login.jpeg");
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 fieldset {
-  margin: 2rem;
-  border: 2px solid var(--blue);
+  background: var(--light);
+  padding: 1rem;
+  opacity: 0.9;
+  margin: 5rem auto;
 }
-form {
-  margin: 2rem;
-}
+
 h2 {
   font-size: 3rem;
   color: var(--blue);
@@ -180,13 +172,11 @@ p {
 a {
   color: var(--blue);
 }
-.up {
-  margin-top: 3rem;
-}
-.enjoy {
-  margin: 3rem;
-}
+
 fieldset form .modalBox {
   margin: 3rem;
+}
+.footer {
+  min-width: 100%;
 }
 </style>

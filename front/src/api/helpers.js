@@ -21,7 +21,7 @@ export function logOut() {
 }
 export function showUserButton() {
   const role = localStorage.getItem("role");
-  if (role === "loader" || role === "normal" || role === "admin") {
+  if (role === "loader" || role === "normal" /* || role === "admin" */) {
     return true;
   }
   return false;
@@ -34,3 +34,4 @@ export function showAdminButton() {
   return false;
 }
 export const server = "http://localhost:3004/";
+export function showNotHistory() {}

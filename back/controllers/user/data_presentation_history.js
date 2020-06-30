@@ -1,6 +1,6 @@
 require('dotenv').config();
 const { getConnection } = require('../../db');
-const { generateError, formatDateToDB } = require('../../helpers');
+const { formatDateToDB } = require('../../helpers');
 
 async function getHistoryUserPresentation(req, res, next) {
   let connection;
@@ -13,9 +13,7 @@ async function getHistoryUserPresentation(req, res, next) {
   ORDER BY date_louded_presentation`,
       [id]
     );
-    if (!results.length) {
-      throw generateError('Already you not upload any presentation', 401);
-    }
+
     const formatResult = results.map((result) => {
       result.presentation_date = formatDateToDB(result.presentation_date);
       return result;

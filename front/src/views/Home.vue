@@ -1,6 +1,6 @@
 <template
   ><div class="Home">
-    <themenu class="menu" v-on:dark="darkMode" v-on:light="lightMode"></themenu>
+    <themenu class="menu" v-on:dark="darkMode"></themenu> </themenu>
     <vue-headful title="Home" description="Landing page of the application" />
     <header>
       <div class="words">
@@ -16,24 +16,27 @@
       </div>
     </header>
     <div class="top">
+      <h2 class="view">#TOP RATING PRESENTATIONS</h2>
       <ul>
-        <h2 class="view">#TOP RATING PRESENTATIONS</h2>
         <li v-for="rating in ratings" :key="rating.id">
           <h3>{{ rating.title }}</h3>
-          <div v-html="rating.video" class="video"></div>
-          <h4>Rating: {{ rating.rating }}⭐️</h4>
+          <videoPlayer size="small" :videoSource="rating.video"></videoPlayer>
+          <!--     <div v-html="rating.video" class="video"></div> -->
+          <h4>Rating: {{ rating.rating }} ⭐️</h4>
         </li>
       </ul>
+      <h2 class="view">#TOP VIEWING PRESENTATIONS</h2>
       <ul>
-        <h2 class="view">#TOP VIEWING PRESENTATIONS</h2>
         <li v-for="view in views" :key="view.id">
           <h3>{{ view.title }}</h3>
-          <div v-html="view.video" class="video"></div>
-          <h4>Views: {{ view.totalviews }}</h4>
+          <!-- <div v-html="view.video" class="video"></div> -->
+          <videoPlayer size="small" :videoSource="view.video"></videoPlayer>
+          <h4>Views: {{ view.totalviews }} 👀</h4>
         </li>
       </ul>
     </div>
-    <about class="about"></about><thefooter></thefooter>
+    <about class="about"></about>
+    <thefooter></thefooter>
   </div>
 </template>
 
@@ -41,12 +44,14 @@
 import axios from "axios";
 
 import thefooter from "../components/thefooter";
+import videoPlayer from "../components/videoPlayer";
 import themenu from "../components/themenu";
 import about from "../components/about";
+import { server } from "../api/helpers";
 
 export default {
   name: "Home",
-  components: { thefooter, themenu, about },
+  components: { thefooter, themenu, about, videoPlayer },
   data() {
     return {
       views: [],
@@ -56,7 +61,6 @@ export default {
   methods: {
     topsPresentation() {
       const self = this;
-      const server = "http://localhost:3004/";
       axios
         .get(server + "presentations/top3")
         .then(function(response) {
@@ -68,13 +72,8 @@ export default {
         });
     },
     darkMode() {
-      document.body.classList.add("dark");
-      /*   const h2 = document.querySelectorAll("h2");
-      h2.style.color = "#f4f4f4"; */
-    },
-    lightMode() {
-      document.body.classList.remove("dark");
-    },
+      document.body.classList.toggle("dark");
+    },  
   },
   created() {
     this.topsPresentation();
@@ -108,15 +107,15 @@ header {
 }
 
 .link {
-  font-size: 4rem;
+  font-size: 3rem;
+  width: 40rem;
+  height: 5rem;
   background-color: var(--dark);
   color: var(--gold);
-  padding: 0.3rem 1rem;
+
   border: 1px solid var(--silk);
   border-radius: 5px;
   box-shadow: 0px 5px 0px var(--gold);
-  position: relative;
-  top: 0px;
   transition: all ease 0.3s;
 }
 .link:active {
@@ -127,13 +126,14 @@ header {
 .top {
   margin-top: 5rem;
   display: flex;
-  justify-content: space-around;
+  flex-direction: column;
+  justify-content: space-between;
   align-items: center;
 }
 .top ul {
   display: flex;
-  flex-direction: column;
   align-content: center;
+  list-style-type: decimal ;
 }
 .top h2 {
   margin-bottom: 2rem;

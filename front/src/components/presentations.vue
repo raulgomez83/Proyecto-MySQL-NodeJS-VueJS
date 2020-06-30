@@ -38,38 +38,42 @@
         </li>
       </ul>
     </div>
-    <div class="presentation" v-show="seePresentation">
+    <div class="presentation" v-if="seePresentation">
       <button class="backPresentations" @click="seePresentationEvent()">
         Back to presentations
       </button>
       <h2>{{ presentation.title }}</h2>
       <div id="video" class="box">
-        <div v-html="presentation.video"></div>
+        <videoPlayer
+          size="large"
+          :videoSource="presentation.video"
+        ></videoPlayer>
         <div class="data">
           <h3 class="rating">
-            Rating: {{ presentation.rating }} 🌟 ({{ ratings.totalratings }})
+            Rating: {{ presentation.rating }} ⭐️ ({{ ratings.totalratings }})
           </h3>
-          <h3 class="view">{{ presentation.totalviews }} Views</h3>
+          <h3 class="view">{{ presentation.totalviews }} Views 👀</h3>
         </div>
       </div>
       <div class="about">
         <h2>About the presentation</h2>
         <p class="description">
-          The presentation was made in <b>{{ presentation.city }}</b> at
+          The presentation was made in
+          <b>{{ presentation.city }}</b> at
           <b>{{ presentation.presentation_date }}</b>
-          , using <b>{{ presentation.presentation_language }}</b> , during the
-          <b> {{ presentation.presentation_event }}</b> event in the
+          , in
+          <b>{{ presentation.presentation_language }}</b> , during the
+          <b>{{ presentation.presentation_event }}</b> event in the
           <b>{{ presentation.category }}</b>
           category.
         </p>
         <div class="user" v-show="seeUserButton">
-          <button @click="seeVoteEvent">
-            Vote this presentation
-          </button>
+          <button @click="seeVoteEvent">Vote this presentation</button>
           <div class="contact">
             <p>
-              If you find this presentation <b>interesting</b> , you can
-              <b>send an email</b> to the user that update it.
+              If you find this presentation
+              <b>interesting</b> , you can <b>send an email</b> to the user that
+              update it.
             </p>
             <button @click="contactUserEvent(presentation)">
               Contact to the user
@@ -79,8 +83,8 @@
                 <textarea
                   name="contact"
                   class="contactTextArea"
-                  cols="20"
-                  rows="5"
+                  cols="14"
+                  rows="4"
                   v-model="message"
                 ></textarea>
                 <br />
@@ -88,8 +92,9 @@
                   class="contactbutton"
                   @click="contactUserEmailEvent(message, presentation)"
                 >
-                  Contact</button
-                ><button class="contactbutton" @click="closeContactEvent()">
+                  Contact
+                </button>
+                <button class="contactbutton" @click="closeContactEvent()">
                   Back
                 </button>
               </div>
@@ -124,9 +129,9 @@
                   <br />
                   <textarea
                     name="comments"
-                    id="comments"
+                    class="comments"
                     cols="20"
-                    rows="3"
+                    rows="10"
                     v-model="comment"
                   ></textarea>
                 </form>
@@ -136,11 +141,12 @@
           </div>
         </div>
       </div>
+      <h3>Comments</h3>
       <div class="box" id="comments">
-        <ul v-for="comment in comments" :key="comment.id">
-          <li class="comments">
+        <ul>
+          <li v-for="comment in comments" :key="comment.id" class="comments">
             <h4>{{ comment.username }}</h4>
-            <p>{{ comment.comments }}</p>
+            <p class="showComments">{{ comment.comments }}</p>
           </li>
           <hr />
         </ul>
@@ -153,9 +159,13 @@
 <script>
 import { showUserButton } from "../api/helpers";
 import { dateFilter } from "vue-date-fns";
+import videoPlayer from "./videoPlayer";
 
 export default {
   name: "listpresentations",
+  components: {
+    videoPlayer,
+  },
   props: {
     presentations: Array,
     presentation: Object,
@@ -165,6 +175,8 @@ export default {
     seeContact: Boolean,
     seeVote: Boolean,
     id: Number,
+    /* width: String,
+    height: String, */
   },
   data() {
     return {
@@ -176,6 +188,8 @@ export default {
       comment: "",
       search: "",
       seeUserButton: false,
+      width: "",
+      height: "",
     };
   },
   computed: {
@@ -266,19 +280,10 @@ header {
   display: flex;
   justify-content: center;
   align-items: center;
-
   padding: 2rem;
-
   box-shadow: 5px 3px 5px var(--dark);
 }
-.presentations .vertical {
-  height: 25rem;
-  width: 20rem;
-}
-.presentations img {
-  width: 30rem;
-  height: 18rem;
-}
+
 .presentations form {
   background-image: url("../assets/lista.jpeg");
   background-repeat: no-repeat;
@@ -303,24 +308,22 @@ input {
   background: var(--light);
   border: 3px solid var(--blue);
   color: var(--blue);
-  opacity: 0.7;
+  opacity: 0.9;
 }
 h2 {
   margin-top: 2rem;
 }
-.box {
-  margin: 2rem auto;
-  width: 84vw;
+.presentations ul {
+  width: 100%;
 }
-h3 {
-  padding: 0.5rem;
+.presentations li {
+  margin-bottom: 3rem;
 }
 .boxpresentation {
   display: flex;
   justify-content: space-evenly;
-  align-items: center;
-  padding: 1rem;
-  border-top: 0.5px solid var(--dark);
+  align-items: baseline;
+  border-top: 0.5px solid var(--blue);
 }
 
 .boxpresentation button {
@@ -344,11 +347,11 @@ h3 {
   display: flex;
   justify-content: space-evenly;
   align-items: center;
-  height: 40rem;
-  width: 70rem;
+  height: 60rem;
+  width: 94rem;
   margin: 1rem;
   padding: 2rem;
-  border: 5px solid var(--gold);
+  border: 3px solid var(--gold);
 }
 
 .data {
@@ -358,28 +361,18 @@ h3 {
   justify-content: space-evenly;
 }
 .about p {
-  margin: 1rem;
+  font-size: 1.5rem;
 }
 .presentation .rating,
 .presentation .view {
   font-size: 2rem;
 }
-
-.main {
-  max-width: 80vw;
-  display: flex;
-  justify-content: space-evenly;
-  align-items: center;
-}
 #comments {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-evenly;
-  overflow-y: auto;
-  margin-bottom: 3rem;
+  overflow-y: scroll;
   width: 70rem;
   height: 20rem;
-  margin: 1rem;
+  line-height: 20px;
+  padding: 1rem;
 }
 .comments p {
   font-size: 1rem;

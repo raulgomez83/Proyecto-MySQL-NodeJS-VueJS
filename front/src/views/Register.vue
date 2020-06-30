@@ -1,10 +1,10 @@
 <template>
-  <div>
+  <div class="reg">
     <vue-headful
       title="Register"
       description="Register page of the application"
     />
-    <themenu class="menu" v-on:dark="darkMode" v-on:light="lightMode"></themenu>
+    <themenu class="menu" v-on:dark="darkMode"></themenu>
     <fieldset>
       <form>
         <ul>
@@ -63,7 +63,7 @@
         Register
       </button>
     </fieldset>
-    <thefooter></thefooter>
+    <thefooter class="footer"></thefooter>
   </div>
 </template>
 
@@ -107,8 +107,8 @@ export default {
           })
           .then(function(response) {
             Swal.fire({
-              title: "You're register",
-              text: "Now, you can enjoy us",
+              title: "You're register, you can enjoy us",
+              text: "Check your email to validate your account",
               confirmButtonText: "OK",
             });
             self.emptyFields();
@@ -146,28 +146,39 @@ export default {
       this.user_password = "";
     },
     darkMode() {
-      document.body.style.backgroundColor = "#1c1c1c";
-    },
-    lightMode() {
-      document.body.style.backgroundColor = "#f4f4f4";
+      document.body.classList.toggle("dark");
     },
   },
 };
 </script>
 
 <style scoped>
+.reg {
+  background-image: url("../assets/register.jpg");
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
 label {
-  font-size: 1.5rem;
   color: var(--blue);
 }
-form {
-  margin: 2rem;
+li {
+  margin: 1rem;
 }
 fieldset {
-  margin: 3rem;
   border: 2px solid var(--blue);
+  background-color: var(--light);
+  opacity: 0.9;
+  width: 40%;
+  font-size: 2rem;
+  line-height: 20px;
+  margin-bottom: 5rem;
 }
 button {
   margin-bottom: 2rem;
+}
+.footer {
+  min-width: 100%;
 }
 </style>

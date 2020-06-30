@@ -18,11 +18,10 @@
       <router-link :to="{ name: 'About' }">About</router-link>
     </nav>
     <div class="extra">
-      <button @click="logOutUser()" v-show="seeUserButton">
+      <button @click="logOutUser()" v-show="seeUserButton || seeAdmin">
         Logout
       </button>
-      <button @click="darkEvent()">🌙</button>
-      <button @click="lightEvent()">🌞</button>
+      <button @click="darkEvent()">🌓</button>
     </div>
   </div>
 </template>
@@ -52,9 +51,6 @@ export default {
     darkEvent() {
       this.$emit("dark");
     },
-    lightEvent() {
-      this.$emit("light");
-    },
   },
   created() {
     this.showUserButtonIn();
@@ -66,7 +62,7 @@ export default {
 <style scoped>
 a {
   text-decoration: none;
-  background-color: var(--light);
+
   color: var(--dark);
   font-size: 2rem;
   margin: 1rem;
@@ -76,21 +72,22 @@ a.router-link-exact-active {
   color: var(--gold);
 }
 .menu {
-  background: var(--light);
+  background: var(--lightBlue);
   display: flex;
   justify-content: space-between;
+  z-index: 10;
+  width: 100%;
 }
 .links {
   display: flex;
   justify-content: center;
-  margin-right: 5rem;
 }
 
 button {
   margin: 1rem;
   font-size: 1.5rem;
   background-color: rgba(255, 255, 255, 0);
-  color: var(--blue);
+  color: var(--dark);
   border: none;
   width: 6rem;
 }

@@ -19,19 +19,22 @@ body {
   --dark: #373737;
   --gold: #eac102;
   --blue: #2874a6;
+  --lightGold: #f8f1d3;
+  --lightBlue: #e7e7e9;
   align-items: center;
   color: var(--dark);
   background-color: var(--light);
 }
-body.dark {
+.dark {
   --light: #373737;
-  --dark: #f4f4f4;
+  --dark: grey;
 }
 
 #app {
   font-family: "baloo tammudu 2", sans-serif, Helvetica, Arial;
   text-align: center;
-  margin: 0 7rem;
+  max-width: 1500px;
+  margin: 0 auto;
 }
 
 .menu {
@@ -41,29 +44,26 @@ body.dark {
 }
 
 h1 {
-  font-size: 4rem;
   text-shadow: 10px 10px 10px var(--blue);
   color: var(--dark);
-  font-size: 20rem;
-  line-height: 8rem;
+  font-size: 13rem;
+  line-height: 5rem;
 }
 h2 {
-  font-size: 3rem;
+  font-size: 2.5rem;
   color: var(--blue);
 }
 h3 {
   color: var(--dark);
-  font-size: 2.5rem;
+  font-size: 2rem;
   font-weight: bolder;
-  padding-bottom: 1rem;
 }
 h4 {
-  font-size: 2rem;
-  color: var(--gold);
-  -webkit-text-stroke: 0.5px var(--dark);
+  font-size: 1.5rem;
+  color: var(--dark);
 }
 p {
-  font-size: 1.5rem;
+  font-size: 1rem;
 }
 a {
   text-decoration: none;
@@ -80,18 +80,19 @@ ul {
   width: 100%;
 }
 .modal label {
-  color: var(--light);
+  color: var(--dark);
 }
 .modalBox {
   margin: 10% auto;
   padding: 20px;
   border: 5px solid var(--gold);
   width: 20%;
+  background: var(--light);
 }
 .cerrar {
   position: fixed;
   top: 0;
-  right: 00;
+  right: 0;
   height: 1rem;
   width: 1rem;
   background-color: rgba(37, 37, 37, 0);
@@ -114,6 +115,7 @@ textarea {
   background-color: var(--light);
   font-size: 1.5rem;
   color: var(--blue);
+  max-width: 90%;
 }
 fieldset {
   border: none;

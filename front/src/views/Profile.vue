@@ -4,7 +4,7 @@
       title="Profile"
       description="Profile page of the application.Only users"
     />
-    <themenu class="menu" v-on:dark="darkMode" v-on:light="lightMode"></themenu>
+    <themenu class="menu" v-on:dark="darkMode"></themenu>
     <header>
       <div class="welcome">
         <h2>Welcome: {{ user.username }}</h2>
@@ -12,17 +12,13 @@
       </div>
       <div class="buttons">
         <button @click="userShowEditText()">Update your profile</button>
-        <button @click="userShowEditPassword()">
-          Update your Password
-        </button>
-        <button @click="showCreatePresentation()">
-          Upload a Presentation
-        </button>
-        <button @click="disableUser()">Disable you</button>
+        <button @click="userShowEditPassword()">Update your Password</button>
+        <button @click="showCreatePresentation()">Upload a Presentation</button>
+        <button @click="disableUser()">Unsubscribe</button>
       </div>
     </header>
     <div id="presentationHistory" class="box" v-show="seeHistory">
-      <h2>Your presentations</h2>
+      <h2 class="yourPresentations">Your presentations</h2>
       <div class="history" v-for="history in histories" :key="history.id">
         <h3>{{ history.title }}</h3>
         <div class="button">
@@ -40,8 +36,8 @@
         <button @click="updateUser()">Update</button>
         <br />
         <div class="editAvatar">
-          <label>If you you want update your avatar </label
-          ><input
+          <label>If you you want update your avatar</label>
+          <input
             type="file"
             id="avatar"
             ref="avatar"
@@ -151,7 +147,8 @@
 import axios from "axios";
 import Swal from "sweetalert2";
 
-import { formatDateToDB } from "../api/helpers";
+import { formatDateToDB, showNotHistory } from "../api/helpers";
+import { server } from "../api/helpers";
 
 import thefooter from "../components/thefooter";
 import themenu from "../components/themenu";
@@ -201,7 +198,6 @@ export default {
     //INITIAL VIEWS FUNCTIONS
     dataUser() {
       const self = this;
-      const server = "http://localhost:3004/";
       const data = localStorage.getItem("id");
       const token = localStorage.getItem("token");
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
@@ -222,7 +218,6 @@ export default {
     },
     userPresentations() {
       const self = this;
-      const server = "http://localhost:3004/";
       const data = localStorage.getItem("id");
       const token = localStorage.getItem("token");
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
@@ -230,15 +225,18 @@ export default {
         .get(server + "user/historypresentations/" + data)
         .then(function(response) {
           self.histories = response.data.data;
+          if (self.histories.length === 0) {
+            const el = document.querySelector(".yourPresentations");
+            el.textContent = "Already you don't upload any presentation";
+          }
         })
         .catch(function(error) {
-          console.error(error.response.data.error);
+          console.error(error.response.data.message);
         });
     },
     //UPDATE FUNCTIONS
     updateUser() {
       const self = this;
-      const server = "http://localhost:3004/";
       const data = localStorage.getItem("id");
       const token = localStorage.getItem("token");
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
@@ -259,7 +257,6 @@ export default {
     },
     updatePassword() {
       const self = this;
-      const server = "http://localhost:3004/";
       const data = localStorage.getItem("id");
       const token = localStorage.getItem("token");
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
@@ -283,7 +280,6 @@ export default {
     submitFile() {
       const self = this;
       //enviar el archivo al servidor
-      const server = "http://localhost:3004/";
       const data = localStorage.getItem("id");
       let formData = new FormData(); //iniciamos el form data
       formData.append("avatar", self.avatar);
@@ -307,7 +303,6 @@ export default {
     //////////////////////////////////////
     disableUser() {
       const self = this;
-      const server = "http://localhost:3004/";
       const data = localStorage.getItem("id");
       const token = localStorage.getItem("token");
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
@@ -342,7 +337,6 @@ export default {
     createNewPresentation() {
       this.validatingDataPresentation();
       var self = this;
-      const server = "http://localhost:3004/";
       const token = localStorage.getItem("token");
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
       axios
@@ -372,7 +366,6 @@ export default {
       const idPresentation = history.presentation_id;
       const idToken = localStorage.getItem("id");
       const token = localStorage.getItem("token");
-      const server = "http://localhost:3004";
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
       Swal.fire({
         title: "Are you sure?",
@@ -402,7 +395,6 @@ export default {
       const idToken = localStorage.getItem("id");
       const token = localStorage.getItem("token");
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-      const server = "http://localhost:3004";
       axios
         .put(server + "/presentation/" + idPresentation, {
           title: self.newTitle,
@@ -481,10 +473,7 @@ export default {
       this.avatar = this.$refs.avatar.files[0];
     },
     darkMode() {
-      document.body.style.backgroundColor = "#1c1c1c";
-    },
-    lightMode() {
-      document.body.style.backgroundColor = "#f4f4f4";
+      document.body.classList.toggle("dark");
     },
   },
   created() {
@@ -516,6 +505,13 @@ header {
   height: 10rem;
   margin: 2rem;
   width: 20rem;
+  -webkit-box-reflect: below -50px -webkit-gradient(
+      linear,
+      left top,
+      left bottom,
+      from(transparent),
+      to(rgba(255, 255, 255, 0.26))
+    );
 }
 .buttons button:hover {
   background-color: var(--gold);
