@@ -9,7 +9,6 @@ async function newPresentation(req, res, next) {
   try {
     connection = await getConnection();
     await newPresentationSchema.validateAsync(req.body);
-
     const {
       title,
       presentation_date,
@@ -19,7 +18,6 @@ async function newPresentation(req, res, next) {
       presentation_language,
       video
     } = req.body;
-
     const { id } = req.auth;
     const [
       current

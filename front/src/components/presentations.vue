@@ -3,9 +3,7 @@
     <div class="presentations" v-show="!seePresentation">
       <header>
         <form>
-          <label for="input"
-            >Search by city, event, category or language:</label
-          >
+          <label for="input">Search by city, event, category or language:</label>
           <input
             type="search"
             id="searchplace"
@@ -30,28 +28,19 @@
             <h4>{{ presentation.category }} 💡</h4>
             <h4>{{ presentation.presentation_language }} 🎧</h4>
             <div class="button">
-              <button class="startButton" @click="showPresentationEvent(index)">
-                See
-              </button>
+              <button class="startButton" @click="showPresentationEvent(index)">See</button>
             </div>
           </div>
         </li>
       </ul>
     </div>
     <div class="presentation" v-if="seePresentation">
-      <button class="backPresentations" @click="seePresentationEvent()">
-        Back to presentations
-      </button>
+      <button class="backPresentations" @click="seePresentationEvent()">Back to presentations</button>
       <h2>{{ presentation.title }}</h2>
       <div id="video" class="box">
-        <videoPlayer
-          size="large"
-          :videoSource="presentation.video"
-        ></videoPlayer>
+        <videoPlayer size="large" :videoSource="presentation.video"></videoPlayer>
         <div class="data">
-          <h3 class="rating">
-            Rating: {{ presentation.rating }} ⭐️ ({{ ratings.totalratings }})
-          </h3>
+          <h3 class="rating">Rating: {{ presentation.rating }} ⭐️ ({{ ratings.totalratings }})</h3>
           <h3 class="view">{{ presentation.totalviews }} Views 👀</h3>
         </div>
       </div>
@@ -72,12 +61,11 @@
           <div class="contact">
             <p>
               If you find this presentation
-              <b>interesting</b> , you can <b>send an email</b> to the user that
+              <b>interesting</b> , you can
+              <b>send an email</b> to the user that
               update it.
             </p>
-            <button @click="contactUserEvent(presentation)">
-              Contact to the user
-            </button>
+            <button @click="contactUserEvent(presentation)">Contact to the user</button>
             <div class="modal" v-show="seeContact">
               <div class="modalBox">
                 <textarea
@@ -91,12 +79,8 @@
                 <button
                   class="contactbutton"
                   @click="contactUserEmailEvent(message, presentation)"
-                >
-                  Contact
-                </button>
-                <button class="contactbutton" @click="closeContactEvent()">
-                  Back
-                </button>
+                >Contact</button>
+                <button class="contactbutton" @click="closeContactEvent()">Back</button>
               </div>
             </div>
           </div>
@@ -116,10 +100,7 @@
                     :ratingDesign="ratingDesign"
                   ></star-rating>
                   <label for>Theme Quality</label>
-                  <star-rating
-                    @rating-selected="ratingTheme = $event"
-                    :ratingTheme="ratingTheme"
-                  ></star-rating>
+                  <star-rating @rating-selected="ratingTheme = $event" :ratingTheme="ratingTheme"></star-rating>
                   <label for>Communication</label>
                   <star-rating
                     @rating-selected="ratingCommunication = $event"
@@ -127,13 +108,7 @@
                   ></star-rating>
                   <label for>Comments</label>
                   <br />
-                  <textarea
-                    name="comments"
-                    class="comments"
-                    cols="20"
-                    rows="10"
-                    v-model="comment"
-                  ></textarea>
+                  <textarea name="comments" class="comments" cols="20" rows="10" v-model="comment"></textarea>
                 </form>
                 <button @click="voteEvent(presentation, comment)">Vote</button>
               </fieldset>
@@ -141,6 +116,24 @@
           </div>
         </div>
       </div>
+      .slider {
+      width: 35%;
+      margin: auto;
+      overflow: hidden;
+      }
+      .slider ul {
+      display: flex;
+      padding: 0;
+      width: 400%;
+      animation: cambio 20s infinite alternate linear;
+      }
+      .slider li {
+      width: 100%;
+      list-style: none;
+      }
+      .slider img {
+      width: 100%;
+      }
       <h3>Comments</h3>
       <div class="box" id="comments">
         <ul>
@@ -164,7 +157,7 @@ import videoPlayer from "./videoPlayer";
 export default {
   name: "listpresentations",
   components: {
-    videoPlayer,
+    videoPlayer
   },
   props: {
     presentations: Array,
@@ -174,7 +167,7 @@ export default {
     seePresentation: Boolean,
     seeContact: Boolean,
     seeVote: Boolean,
-    id: Number,
+    id: Number
     /* width: String,
     height: String, */
   },
@@ -189,16 +182,16 @@ export default {
       search: "",
       seeUserButton: false,
       width: "",
-      height: "",
+      height: ""
     };
   },
   computed: {
     filteredPresentations() {
-      if (!this.search) {
+      if (this.search === "") {
         return this.presentations;
       }
       return this.presentations.filter(
-        (presentation) =>
+        presentation =>
           presentation.title
             .toLowerCase()
             .includes(this.search.toLowerCase()) ||
@@ -213,10 +206,10 @@ export default {
             .toLowerCase()
             .includes(this.search.toLowerCase())
       );
-    },
+    }
   },
   filters: {
-    date: dateFilter,
+    date: dateFilter
   },
   methods: {
     showPresentationEvent(index) {
@@ -261,11 +254,11 @@ export default {
     },
     showUserButtonIn() {
       this.seeUserButton = showUserButton();
-    },
+    }
   },
   created() {
     this.showUserButtonIn();
-  },
+  }
 };
 </script>
 
@@ -341,7 +334,7 @@ h2 {
 }
 .backPresentations {
   color: var(--blue);
-  background-color: var(--gold);
+  background-color: var(--light);
 }
 #video {
   display: flex;
@@ -368,16 +361,22 @@ h2 {
   font-size: 2rem;
 }
 #comments {
+  text-align: start;
   overflow-y: scroll;
   width: 70rem;
   height: 20rem;
-  line-height: 20px;
+  line-height: 25px;
   padding: 1rem;
+}
+.comments {
+  border-bottom: 0.1px dashed grey;
+  padding: 0.5rem;
 }
 .comments p {
   font-size: 1rem;
 }
 .comments h4 {
+  margin-top: 0.3rem;
   font-size: 1.5rem;
 }
 hr {

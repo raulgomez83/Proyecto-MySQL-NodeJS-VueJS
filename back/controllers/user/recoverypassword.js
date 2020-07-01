@@ -9,29 +9,21 @@ const {
 
 async function recoveryPassword(req, res, next) {
   let connection;
-  console.log('uno');
-
   try {
     await recoveryPasswordSchema.validateAsync(req.body);
-
     const { email } = req.body;
-
     connection = await getConnection();
-
     const [
       dbUser
     ] = await connection.query(
       'SELECT user_id, email, user_password FROM users WHERE email=? and active=true',
       [email]
     );
-
     if (!dbUser.length) {
       throw generateError('There is not an active users with this email', 404);
     }
-
     const [user] = dbUser;
     const tempPassword = randomString(10);
-
     try {
       await sendEmail({
         email: user.email,
@@ -43,12 +35,10 @@ async function recoveryPassword(req, res, next) {
       throw generateError('It is a problem with the mail sending');
     }
     const tempDBPassword = await bcrypt.hash(tempPassword, 10);
-
     await connection.query('UPDATE users SET user_password=? WHERE user_id=?', [
       tempDBPassword,
       user.user_id
     ]);
-
     res.send({
       staus: 'ok',
       message:
@@ -62,7 +52,6 @@ async function recoveryPassword(req, res, next) {
     }
   }
 }
-
 module.exports = {
   recoveryPassword
 };

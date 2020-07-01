@@ -7,16 +7,24 @@
         <h1>Load</h1>
         <h1>Watch</h1>
         <h1>Score</h1>
-        <h2>No more ordinary presentations</h2>
+        <h2>No More Ordinary Presentations</h2>
       </div>
       <div class="image">
         <router-link class="link" :to="{ name: 'Presentations' }"
-          >Go to presentations</router-link
+          >Go to Presentations</router-link
         >
       </div>
     </header>
     <div class="top">
-      <h2 class="view">#TOP RATING PRESENTATIONS</h2>
+       <h2 class="view">LAST PRESENTATIONS</h2>
+      <ul>
+        <li v-for="last in lasts" :key="last.id">
+          <h3>{{ last.title }}</h3>
+          <!-- <div v-html="view.video" class="video"></div> -->
+          <videoPlayer size="small" :videoSource="last.video"></videoPlayer>
+        </li>
+      </ul>
+      <h2 class="view"> RATING PRESENTATIONS</h2>
       <ul>
         <li v-for="rating in ratings" :key="rating.id">
           <h3>{{ rating.title }}</h3>
@@ -25,7 +33,7 @@
           <h4>Rating: {{ rating.rating }} ⭐️</h4>
         </li>
       </ul>
-      <h2 class="view">#TOP VIEWING PRESENTATIONS</h2>
+      <h2 class="view"> VIEWING PRESENTATIONS</h2>
       <ul>
         <li v-for="view in views" :key="view.id">
           <h3>{{ view.title }}</h3>
@@ -55,7 +63,7 @@ export default {
   data() {
     return {
       views: [],
-      ratings: [],
+      ratings: [],lasts:[]
     };
   },
   methods: {
@@ -63,9 +71,11 @@ export default {
       const self = this;
       axios
         .get(server + "presentations/top3")
-        .then(function(response) {
+        .then(function(response) { console.log(response.data.data);
+        
           self.ratings = response.data.data.resultRatings;
           self.views = response.data.data.resultViews;
+          self.lasts=response.data.data.resultLast
         })
         .catch(function(error) {
           console.error(error);
@@ -99,7 +109,7 @@ header {
 .words {
   background-color: var(--dark);
   height: 100vh;
-  width: 50vw;
+  width: 55vw;
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
@@ -112,7 +122,6 @@ header {
   height: 5rem;
   background-color: var(--dark);
   color: var(--gold);
-
   border: 1px solid var(--silk);
   border-radius: 5px;
   box-shadow: 0px 5px 0px var(--gold);
@@ -129,19 +138,31 @@ header {
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
+  width: 100%;
 }
 .top ul {
   display: flex;
-  align-content: center;
-  list-style-type: decimal ;
+ justify-content: space-between;
+ 
 }
-.top h2 {
-  margin-bottom: 2rem;
-}
+
 .top li {
-  margin: 2rem;
+  margin: 1rem;
 }
 .about {
   margin-bottom: 2rem;
 }
+
+
+@keyframes cambio {
+	0% {margin-left: 0;}
+	33% {margin-left: 0;}
+
+	33% {margin-left: -200%;}
+	66% {margin-left: -200%;}
+	
+	66% {margin-left: -300%;}
+	100% {margin-left: -300%;}
+}
+
 </style>

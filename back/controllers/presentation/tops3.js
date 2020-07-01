@@ -7,10 +7,8 @@ async function getPresentationsTops3(req, res, next) {
   try {
     connection = await getConnection();
     const [resultLast] = await connection.query(
-      `SELECT p.title,p.video,round(AVG(r.rating),1) AS rating 
-FROM presentations p 
-INNER JOIN ratings r on p.presentation_id= r.presentation_id_ratings
-GROUP BY r.presentation_id_ratings ORDER BY date_louded_presentation DESC LIMIT 3 `
+      `SELECT title,video
+FROM presentations  ORDER BY date_louded_presentation DESC LIMIT 3 `
     );
     const [resultRatings] = await connection.query(
       `SELECT p.title,p.video,round(AVG(r.rating),1) AS rating 

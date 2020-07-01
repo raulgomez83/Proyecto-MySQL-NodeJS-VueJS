@@ -5,14 +5,16 @@
         <li id="title">About us</li>
         <li>
           <p class="pcity">
-            The company started in order to <b>increase the quality</b> of the
+            The company started in order to
+            <b>increase the quality</b> of the
             presentations, and involve presential events participants as well
             every user.
           </p>
         </li>
         <li>
           <p class="pcat">
-            That's why all the presentations <b>are rated for our users</b>,in
+            That's why all the presentations
+            <b>are rated for our users</b>,in
             the moment while enjoy the event or in a future, watching it. Along
             the way, through the voting system, the organizers can see which
             presentations get the best scores and use it to improve them and
@@ -21,7 +23,8 @@
         </li>
         <li>
           <p class="pevent">
-            We want to be the <b>reference company</b> in the world of events
+            We want to be the
+            <b>reference company</b> in the world of events
             and conventions, helping to increase the quality of the
             presentations
           </p>
@@ -36,7 +39,7 @@
 
 <script>
 export default {
-  name: "about",
+  name: "about"
 };
 </script>
 
@@ -63,7 +66,7 @@ export default {
   grid-area: header;
 }
 #us p {
-  font-size: 2rem;
+  font-size: 1.6rem;
   max-width: 40vw;
 }
 #us .pcity {

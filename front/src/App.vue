@@ -55,11 +55,11 @@ h2 {
 }
 h3 {
   color: var(--dark);
-  font-size: 2rem;
+  font-size: 1.5rem;
   font-weight: bolder;
 }
 h4 {
-  font-size: 1.5rem;
+  font-size: 1rem;
   color: var(--dark);
 }
 p {
@@ -106,7 +106,7 @@ ul {
 }
 input {
   margin: 1rem;
-  font-size: 1.5rem;
+  font-size: 1rem;
   background: var(--light);
   border: 3px solid var(--blue);
   color: var(--blue);

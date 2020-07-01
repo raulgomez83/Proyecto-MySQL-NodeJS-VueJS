@@ -25,9 +25,9 @@ async function getContact(req, res, next) {
       ]);
       await sendEmail({
         email: result[0].email,
-        title: `Another user is interested to contact you`,
+        title: `Another user is interested to contact you, the message is:`,
         content: `${message}. 
-                The user's email is ${contactEmail[0].email}`
+               If you are interested to contact him, the user's email is ${contactEmail[0].email}`
       });
     } catch (error) {
       console.error(error);

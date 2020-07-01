@@ -1,9 +1,6 @@
 <template>
   <div>
-    <vue-headful
-      title="Profile"
-      description="Profile page of the application.Only users"
-    />
+    <vue-headful title="Profile" description="Profile page of the application.Only users" />
     <themenu class="menu" v-on:dark="darkMode"></themenu>
     <header>
       <div class="welcome">
@@ -37,12 +34,7 @@
         <br />
         <div class="editAvatar">
           <label>If you you want update your avatar</label>
-          <input
-            type="file"
-            id="avatar"
-            ref="avatar"
-            @change="handleFileUpload()"
-          />
+          <input type="file" id="avatar" ref="avatar" @change="handleFileUpload()" />
           <br />
           <button @click="submitFile()">Update Avatar</button>
         </div>
@@ -51,17 +43,9 @@
     </div>
     <div class="modal" v-show="seeEditPassword">
       <div class="modalBox">
-        <input
-          type="password"
-          v-model="oldPassword"
-          placeholder="Your old password"
-        />
+        <input type="password" v-model="oldPassword" placeholder="Your old password" />
         <input type="password" v-model="password" placeholder="New password" />
-        <input
-          type="password"
-          v-model="passwordRepeat"
-          placeholder="Repeat your new Paswword"
-        />
+        <input type="password" v-model="passwordRepeat" placeholder="Repeat your new Paswword" />
         <br />
         <button @click="updatePassword()">Update</button>
         <button @click="seeEditPassword = false">Back to profile</button>
@@ -94,22 +78,12 @@
             <li>
               <label for="category">Category:</label>
               <br />
-              <input
-                type="text"
-                name="category"
-                id="category"
-                v-model="category"
-              />
+              <input type="text" name="category" id="category" v-model="category" />
             </li>
             <li>
               <label for="language">Language:</label>
               <br />
-              <input
-                type="text"
-                name="language"
-                id="language"
-                v-model="language"
-              />
+              <input type="text" name="language" id="language" v-model="language" />
             </li>
             <li>
               <label for="video">Video:</label>
@@ -119,9 +93,7 @@
           </ul>
         </form>
         <button @click="createNewPresentation()">Upload</button>
-        <button @click="seeCreationPresentation = false">
-          Back to profile
-        </button>
+        <button @click="seeCreationPresentation = false">Back to profile</button>
       </div>
     </div>
     <div class="modal" v-show="seeEditPresentation">
@@ -134,9 +106,7 @@
         <input type="text" v-model="newLanguage" placeholder="language" />
         <input type="url" v-model="newVideo" placeholder="video" />
         <button @click="updatePresentation()">Update</button>
-        <button @click="seeEditPresentation = false">
-          Back to presentation
-        </button>
+        <button @click="seeEditPresentation = false">Back to presentation</button>
       </div>
     </div>
     <thefooter class="footer"></thefooter>
@@ -191,7 +161,7 @@ export default {
       newCity: "",
       newLanguage: "",
       presentation_id: "",
-      avatar: "",
+      avatar: ""
     };
   },
   methods: {
@@ -244,7 +214,7 @@ export default {
         .put(server + "user/" + data, {
           firstname: self.newFirstname,
           surname: self.newSurname,
-          email: self.newEmail,
+          email: self.newEmail
         })
         .then(function(response) {
           self.seeEdit = true;
@@ -264,11 +234,11 @@ export default {
         .put(server + "user/password/" + data, {
           oldPassword: self.oldPassword,
           newPassword: self.password,
-          newPasswordRepeat: self.passwordRepeat,
+          newPasswordRepeat: self.passwordRepeat
         })
         .then(function(response) {
           Swal.fire({
-            title: "Your password has been updated",
+            title: "Your password has been updated"
           });
           self.emptyFiledsPassword();
           self.seeEditPassword = false;
@@ -289,8 +259,8 @@ export default {
       axios
         .put(server + "user/" + data, formData, {
           headers: {
-            "Content-Type": "multipart/form-data",
-          },
+            "Content-Type": "multipart/form-data"
+          }
         })
         .then(function(response) {
           Swal.fire("Your avatar was upload");
@@ -313,8 +283,8 @@ export default {
         showCancelButton: true,
         confirmButtonColor: "#3085d6",
         cancelButtonColor: "#d33",
-        confirmButtonText: "Yes, delete it!",
-      }).then((result) => {
+        confirmButtonText: "Yes, delete it!"
+      }).then(result => {
         if (result.value) {
           axios
             .put(server + "user/disable/" + data)
@@ -329,7 +299,7 @@ export default {
             .catch(function(error) {
               console.error(error.response.data.message);
             });
-          Swal.fire("Deleted!", "Your presentation has been deleted.");
+          Swal.fire("Deleted!", "Now you are unsubscribed, we will miss you");
         }
       });
     },
@@ -347,11 +317,11 @@ export default {
           city: self.city,
           category: self.category,
           presentation_language: self.language,
-          video: self.video,
+          video: self.video
         })
         .then(function(response) {
           Swal.fire({
-            title: "Congratulations, You have upload a presentation",
+            title: "Congratulations, You have upload a presentation"
           });
           self.emptyFieldsPresentations();
           self.seeCreationPresentation = false;
@@ -374,11 +344,11 @@ export default {
         showCancelButton: true,
         confirmButtonColor: "#3085d6",
         cancelButtonColor: "#d33",
-        confirmButtonText: "Yes, delete it!",
-      }).then((result) => {
+        confirmButtonText: "Yes, delete it!"
+      }).then(result => {
         if (result.value) {
           axios
-            .delete(server + "/presentation/" + idPresentation)
+            .delete(server + "presentation/" + idPresentation)
             .then(function(response) {
               location.reload();
             })
@@ -396,19 +366,19 @@ export default {
       const token = localStorage.getItem("token");
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
       axios
-        .put(server + "/presentation/" + idPresentation, {
+        .put(server + "presentation/" + idPresentation, {
           title: self.newTitle,
           presentation_date: self.newDatePresentation,
           presentation_event: self.newEvent,
           city: self.newCity,
           category: self.newCategory,
           presentation_language: self.newLanguage,
-          video: self.newVideo,
+          video: self.newVideo
         })
         .then(function(response) {
           self.seeEditPresentation = false;
           Swal.fire({
-            title: "Your presentation has been updated",
+            title: "Your presentation has been updated"
           });
         })
         .catch(function(error) {
@@ -474,12 +444,12 @@ export default {
     },
     darkMode() {
       document.body.classList.toggle("dark");
-    },
+    }
   },
   created() {
     this.dataUser();
     this.userPresentations();
-  },
+  }
 };
 </script>
 
@@ -529,6 +499,7 @@ header {
   flex-direction: column;
 }
 h2 {
+  padding: 1rem;
   margin: 1rem 0 3rem;
 }
 #presentationHistory {

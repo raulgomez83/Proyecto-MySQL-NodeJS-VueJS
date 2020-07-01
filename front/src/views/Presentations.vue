@@ -1,9 +1,6 @@
 <template>
   <div>
-    <vue-headful
-      title="Presentations"
-      description="Presentations page of the application"
-    />
+    <vue-headful title="Presentations" description="Presentations page of the application" />
     <themenu class="menu" v-on:dark="darkMode"></themenu>
     <listpresentations
       :presentations="presentations"
@@ -52,7 +49,7 @@ export default {
       require: false,
       message: "",
       seeVote: false,
-      comment: "",
+      comment: ""
     };
   },
   methods: {
@@ -99,17 +96,17 @@ export default {
           score_design: ratingDesign,
           score_theme_quality: ratingTheme,
           score_comunication: ratingCommunication,
-          comments: comment,
+          comments: comment
         })
         .then(function(response) {
           Swal.fire({
-            title: "You vote properly, thanks for participate",
+            title: "You vote properly, thanks for participate"
           });
           location.reload();
         })
         .catch(function(error) {
           Swal.fire({
-            title: error.response.data.message,
+            title: error.response.data.message
           });
           console.error(error.response.data.message);
         });
@@ -124,14 +121,14 @@ export default {
         const token = localStorage.getItem("token");
         axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
         axios
-          .post(server + "/presentation/contact/" + id, {
-            message: message,
+          .post(server + "presentation/contact/" + id, {
+            message: message
           })
           .then(function(response) {
             self.emptyFieldMessage();
             self.seeContact = false;
             Swal.fire({
-              title: "Your email has been sent",
+              title: "Your email has been sent"
             });
           })
           .catch(function(error) {
@@ -184,11 +181,11 @@ export default {
     },
     darkMode() {
       document.body.classList.toggle("dark");
-    },
+    }
   },
   created() {
     this.getPresentations();
-  },
+  }
 };
 </script>
 

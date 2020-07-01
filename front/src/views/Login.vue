@@ -28,11 +28,7 @@
           <h2>Reactivate your account</h2>
           <input type="text" placeholder="username" v-model="usernameRecover" />
           <br />
-          <input
-            type="password"
-            placeholder="password"
-            v-model="passwordRecover"
-          />
+          <input type="password" placeholder="password" v-model="passwordRecover" />
         </form>
         <button @click="reactivateUser()">Recover</button>
       </fieldset>
@@ -42,11 +38,7 @@
       <fieldset class="modalBox">
         <form>
           <label for="text">Give us your email if you don't forgot it</label>
-          <input
-            type="email"
-            placeholder="Write your email..."
-            v-model="email"
-          />
+          <input type="email" placeholder="Write your email..." v-model="email" />
         </form>
         <button @click="recoverPassword()">Send</button>
       </fieldset>
@@ -72,7 +64,7 @@ export default {
       usernameRecover: "",
       passwordRecover: "",
       seeReactivateAccount: false,
-      seeRecoverPassword: false,
+      seeRecoverPassword: false
     };
   },
   methods: {
@@ -81,7 +73,7 @@ export default {
       axios
         .post(server + "users/login", {
           username: self.username,
-          password: self.password,
+          password: self.password
         })
         .then(function(response) {
           localStorage.setItem("token", response.data.data.token);
@@ -98,7 +90,7 @@ export default {
       const self = this;
       axios
         .put(server + "user/recovery", {
-          email: self.email,
+          email: self.email
         })
         .then(function(response) {
           Swal.fire("We send you an email to recover your password");
@@ -111,11 +103,10 @@ export default {
     },
     reactivateUser() {
       const self = this;
-
       axios
         .put(server + "user/reactivate", {
           username: self.usernameRecover,
-          password: self.passwordRecover,
+          password: self.passwordRecover
         })
         .then(function(response) {
           self.seeReactivateAccount = false;
@@ -139,8 +130,8 @@ export default {
     },
     darkMode() {
       document.body.classList.toggle("dark");
-    },
-  },
+    }
+  }
 };
 </script>
 
@@ -150,7 +141,7 @@ export default {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-image: url("../assets/login.jpeg");
+  background-image: url("../assets/login.jpg");
   background-repeat: no-repeat;
   background-size: cover;
 }
