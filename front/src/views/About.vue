@@ -5,15 +5,18 @@
     <div class="about">
       <vue-headful title="About" description="Page about of market" />
       <h2>
-        This project so hard to made, was created using MySQL, NodeJS , VueJS
+        This project so hard to make, was created using MySQL, NodeJS , VueJS
         <br />by 👇👇👇
       </h2>
       <img src="../assets/fotomia.jpg" alt="mi foto" />
       <h2>Raúl Gómez</h2>
       <p>
-        If you want more recent information , please push
+        If you want to bear a part in my new programmer life , you can enjoy
         <a
-          href="www.linkedin.com/in/raulgomezromero"
+          href="https://blissful-hermann-d9bf29.netlify.app/#/"
+        >my first videogame</a> using Vue and JS. Also if you are interested for more profesional information , please push
+        <a
+          href="https://www.linkedin.com/in/raulgomezromero/"
         >here.</a>
       </p>
       <p class="thanks">
@@ -63,7 +66,7 @@ a {
   background-color: var(--blue);
   box-shadow: 5px 5px 5px var(--dark);
   color: var(--light);
-  padding: 5rem;
+  padding: 2rem;
   margin: 4rem;
 }
 </style>

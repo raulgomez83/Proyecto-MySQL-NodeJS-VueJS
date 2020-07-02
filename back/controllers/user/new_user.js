@@ -48,7 +48,7 @@ async function newUser(req, res, next) {
       await sendEmail({
         email: email,
         title: 'You must validate your account in the App in SQL',
-        content: `For validate your account paste this URL in your browser: ${validationURL}`
+        content: `For validate your account, click here:${validationURL} or paste this URL in your browser `
       });
     } catch (error) {
       console.error(error.response.body);

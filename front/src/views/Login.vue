@@ -16,9 +16,9 @@
         Are you not register already? Click
         <router-link :to="{ name: 'Register' }">Enjoy Us.</router-link>
       </p>
-      <p>Did you make a big mistake unsubscribed? Don't worry</p>
+      <p>Did you make a big mistake and unsubscribed yourself? Don't worry!</p>
       <button @click="showReactivateUser()">Come back with us</button>
-      <p>Forgot your password? It happens</p>
+      <p>Have you forgot your password? It happens!</p>
       <button @click="showRecoverPassword()">Recover it</button>
     </fieldset>
     <div class="modal" v-show="seeReactivateAccount">
@@ -46,7 +46,6 @@
     <thefooter class="footer"></thefooter>
   </div>
 </template>
-
 <script>
 import Swal from "sweetalert2";
 import axios from "axios";
@@ -96,7 +95,6 @@ export default {
           Swal.fire("We send you an email to recover your password");
           self.seeRecoverPassword = false;
         })
-
         .catch(function(error) {
           Swal.fire(error.response.data.message);
         });

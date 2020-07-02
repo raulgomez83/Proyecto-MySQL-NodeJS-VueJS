@@ -3,38 +3,34 @@
     <nav class="links">
       <router-link :to="{ name: 'Home' }">Home</router-link>
       <router-link :to="{ name: 'Presentations' }">Presentations</router-link>
-      <router-link :to="{ name: 'Profile' }" v-show="seeUserButton"
-        >Profile</router-link
-      >
-      <router-link :to="{ name: 'Login' }" v-show="!seeUserButton"
-        >Login</router-link
-      >
-      <router-link :to="{ name: 'Register' }" v-show="!seeUserButton"
-        >Sign Up</router-link
-      >
-      <router-link :to="{ name: 'Admin' }" v-show="seeAdmin"
-        >Administrator</router-link
-      >
+      <router-link :to="{ name: 'Profile' }" v-show="seeUserButtonProfile">Profile</router-link>
+      <router-link :to="{ name: 'Login' }" v-show="!seeUserButton">Login</router-link>
+      <router-link :to="{ name: 'Register' }" v-show="!seeUserButton">Sign Up</router-link>
+      <router-link :to="{ name: 'Admin' }" v-show="seeAdmin">Administrator</router-link>
       <router-link :to="{ name: 'About' }">About</router-link>
     </nav>
     <div class="extra">
-      <button @click="logOutUser()" v-show="seeUserButton || seeAdmin">
-        Logout
-      </button>
+      <button @click="logOutUser()" v-show="seeUserButton || seeAdmin">Logout</button>
       <button @click="darkEvent()">🌓</button>
     </div>
   </div>
 </template>
 
 <script>
-import { logOut, showUserButton, showAdminButton } from "../api/helpers";
+import {
+  logOut,
+  showUserButton,
+  showAdminButton,
+  isLoggin
+} from "../api/helpers";
 
 export default {
   name: "themenu",
   data() {
     return {
       seeUserButton: false,
-      seeAdmin: false,
+      seeUserButtonProfile: false,
+      seeAdmin: false
     };
   },
   methods: {
@@ -43,26 +39,29 @@ export default {
       this.$router.push("/login");
     },
     showUserButtonIn() {
-      this.seeUserButton = showUserButton();
+      this.seeUserButton = isLoggin();
     },
     showAdminButtonInMenu() {
       this.seeAdmin = showAdminButton();
     },
+    showUserButtonProfile() {
+      this.seeUserButtonProfile = showUserButton();
+    },
     darkEvent() {
       this.$emit("dark");
-    },
+    }
   },
   created() {
     this.showUserButtonIn();
     this.showAdminButtonInMenu();
-  },
+    this.showUserButtonProfile();
+  }
 };
 </script>
 
 <style scoped>
 a {
   text-decoration: none;
-
   color: var(--dark);
   font-size: 2rem;
   margin: 1rem;

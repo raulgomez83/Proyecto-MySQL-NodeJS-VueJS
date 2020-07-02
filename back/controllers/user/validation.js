@@ -1,19 +1,13 @@
 require('dotenv').config();
 
-const {
-  getConnection
-} = require('../../db');
-const {
-  generateError
-} = require('../../helpers');
+const { getConnection } = require('../../db');
+const { generateError } = require('../../helpers');
 
 async function validateUser(req, res, next) {
   let connection;
 
   try {
-    const {
-      code
-    } = req.query;
+    const { code } = req.query;
     connection = await getConnection();
     const [
       result
@@ -26,7 +20,7 @@ async function validateUser(req, res, next) {
     }
     res.send({
       status: 'ok',
-      message: 'User is validated, now, you can login.'
+      message: 'Your user is validated, now you can login.'
     });
   } catch (error) {
     next(error);

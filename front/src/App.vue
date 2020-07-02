@@ -27,7 +27,7 @@ body {
 }
 .dark {
   --light: #373737;
-  --dark: grey;
+  --dark: lightblue;
 }
 
 #app {
@@ -81,13 +81,15 @@ ul {
 }
 .modal label {
   color: var(--dark);
+  font-size: 1.2rem;
 }
 .modalBox {
-  margin: 10% auto;
-  padding: 20px;
+  margin: 7% auto;
   border: 5px solid var(--gold);
-  width: 20%;
+  width: 25%;
+  height: auto;
   background: var(--light);
+  padding: 1rem;
 }
 .cerrar {
   position: fixed;
@@ -106,7 +108,7 @@ ul {
 }
 input {
   margin: 1rem;
-  font-size: 1rem;
+  font-size: 1.2rem;
   background: var(--light);
   border: 3px solid var(--blue);
   color: var(--blue);

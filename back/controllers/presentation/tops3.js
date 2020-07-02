@@ -7,7 +7,7 @@ async function getPresentationsTops3(req, res, next) {
   try {
     connection = await getConnection();
     const [resultLast] = await connection.query(
-      `SELECT title,video
+      `SELECT title,video,date_louded_presentation
 FROM presentations  ORDER BY date_louded_presentation DESC LIMIT 3 `
     );
     const [resultRatings] = await connection.query(

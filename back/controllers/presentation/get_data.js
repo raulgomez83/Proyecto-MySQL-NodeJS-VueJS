@@ -18,7 +18,7 @@ WHERE presentation_id=? `,
     const [
       resultcomments
     ] = await connection.query(
-      `SELECT r.comments, u.username, u.avatar FROM ratings r INNER JOIN users u ON r.user_id_ratings=u.user_id WHERE presentation_id_ratings=?`,
+      `SELECT r.comments, u.username, u.avatar FROM ratings r INNER JOIN users u ON r.user_id_ratings=u.user_id WHERE presentation_id_ratings=? ORDER BY comments ASC`,
       [id]
     );
 

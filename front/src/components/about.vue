@@ -7,15 +7,14 @@
           <p class="pcity">
             The company started in order to
             <b>increase the quality</b> of the
-            presentations, and involve presential events participants as well
+            presentations, and involve presential events participants as well as
             every user.
           </p>
         </li>
         <li>
           <p class="pcat">
-            That's why all the presentations
-            <b>are rated for our users</b>,in
-            the moment while enjoy the event or in a future, watching it. Along
+            This is why all the presentations
+            <b>are rated for our users</b>, whereas they enjoy the event or in any future moment, watching it. Along
             the way, through the voting system, the organizers can see which
             presentations get the best scores and use it to improve them and
             increase the level of the event.
@@ -26,7 +25,7 @@
             We want to be the
             <b>reference company</b> in the world of events
             and conventions, helping to increase the quality of the
-            presentations
+            presentations.
           </p>
         </li>
         <li class="icity"></li>

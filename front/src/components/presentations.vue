@@ -116,24 +116,6 @@
           </div>
         </div>
       </div>
-      .slider {
-      width: 35%;
-      margin: auto;
-      overflow: hidden;
-      }
-      .slider ul {
-      display: flex;
-      padding: 0;
-      width: 400%;
-      animation: cambio 20s infinite alternate linear;
-      }
-      .slider li {
-      width: 100%;
-      list-style: none;
-      }
-      .slider img {
-      width: 100%;
-      }
       <h3>Comments</h3>
       <div class="box" id="comments">
         <ul>
@@ -288,10 +270,11 @@ header {
   margin: 2rem;
 }
 .presentations label {
-  font-size: 2rem;
-  color: var(--dark);
+  font-size: 2.5rem;
+  color: var(--light);
   font-weight: bold;
   margin-top: 2rem;
+  -webkit-text-stroke: 1px var(--dark);
 }
 input {
   margin: 1rem;

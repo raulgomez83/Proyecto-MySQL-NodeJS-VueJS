@@ -1,4 +1,5 @@
 import axios from "axios";
+const { format } = require("date-fns");
 
 export function deleteAuth_Token() {
   axios.defaults.headers.common["Authorization"] = "";
@@ -21,7 +22,14 @@ export function logOut() {
 }
 export function showUserButton() {
   const role = localStorage.getItem("role");
-  if (role === "loader" || role === "normal" /* || role === "admin" */) {
+  if (role === "loader" || role === "normal") {
+    return true;
+  }
+  return false;
+}
+export function isLoggin() {
+  const token = localStorage.getItem("token");
+  if (token) {
     return true;
   }
   return false;
@@ -34,4 +42,3 @@ export function showAdminButton() {
   return false;
 }
 export const server = "http://localhost:3004/";
-export function showNotHistory() {}

@@ -8,7 +8,7 @@
         <img :src="user.avatar" alt="user picture" />
       </div>
       <div class="buttons">
-        <button @click="userShowEditText()">Update your profile</button>
+        <button @click="userShowEditText()">Update your Profile</button>
         <button @click="userShowEditPassword()">Update your Password</button>
         <button @click="showCreatePresentation()">Upload a Presentation</button>
         <button @click="disableUser()">Unsubscribe</button>
@@ -105,6 +105,7 @@
         <input type="text" v-model="newEvent" placeholder="event" />
         <input type="text" v-model="newLanguage" placeholder="language" />
         <input type="url" v-model="newVideo" placeholder="video" />
+        <br />
         <button @click="updatePresentation()">Update</button>
         <button @click="seeEditPresentation = false">Back to presentation</button>
       </div>
@@ -197,7 +198,7 @@ export default {
           self.histories = response.data.data;
           if (self.histories.length === 0) {
             const el = document.querySelector(".yourPresentations");
-            el.textContent = "Already you don't upload any presentation";
+            el.textContent = "You have not upload any presentation yet.";
           }
         })
         .catch(function(error) {
@@ -278,12 +279,11 @@ export default {
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
       Swal.fire({
         title: "Are you sure?",
-        text: "You won't be able to revert this!",
         icon: "warning",
         showCancelButton: true,
         confirmButtonColor: "#3085d6",
         cancelButtonColor: "#d33",
-        confirmButtonText: "Yes, delete it!"
+        confirmButtonText: "Yes, unsubscribe me!"
       }).then(result => {
         if (result.value) {
           axios
@@ -429,6 +429,8 @@ export default {
       this.seeCreationPresentation = true;
     },
     dataEditPresentation(history) {
+      console.log(history);
+
       this.seeEditPresentation = true;
       this.newTitle = history.title;
       this.newEvent = history.presentation_event;

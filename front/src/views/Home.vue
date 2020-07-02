@@ -7,7 +7,7 @@
         <h1>Load</h1>
         <h1>Watch</h1>
         <h1>Score</h1>
-        <h2>No More Ordinary Presentations</h2>
+        <h2>No Ordinary Presentations</h2>
       </div>
       <div class="image">
         <router-link class="link" :to="{ name: 'Presentations' }"
@@ -24,7 +24,7 @@
           <videoPlayer size="small" :videoSource="last.video"></videoPlayer>
         </li>
       </ul>
-      <h2 class="view"> RATING PRESENTATIONS</h2>
+      <h2 class="view">  TOP RATING PRESENTATIONS</h2>
       <ul>
         <li v-for="rating in ratings" :key="rating.id">
           <h3>{{ rating.title }}</h3>
@@ -33,7 +33,7 @@
           <h4>Rating: {{ rating.rating }} ⭐️</h4>
         </li>
       </ul>
-      <h2 class="view"> VIEWING PRESENTATIONS</h2>
+      <h2 class="view"> TOP VIEW PRESENTATIONS</h2>
       <ul>
         <li v-for="view in views" :key="view.id">
           <h3>{{ view.title }}</h3>
@@ -56,6 +56,7 @@ import videoPlayer from "../components/videoPlayer";
 import themenu from "../components/themenu";
 import about from "../components/about";
 import { server } from "../api/helpers";
+import { formatDateToDB } from "../api/helpers";
 
 export default {
   name: "Home",
@@ -63,7 +64,8 @@ export default {
   data() {
     return {
       views: [],
-      ratings: [],lasts:[]
+      ratings: [],
+      lasts:[],
     };
   },
   methods: {
@@ -71,7 +73,8 @@ export default {
       const self = this;
       axios
         .get(server + "presentations/top3")
-        .then(function(response) { console.log(response.data.data);
+        .then(function(response) { 
+        
         
           self.ratings = response.data.data.resultRatings;
           self.views = response.data.data.resultViews;

@@ -8,15 +8,10 @@
     <div class="presentations">
       <h2>All presentations</h2>
       <ul>
-        <li
-          v-for="(presentation, index) in presentations"
-          :key="presentation.id"
-          class="box"
-        >
+        <li v-for="(presentation, index) in presentations" :key="presentation.id" class="box">
           <h3>{{ presentation.title }}</h3>
           <p>ID presentation: {{ presentation.presentation_id }}</p>
           <p>Rating {{ presentation.rating }}</p>
-          "If you want to be able, login again"
           <p>views: {{ presentation.totalviews }}</p>
           <p>ID user:{{ presentation.user_id }}</p>
           <button @click="deletePresentation(index)">Delete</button>
@@ -52,7 +47,7 @@ export default {
     return {
       users: [],
       presentations: [],
-      ratings: [],
+      ratings: []
     };
   },
   name: "Admin",
@@ -83,8 +78,8 @@ export default {
         showCancelButton: true,
         confirmButtonColor: "#3085d6",
         cancelButtonColor: "#d33",
-        confirmButtonText: "Yes, delete it!",
-      }).then((result) => {
+        confirmButtonText: "Yes, delete it!"
+      }).then(result => {
         if (result.value) {
           axios
             .delete(server + "user/delete/" + id)
@@ -98,6 +93,7 @@ export default {
         }
       });
     },
+
     listAllPresentations() {
       const self = this;
       axios
@@ -109,6 +105,7 @@ export default {
           console.error(error);
         });
     },
+
     deletePresentation(index) {
       const self = this;
       const id = self.presentations[index].presentation_id;
@@ -122,8 +119,8 @@ export default {
         showCancelButton: true,
         confirmButtonColor: "#3085d6",
         cancelButtonColor: "#d33",
-        confirmButtonText: "Yes, delete it!",
-      }).then((result) => {
+        confirmButtonText: "Yes, delete it!"
+      }).then(result => {
         if (result.value) {
           axios
             .delete(server + "/presentation/" + id)
@@ -139,13 +136,13 @@ export default {
     },
     darkMode() {
       document.body.classList.toggle("dark");
-    },
+    }
   },
 
   created() {
     this.listAllUsers();
     this.listAllPresentations();
-  },
+  }
 };
 </script>
 
@@ -162,5 +159,8 @@ export default {
 ul {
   display: flex;
   flex-wrap: wrap;
+}
+ul li {
+  padding: 1rem;
 }
 </style>
