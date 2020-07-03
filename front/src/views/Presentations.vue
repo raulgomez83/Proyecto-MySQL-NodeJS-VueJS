@@ -114,6 +114,7 @@ export default {
     contactUser(message, presentation) {
       this.validatingData(message);
       if (this.correctData === true) {
+        console.log(self.users);
         const self = this;
         const id = presentation.id;
         const id_user = presentation.user_id;
@@ -150,7 +151,6 @@ export default {
           console.error(error);
         });
     },
-
     ////////////////////AUXILIARY FUNCTIONS///////////////////
     seeContactArea() {
       this.seeContact = true;

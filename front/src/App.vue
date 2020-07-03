@@ -27,7 +27,7 @@ body {
 }
 .dark {
   --light: #373737;
-  --dark: lightblue;
+  --dark: #f8f1d3;
 }
 
 #app {
@@ -45,7 +45,7 @@ body {
 
 h1 {
   text-shadow: 10px 10px 10px var(--blue);
-  color: var(--dark);
+  color: #373736;
   font-size: 13rem;
   line-height: 5rem;
 }

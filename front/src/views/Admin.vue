@@ -5,21 +5,48 @@
       description="Administration page of the application.Only for admin"
     />
     <themenu class="menu" v-on:dark="darkMode"></themenu>
-    <div class="presentations">
+    <div class="buttons" v-show="seeButtons">
+      <button @click="showPresentations()">Presentations</button>
+      <button @click="showUsers()">Users</button>
+    </div>
+    <div class="presentations" v-show="seePresentations">
       <h2>All presentations</h2>
+      <button v-show="seePresentations" @click="comeBack()">Back</button>
       <ul>
         <li v-for="(presentation, index) in presentations" :key="presentation.id" class="box">
           <h3>{{ presentation.title }}</h3>
-          <p>ID presentation: {{ presentation.presentation_id }}</p>
-          <p>Rating {{ presentation.rating }}</p>
+          <p>
+            ID presentation:
+            <b>{{ presentation.presentation_id }}</b>
+          </p>
+          <p>Rating: {{ presentation.rating }}</p>
           <p>views: {{ presentation.totalviews }}</p>
-          <p>ID user:{{ presentation.user_id }}</p>
+          <p>
+            User Loader ID:
+            <b>{{ presentation.user_id }}</b>
+          </p>
+          <button @click="dataEditPresentation(index)">Update</button>
           <button @click="deletePresentation(index)">Delete</button>
         </li>
       </ul>
     </div>
-    <div class="users">
+    <div class="modal" v-show="seeEditPresentation">
+      <div class="modalBox">
+        <input type="text" v-model="newTitle" placeholder="title" />
+        <input type="date" v-model="newDatePresentation" />
+        <input type="text" v-model="newCategory" placeholder="category" />
+        <input type="text" v-model="newCity" placeholder="city" />
+        <input type="text" v-model="newEvent" placeholder="event" />
+        <input type="text" v-model="newLanguage" placeholder="language" />
+        <input type="url" v-model="newVideo" placeholder="video" />
+        <br />
+        <button @click="updatePresentation()">Update</button>
+        <button @click="seeEditPresentation = false">Back to presentation</button>
+      </div>
+    </div>
+    <div class="users" v-show="seeUsers">
       <h2>All users</h2>
+      <button v-show="seeUsers" @click="comeBack()">Back</button>
       <ul>
         <li v-for="(user, index) in users" :key="user.id" class="box">
           <h3>{{ user.username }}</h3>
@@ -30,7 +57,6 @@
         </li>
       </ul>
     </div>
-
     <thefooter></thefooter>
   </div>
 </template>
@@ -47,7 +73,19 @@ export default {
     return {
       users: [],
       presentations: [],
-      ratings: []
+      presentation: {},
+      ratings: [],
+      seePresentations: false,
+      seeUsers: false,
+      seeButtons: true,
+      seeEditPresentation: false,
+      newTitle: "",
+      newDatePresentation: null,
+      newEvent: "",
+      newVideo: "",
+      newCategory: "",
+      newCity: "",
+      newLanguage: ""
     };
   },
   name: "Admin",
@@ -66,6 +104,7 @@ export default {
           console.error(error);
         });
     },
+
     deleteUser(index) {
       const self = this;
       let id = self.users[index].user_id;
@@ -93,7 +132,6 @@ export default {
         }
       });
     },
-
     listAllPresentations() {
       const self = this;
       axios
@@ -105,7 +143,44 @@ export default {
           console.error(error);
         });
     },
-
+    updatePresentation() {
+      const self = this;
+      const idPresentation = self.presentation.presentation_id;
+      const idToken = localStorage.getItem("id");
+      const token = localStorage.getItem("token");
+      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+      axios
+        .put(server + "presentation/" + idPresentation, {
+          title: self.newTitle,
+          presentation_date: self.newDatePresentation,
+          presentation_event: self.newEvent,
+          city: self.newCity,
+          category: self.newCategory,
+          presentation_language: self.newLanguage,
+          video: self.newVideo
+        })
+        .then(function(response) {
+          self.seeEditPresentation = false;
+          Swal.fire({
+            title: "Your presentation has been updated"
+          });
+        })
+        .catch(function(error) {
+          Swal.fire(error.response.data.message);
+        });
+    },
+    dataEditPresentation(index) {
+      this.presentation = this.presentations[index];
+      this.seeEditPresentation = true;
+      this.newTitle = this.presentation.title;
+      this.newEvent = this.presentation.presentation_event;
+      this.newCity = this.presentation.city;
+      this.newCategory = this.presentation.category;
+      this.newLanguage = this.presentation.presentation_language;
+      this.newVideo = this.presentation.video;
+      this.newDatePresentation = this.presentation.presentation_date;
+      this.presentation_id = this.presentation.presentation_id;
+    },
     deletePresentation(index) {
       const self = this;
       const id = self.presentations[index].presentation_id;
@@ -123,7 +198,7 @@ export default {
       }).then(result => {
         if (result.value) {
           axios
-            .delete(server + "/presentation/" + id)
+            .delete(server + "presentation/" + id)
             .then(function(response) {
               location.reload();
             })
@@ -133,6 +208,21 @@ export default {
           Swal.fire("Deleted!", "The presentation has been deleted.");
         }
       });
+    },
+    showPresentations() {
+      this.seePresentations = true;
+      this.seeButtons = false;
+      const el = document.querySelector(".admin");
+      el.style.background = "var(--light)";
+    },
+    showUsers() {
+      this.seeUsers = true;
+      this.seeButtons = false;
+      const el = document.querySelector(".admin");
+      el.style.background = "var(--light)";
+    },
+    comeBack() {
+      location.reload();
     },
     darkMode() {
       document.body.classList.toggle("dark");
@@ -147,15 +237,46 @@ export default {
 </script>
 
 <style scoped>
-.presentations .box {
-  background-color: var(--lightBlue);
+.admin {
+  background-image: url("../assets/admin.jpeg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  display: flex;
+  flex-direction: column;
+  align-content: center;
 }
-.box {
-  border: 2px solid var(--blue);
-  margin: 1rem;
-  box-shadow: 2px 2px 2px var(--dark);
+.buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin: 15rem auto;
+  opacity: 0.8;
+}
+.admin .buttons button {
+  font-size: 4rem;
+  padding: 3rem;
+  height: 20rem;
+  width: 30vw;
+  -webkit-box-reflect: below -50px -webkit-gradient(
+      linear,
+      left top,
+      left bottom,
+      from(transparent),
+      to(rgba(255, 255, 255, 0.26))
+    );
 }
 
+.box {
+  background-color: rgba(234, 193, 2, 0.3);
+  border: 2px solid var(--blue);
+  margin: 1rem auto;
+  box-shadow: 2px 2px 2px var(--dark);
+  width: 20rem;
+}
+p {
+  font-size: 1.3rem;
+}
 ul {
   display: flex;
   flex-wrap: wrap;

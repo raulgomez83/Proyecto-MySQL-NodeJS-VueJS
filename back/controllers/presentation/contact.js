@@ -9,8 +9,6 @@ async function getContact(req, res, next) {
     connection = await getConnection();
     const { id } = req.params;
     const { message } = req.body;
-    console.log(req.body);
-
     const [
       result
     ] = await connection.query(

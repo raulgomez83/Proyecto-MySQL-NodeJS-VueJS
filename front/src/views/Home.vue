@@ -110,7 +110,7 @@ header {
   align-items: center;
 }
 .words {
-  background-color: var(--dark);
+  background-color: #373736;
   height: 100vh;
   width: 55vw;
   display: flex;

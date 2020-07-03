@@ -429,8 +429,6 @@ export default {
       this.seeCreationPresentation = true;
     },
     dataEditPresentation(history) {
-      console.log(history);
-
       this.seeEditPresentation = true;
       this.newTitle = history.title;
       this.newEvent = history.presentation_event;
