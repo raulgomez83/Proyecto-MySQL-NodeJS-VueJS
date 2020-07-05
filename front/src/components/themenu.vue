@@ -71,7 +71,7 @@ a.router-link-exact-active {
   color: var(--gold);
 }
 .menu {
-  background: #414141;
+  background: #6d6d6d;
   display: flex;
   justify-content: space-between;
   z-index: 10;
@@ -85,7 +85,7 @@ a.router-link-exact-active {
 button {
   margin: 1rem;
   font-size: 1.5rem;
-  background-color: rgba(255, 255, 255, 0);
+  background-color: rgba(255, 255, 255, 0.1);
   color: var(--dark);
   border: none;
   width: 6rem;

@@ -12,8 +12,23 @@
     <div class="presentations" v-show="seePresentations">
       <h2>All presentations</h2>
       <button v-show="seePresentations" @click="comeBack()">Back</button>
+      <form>
+        <label for="input">Search by ID:</label>
+        <input
+          type="search"
+          id="searchplace"
+          name="search"
+          placeholder="Search the presentation..."
+          size="50"
+          v-model="search"
+        />
+      </form>
       <ul>
-        <li v-for="(presentation, index) in presentations" :key="presentation.id" class="box">
+        <li
+          v-for="(presentation, index) in filteredPresentations"
+          :key="presentation.id"
+          class="box"
+        >
           <h3>{{ presentation.title }}</h3>
           <p>
             ID presentation:
@@ -47,8 +62,19 @@
     <div class="users" v-show="seeUsers">
       <h2>All users</h2>
       <button v-show="seeUsers" @click="comeBack()">Back</button>
+      <form>
+        <label for="input">Search by ID:</label>
+        <input
+          type="search"
+          id="searchplace"
+          name="search"
+          placeholder="Search the user..."
+          size="50"
+          v-model="search"
+        />
+      </form>
       <ul>
-        <li v-for="(user, index) in users" :key="user.id" class="box">
+        <li v-for="(user, index) in filteredUsers" :key="user.id" class="box">
           <h3>{{ user.username }}</h3>
           <p>ID user: {{ user.user_id }}</p>
           <p>{{ user.email }}</p>
@@ -86,11 +112,30 @@ export default {
       newVideo: "",
       newCategory: "",
       newCity: "",
-      newLanguage: ""
+      newLanguage: "",
+      search: ""
     };
   },
   name: "Admin",
   components: { thefooter, themenu },
+  computed: {
+    filteredPresentations() {
+      if (this.search === "") {
+        return this.presentations;
+      }
+      return this.presentations.filter(presentation =>
+        presentation.presentation_id.toString().includes(this.search)
+      );
+    },
+    filteredUsers() {
+      if (this.search === "") {
+        return this.users;
+      }
+      return this.users.filter(user =>
+        user.user_id.toString().includes(this.search)
+      );
+    }
+  },
   methods: {
     listAllUsers() {
       const self = this;
@@ -104,7 +149,6 @@ export default {
           console.error(error);
         });
     },
-
     deleteUser(index) {
       const self = this;
       let id = self.users[index].user_id;
@@ -278,5 +322,18 @@ ul {
 }
 ul li {
   padding: 1rem;
+}
+.admin form {
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+}
+label {
+  font-size: 2rem;
+}
+input {
+  padding: 0.5rem;
+  font-size: 1.3rem;
+  width: 20rem;
 }
 </style>

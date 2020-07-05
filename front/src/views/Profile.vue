@@ -369,7 +369,6 @@ export default {
           Swal.fire(error.response.data.message);
         });
     },
-
     //AUXILIARY FUNCTIONS
     userShowEditText() {
       this.seeEdit = true;
