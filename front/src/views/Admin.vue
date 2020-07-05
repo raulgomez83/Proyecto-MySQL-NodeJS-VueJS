@@ -66,7 +66,8 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import thefooter from "../components/thefooter";
 import themenu from "../components/themenu";
-import { server } from "../api/helpers";
+import { server, token } from "../api/helpers";
+import { validateToken } from "../api/helpers";
 
 export default {
   data() {
@@ -93,8 +94,7 @@ export default {
   methods: {
     listAllUsers() {
       const self = this;
-      const token = localStorage.getItem("token");
-      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+      validateToken();
       axios
         .get(server + "users")
         .then(function(response) {
@@ -108,8 +108,7 @@ export default {
     deleteUser(index) {
       const self = this;
       let id = self.users[index].user_id;
-      const token = localStorage.getItem("token");
-      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+      validateToken();
       Swal.fire({
         title: "Are you sure?",
         text: "You won't be able to revert this!",
@@ -146,9 +145,7 @@ export default {
     updatePresentation() {
       const self = this;
       const idPresentation = self.presentation.presentation_id;
-      const idToken = localStorage.getItem("id");
-      const token = localStorage.getItem("token");
-      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+      validateToken();
       axios
         .put(server + "presentation/" + idPresentation, {
           title: self.newTitle,
@@ -184,9 +181,7 @@ export default {
     deletePresentation(index) {
       const self = this;
       const id = self.presentations[index].presentation_id;
-      const idToken = localStorage.getItem("id");
-      const token = localStorage.getItem("token");
-      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+      validateToken();
       Swal.fire({
         title: "Are you sure?",
         text: "You won't be able to revert this!",

@@ -77,7 +77,6 @@ export default {
         .then(function(response) {
           localStorage.setItem("token", response.data.data.token);
           localStorage.setItem("role", response.data.role);
-          localStorage.setItem("username", response.data.username);
           localStorage.setItem("id", response.data.id);
           self.$router.push("/");
         })

@@ -20,7 +20,6 @@ body {
   --gold: #eac102;
   --blue: #2874a6;
   --lightGold: #f8f1d3;
-  --lightBlue: gray;
   align-items: center;
   color: var(--dark);
   background-color: var(--light);

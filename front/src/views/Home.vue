@@ -74,8 +74,6 @@ export default {
       axios
         .get(server + "presentations/top3")
         .then(function(response) { 
-        
-        
           self.ratings = response.data.data.resultRatings;
           self.views = response.data.data.resultViews;
           self.lasts=response.data.data.resultLast

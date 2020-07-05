@@ -62,7 +62,7 @@ export default {
 <style scoped>
 a {
   text-decoration: none;
-  color: var(--dark);
+  color: #f4f4f4;
   font-size: 2rem;
   margin: 1rem;
   font-weight: bold;
@@ -71,7 +71,7 @@ a.router-link-exact-active {
   color: var(--gold);
 }
 .menu {
-  background: var(--lightBlue);
+  background: #414141;
   display: flex;
   justify-content: space-between;
   z-index: 10;

@@ -41,4 +41,10 @@ export function showAdminButton() {
   }
   return false;
 }
+export function validateToken() {
+  return (axios.defaults.headers.common["Authorization"] = `Bearer ${token}`);
+}
+
 export const server = "http://localhost:3004/";
+export const token = localStorage.getItem("token");
+export const data = localStorage.getItem("id");

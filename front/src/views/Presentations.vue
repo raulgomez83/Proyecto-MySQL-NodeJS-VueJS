@@ -32,7 +32,8 @@ import Swal from "sweetalert2";
 import thefooter from "../components/thefooter";
 import themenu from "../components/themenu";
 import listpresentations from "../components/presentations";
-import { server } from "../api/helpers";
+import { server, token } from "../api/helpers";
+import { validateToken } from "../api/helpers";
 
 export default {
   name: "Presentations",
@@ -88,8 +89,7 @@ export default {
     ) {
       var self = this;
       const id = presentation.id;
-      const token = localStorage.getItem("token");
-      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+      validateToken();
       axios
         .post(server + "presentation/rating/" + id, {
           score_interest: ratingInterest,
@@ -114,13 +114,10 @@ export default {
     contactUser(message, presentation) {
       this.validatingData(message);
       if (this.correctData === true) {
-        console.log(self.users);
         const self = this;
         const id = presentation.id;
         const id_user = presentation.user_id;
-        const idToken = Number(localStorage.getItem("id"));
-        const token = localStorage.getItem("token");
-        axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+        validateToken();
         axios
           .post(server + "presentation/contact/" + id, {
             message: message

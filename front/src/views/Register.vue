@@ -70,7 +70,6 @@ export default {
       this.validatingData();
       if (this.correctData === true) {
         const self = this;
-        const server = "http://localhost:3004/";
         axios
           .post(server + "user", {
             firstname: self.firstname,
@@ -87,7 +86,7 @@ export default {
               confirmButtonText: "OK"
             });
             self.emptyFields();
-            self.$router.push("/");
+            self.$router.push("/login");
           })
           .catch(function(error) {
             Swal.fire(error.response.data.message);

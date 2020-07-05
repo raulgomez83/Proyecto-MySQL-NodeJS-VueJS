@@ -118,8 +118,8 @@
 import axios from "axios";
 import Swal from "sweetalert2";
 
-import { formatDateToDB, showNotHistory } from "../api/helpers";
-import { server } from "../api/helpers";
+import { formatDateToDB, showNotHistory, validateToken } from "../api/helpers";
+import { server, token, data } from "../api/helpers";
 
 import thefooter from "../components/thefooter";
 import themenu from "../components/themenu";
@@ -169,9 +169,7 @@ export default {
     //INITIAL VIEWS FUNCTIONS
     dataUser() {
       const self = this;
-      const data = localStorage.getItem("id");
-      const token = localStorage.getItem("token");
-      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+      validateToken();
       axios
         .get(server + "user/" + data)
         .then(function(response) {
@@ -189,9 +187,7 @@ export default {
     },
     userPresentations() {
       const self = this;
-      const data = localStorage.getItem("id");
-      const token = localStorage.getItem("token");
-      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+      validateToken();
       axios
         .get(server + "user/historypresentations/" + data)
         .then(function(response) {
@@ -208,9 +204,7 @@ export default {
     //UPDATE FUNCTIONS
     updateUser() {
       const self = this;
-      const data = localStorage.getItem("id");
-      const token = localStorage.getItem("token");
-      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+      validateToken();
       axios
         .put(server + "user/" + data, {
           firstname: self.newFirstname,
@@ -228,9 +222,7 @@ export default {
     },
     updatePassword() {
       const self = this;
-      const data = localStorage.getItem("id");
-      const token = localStorage.getItem("token");
-      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+      validateToken();
       axios
         .put(server + "user/password/" + data, {
           oldPassword: self.oldPassword,
@@ -251,7 +243,6 @@ export default {
     submitFile() {
       const self = this;
       //enviar el archivo al servidor
-      const data = localStorage.getItem("id");
       let formData = new FormData(); //iniciamos el form data
       formData.append("avatar", self.avatar);
       formData.append("firstname", self.user.firstname);
@@ -274,9 +265,7 @@ export default {
     //////////////////////////////////////
     disableUser() {
       const self = this;
-      const data = localStorage.getItem("id");
-      const token = localStorage.getItem("token");
-      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+      validateToken();
       Swal.fire({
         title: "Are you sure?",
         icon: "warning",
@@ -307,8 +296,7 @@ export default {
     createNewPresentation() {
       this.validatingDataPresentation();
       var self = this;
-      const token = localStorage.getItem("token");
-      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+      validateToken();
       axios
         .post(server + "presentation", {
           title: self.title,
@@ -334,9 +322,7 @@ export default {
     deletePresentation(history) {
       const self = this;
       const idPresentation = history.presentation_id;
-      const idToken = localStorage.getItem("id");
-      const token = localStorage.getItem("token");
-      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+      validateToken();
       Swal.fire({
         title: "Are you sure?",
         text: "You won't be able to revert this!",
@@ -362,9 +348,7 @@ export default {
     updatePresentation() {
       var self = this;
       const idPresentation = self.presentation_id;
-      const idToken = localStorage.getItem("id");
-      const token = localStorage.getItem("token");
-      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+      validateToken();
       axios
         .put(server + "presentation/" + idPresentation, {
           title: self.newTitle,
