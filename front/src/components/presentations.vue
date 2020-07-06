@@ -2,7 +2,7 @@
   <div>
     <div class="presentations" v-show="!seePresentation">
       <header>
-        <form>
+        <form autocomplete="off">
           <label for="input">Search by city, event, category or language:</label>
           <input
             type="search"
@@ -88,7 +88,7 @@
             <div class="modalBox">
               <button class="cerrar" @click="closeVoteEvent()">x</button>
               <fieldset>
-                <form>
+                <form autocomplete="off">
                   <label for>Interest</label>
                   <star-rating
                     @rating-selected="ratingInterest = $event"

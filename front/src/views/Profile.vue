@@ -53,7 +53,7 @@
     </div>
     <div class="modal" v-show="seeCreationPresentation">
       <div class="modalBox">
-        <form>
+        <form autocomplete="off">
           <ul>
             <li>
               <label for="title">Title:</label>

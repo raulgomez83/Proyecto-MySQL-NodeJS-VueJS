@@ -24,7 +24,7 @@
     <div class="modal" v-show="seeReactivateAccount">
       <button class="cerrar" @click="closeReactivate()">x</button>
       <fieldset class="modalBox">
-        <form>
+        <form autocomplete="off">
           <h2>Reactivate your account</h2>
           <input type="text" placeholder="username" v-model="usernameRecover" />
           <br />
@@ -36,7 +36,7 @@
     <div class="modal" v-show="seeRecoverPassword">
       <button class="cerrar" @click="closeRecover()">x</button>
       <fieldset class="modalBox">
-        <form>
+        <form autocomplete="off">
           <label for="text">Give us your email if you don't forgot it</label>
           <input type="email" placeholder="Write your email..." v-model="email" />
         </form>

@@ -3,7 +3,7 @@
     <vue-headful title="Register" description="Register page of the application" />
     <themenu class="menu" v-on:dark="darkMode"></themenu>
     <fieldset>
-      <form>
+      <form autocomplete="off">
         <ul>
           <h2>Sign Up</h2>
           <li>
