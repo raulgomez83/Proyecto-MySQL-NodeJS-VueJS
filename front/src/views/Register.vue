@@ -70,6 +70,7 @@ export default {
       this.validatingData();
       if (this.correctData === true) {
         const self = this;
+        const server = "http://localhost:3004/";
         axios
           .post(server + "user", {
             firstname: self.firstname,

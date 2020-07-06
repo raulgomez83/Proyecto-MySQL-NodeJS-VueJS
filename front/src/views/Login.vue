@@ -79,6 +79,8 @@ export default {
           localStorage.setItem("role", response.data.role);
           localStorage.setItem("id", response.data.id);
           self.$router.push("/");
+          location.reload();
+          self.$router.push("/");
         })
         .catch(function(error) {
           Swal.fire(error.response.data.message);
