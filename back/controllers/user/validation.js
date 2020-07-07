@@ -25,10 +25,13 @@ async function validateUser(req, res, next) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
   </head>
-  <body style= "text-align:center">
-  <div style="background:rebeccapurple; color:gold; font-size:3rem;">
-    <h1>CONGRATULATIONS!!!</h1>
-    <h2>Your user is validated, now you can login.</h2>
+
+  <body style="text-align: center;">
+    <div style="background: rebeccapurple; color: gold; font-size: 3rem;">
+      <a style="text-decoration:none; color:gold;" href=" http://localhost:8080/login"
+        ><h1>CONGRATULATIONS!!!</h1>
+        <h2>Your user is validated, now you can login.</h2></a
+      >
     </div>
   </body>
 </html>
